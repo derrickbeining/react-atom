@@ -34,7 +34,7 @@ describe("deref function", () => {
     expect(() => render(<ShowCount />)).not.toThrow();
   });
 
-  it("fails when called with anything other than a Atom instance", () => {
+  it("fails when called with anything other than an Atom instance", () => {
     expect(() => deref({})).toThrow(TypeError);
     expect(() => deref([])).toThrow(TypeError);
     expect(() => deref(1)).toThrow(TypeError);
@@ -72,17 +72,17 @@ describe("deref function", () => {
     const component1 = render(<ShowCount />); // render 1
     const component2 = render(<ShowCount />); // render 2
 
+    getAtomHooks(TEST_ATOM).forEach((hook) => hook(true)); // render 3 & 4 (2 components)
+
     const hookCountBeforeUnmount = getAtomHooks(TEST_ATOM).length;
     expect(hookCountBeforeUnmount).toBe(2);
 
-    getAtomHooks(TEST_ATOM).forEach((hook) => hook(true)); // render 3 & 4 (2 components)
-
     component2.unmount();
-    getAtomHooks(TEST_ATOM).forEach((hook) => hook(true)); // render 5 (1 component)
 
     const hookCountAfterUnmount = getAtomHooks(TEST_ATOM).length;
     expect(hookCountAfterUnmount).toBe(1);
 
+    getAtomHooks(TEST_ATOM).forEach((hook) => hook(true)); // render 5 (1 component)
     expect(timesRendered).toBe(5);
   });
 });

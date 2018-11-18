@@ -60,9 +60,18 @@ export function deref<A>(a: Atom<A>): A {
   return atomValue;
 }
 
-export function swap<A>(a: Atom<A>, updateFn: (a: A) => A): void {
+export function swap<S>(a: Atom<S>, updateFn: (s: S) => S): void;
+// TODO: overload with option to pass updater, lens, and transform separately
+// and implement it to perform an optimization where rerender is skipped if the focused
+// part of the state data structure is not changed after applying the transform
+// export function swap<S, T>(
+//   a: Atom<S>,
+//   updateFn: (lens: (s: S) => T, transform: (t: T) => T) => S,
+//   transformFn: (t: T) => T,
+// ): void;
+export function swap<S>(a: Atom<S>, updateFn: (s: S) => S): void {
   const atomId = String(atoms.indexOf(a));
-  const atomValue = valuesByAtomId[atomId] as A;
+  const atomValue = valuesByAtomId[atomId] as S;
   valuesByAtomId[atomId] = updateFn(atomValue);
   Object.keys(hooksByAtomId[atomId]).forEach((hookId) => {
     hooksByAtomId[atomId][hookId](true);
