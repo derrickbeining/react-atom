@@ -1,0 +1,114 @@
+{
+  "author": {
+    "name": "Derrick Beining",
+    "url": "https://github.com/derrickbeining"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "description": "Dead simple state management for React, inspired by `reagent` `ratom`s in Cljs",
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/preset-env": "^7.1.6",
+    "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-conventional": "^7.0.1",
+    "@commitlint/travis-cli": "^7.0.0",
+    "@types/jest": "^23.3.9",
+    "@types/node": "^10.12.9",
+    "@types/ramda": "^0.25.41",
+    "@types/react": "^16.7.6",
+    "@types/react-dom": "^16.0.9",
+    "@types/react-test-renderer": "^16.0.3",
+    "@types/webpack": "^4.4.19",
+    "babel-loader": "^8.0.4",
+    "codecov": "^3.0.3",
+    "commitizen": "^2.10.1",
+    "cz-conventional-changelog": "^2.1.0",
+    "fork-ts-checker-webpack-plugin": "^0.4.15",
+    "husky": "^0.14.3",
+    "jest": "^23.6.0",
+    "jest-dom": "^2.1.1",
+    "nyc": "^12.0.2",
+    "peer-deps-externals-webpack-plugin": "^1.0.4",
+    "react": "16.7.0-alpha.2",
+    "react-dom": "16.7.0-alpha.2",
+    "react-test-renderer": "^16.6.3",
+    "react-testing-library": "^5.2.3",
+    "rimraf": "^2.6.2",
+    "semantic-release": "^15.6.3",
+    "source-map-support": "^0.5.6",
+    "travis-deploy-once": "^5.0.1",
+    "ts-jest": "^23.10.4",
+    "ts-loader": "^5.3.0",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6",
+    "uglifyjs-webpack-plugin": "^1.2.7",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "react",
+    "hooks",
+    "useState",
+    "state-management",
+    "cljs",
+    "atom",
+    "reagent"
+  ],
+  "license": "ISC",
+  "main": "dist/react-atom.js",
+  "module": "src/react-atom.js",
+  "name": "react-atom",
+  "nyc": {
+    "branches": 99,
+    "cache": true,
+    "check-coverage": true,
+    "exclude": [
+      "coverage/**",
+      "test/**",
+      "test{,-*}.js",
+      "**/*.test.js",
+      "**/__tests__/**",
+      "**/__test__/**",
+      "**/node_modules/**",
+      "dist/**"
+    ],
+    "functions": 99,
+    "lines": 99,
+    "per-file": false,
+    "reporter": [
+      "text"
+    ],
+    "statements": 99
+  },
+  "peerDependencies": {
+    "react": ">=16.7.0-alpha",
+    "react-dom": ">=16.7.0-alpha"
+  },
+  "scripts": {
+    "build": "export NODE_ENV=production; npm run clean && webpack",
+    "build:dev": "npm run clean && webpack",
+    "clean": "rimraf dist",
+    "commit": "git-cz",
+    "commitmsg": "commitlint -E GIT_PARAMS",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "dev": "npm run test -- --watch",
+    "lint": "prettier --write 'src/{*.js,**/*.js}' && eslint -f codeframe '*.js' './src/**/*.js'",
+    "lint:fix": "eslint -f codeframe '*.js' './src/**/*.js' --fix",
+    "precommit": "npm run lint && npm test",
+    "test": "jest --env=jsdom",
+    "travis-deploy-once": "travis-deploy-once",
+    "semantic-release": "semantic-release"
+  },
+  "sideEffects": false,
+  "unpkg": "dist/react-atom.min.js",
+  "version": "0.0.0-development",
+  "dependencies": {}
+}

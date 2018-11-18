@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "diagnostics": false,
+    "esModuleInterop": true,
+    "lib": ["dom", "es2018"],
+    "jsx": "react",
+    "moduleResolution": "node",
+    "noImplicitAny": true,
+    "outDir": "./dist/",
+    "rootDir": "src",
+    "sourceMap": true,
+    "strict": true,
+    "typeRoots": ["node_modules/@types", "src"]
+  }
+}
