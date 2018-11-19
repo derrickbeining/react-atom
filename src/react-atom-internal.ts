@@ -81,7 +81,7 @@ const a3 = atom({ count: 0 })
 export function atom<A>(state: A): Atom<A> {
   return Atom.of(state);
 }
-
+// tslint:disable:max-line-length
 /**
  *
  * Reads the current state of `atom` and subscribes the currently

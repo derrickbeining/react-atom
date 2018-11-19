@@ -8,13 +8,14 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
+  "dependencies": {},
   "description": "Dead simple state management for React, inspired by `reagent` `ratom`s in Cljs",
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
-    "@commitlint/cli": "^7.0.0",
-    "@commitlint/config-conventional": "^7.0.1",
-    "@commitlint/travis-cli": "^7.0.0",
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^7.1.2",
+    "@commitlint/travis-cli": "^7.2.1",
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.9",
     "@types/ramda": "^0.25.41",
@@ -27,7 +28,7 @@
     "commitizen": "^2.10.1",
     "cz-conventional-changelog": "^2.1.0",
     "fork-ts-checker-webpack-plugin": "^0.4.15",
-    "husky": "^0.14.3",
+    "husky": "^1.1.4",
     "jest": "^23.6.0",
     "jest-dom": "^2.1.1",
     "nyc": "^12.0.2",
@@ -55,6 +56,12 @@
     "dist",
     "src"
   ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && npm test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "keywords": [
     "react",
     "hooks",
@@ -66,7 +73,6 @@
   ],
   "license": "ISC",
   "main": "dist/react-atom.js",
-  "module": "src/react-atom.js",
   "name": "react-atom",
   "nyc": {
     "branches": 99,
@@ -100,18 +106,15 @@
     "build:docs": "rimraf docs && typedoc --out './docs' --theme node_modules/typedoc-twilio-theme/bin --module commonjs --target ES5 --readme none --name 'React Atom' --mode file --excludeNotExported src",
     "clean": "rimraf dist",
     "commit": "git-cz",
-    "commitmsg": "commitlint -E GIT_PARAMS",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "dev": "npm run test -- --watch",
-    "lint": "prettier --write 'src/{*.js,**/*.js}' && eslint -f codeframe '*.js' './src/**/*.js'",
-    "lint:fix": "eslint -f codeframe '*.js' './src/**/*.js' --fix",
-    "precommit": "npm run lint && npm test",
+    "lint": "tslint --project .",
+    "lint:fix": "tslint --project --fix",
     "test": "jest --env=jsdom",
+    "test:withCoverage": "jest --env=jsdom --collectCoverage",
     "travis-deploy-once": "travis-deploy-once",
     "semantic-release": "semantic-release"
   },
   "sideEffects": false,
-  "unpkg": "dist/react-atom.min.js",
-  "version": "0.0.0-development",
-  "dependencies": {}
+  "version": "0.0.0-development"
 }

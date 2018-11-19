@@ -13,7 +13,7 @@ module.exports = {
   externals: [nodeExternals()],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: filename + '.min.js',
+    filename: filename + '.js',
     libraryTarget: 'umd',
     library: libraryName,
     globalObject: "typeof self !== 'undefined' ? self : this",
