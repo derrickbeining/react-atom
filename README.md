@@ -115,7 +115,7 @@ namely, `react@>=v16.7.0-alpha`, which contains the new Hooks API that
 `react-atom` abstracts upon.
 
 ```
-npm i -S react-hooks react@react-atom@>=16.7.0-alpha react-dom@>=16.7.0-alpha
+npm i -S @dbeining/react-hooks react@react-atom@>=16.7.0-alpha react-dom@>=16.7.0-alpha
 ```
 
 ## Documentation
