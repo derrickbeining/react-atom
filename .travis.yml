@@ -10,7 +10,7 @@ node_js:
 install:
   - npm i
 script:
-  - npm lint
+  - npm run lint
   - npm test
 before_deploy:
   - npm run build
