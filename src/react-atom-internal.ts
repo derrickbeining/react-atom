@@ -64,7 +64,7 @@ const a3 = Atom.of({ count: 0 })
   }
 }
 /**
- * An alternative to `Atom.of`
+ * A convenient alias for `Atom.of`
  *
  * A factory function that takes `state` of any type and returns
  * an Atom with its internal state set to `state`
