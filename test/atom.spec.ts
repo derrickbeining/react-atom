@@ -1,10 +1,14 @@
-import {Atom} from "../src/react-atom";
+import {Atom, atom} from "../src/react-atom";
 
 describe("Atom instance", () => {
   const TEST_ATOM = Atom.of(1);
 
-  it("can only be instantiated by the static Atom.of method", () => {
-    expect(Object.getPrototypeOf(TEST_ATOM).constructor.name).toBe("Atom");
+  it("can be instantiated by the static Atom.of method", () => {
+    expect(TEST_ATOM).toBeInstanceOf(Atom);
+  });
+
+  it("can be instantiated by the convenience function `atom`", () => {
+    expect(atom("hi")).toBeInstanceOf(Atom);
   });
 
   it("doesn't have any instance members", () => {

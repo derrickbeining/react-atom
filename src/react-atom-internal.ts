@@ -32,6 +32,24 @@ export class Atom<A> {
     return Object.freeze(this);
   }
 }
+/**
+ * An alternative to `Atom.of`
+ *
+ * A factory function that takes `state` of any type and returns
+ * an Atom with its internal state set to `state`
+ *
+ * @example
+
+ ```js
+
+const a1 = atom(0)
+const a2 = atom("zero")
+const a3 = atom({ count: 0 })
+```
+ */
+export function atom<A>(state: A): Atom<A> {
+  return Atom.of(state);
+}
 
 export function deref<A>(a: Atom<A>): A {
   if (!(a instanceof Atom)) {
