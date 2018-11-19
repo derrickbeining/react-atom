@@ -100,5 +100,6 @@
     "travis-deploy-once": "travis-deploy-once"
   },
   "sideEffects": false,
+  "types": "dist/index.d.ts",
   "version": "0.0.0-development"
 }
