@@ -110,10 +110,10 @@
     "dev": "npm run test -- --watch",
     "lint": "tslint --project .",
     "lint:fix": "tslint --project --fix",
+    "semantic-release": "semantic-release",
     "test": "jest --env=jsdom",
     "test:withCoverage": "jest --env=jsdom --collectCoverage",
-    "travis-deploy-once": "travis-deploy-once",
-    "semantic-release": "semantic-release"
+    "travis-deploy-once": "travis-deploy-once"
   },
   "sideEffects": false,
   "version": "0.0.0-development"
