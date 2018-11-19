@@ -4,7 +4,10 @@
   "jsRules": {},
   "rules": {
     "array-type": false,
-    "interface-name": false
+    "interface-name": false,
+    "jsdoc-format": false,
+    "no-redundant-jsdoc": true,
+    "no-shadowed-variable": false
   },
   "rulesDirectory": []
 }
