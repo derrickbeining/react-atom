@@ -76,7 +76,7 @@
   ],
   "license": "ISC",
   "main": "dist/react-atom.js",
-  "name": "react-atom",
+  "name": "@dbeining/react-atom",
   "peerDependencies": {
     "react": ">=16.7.0-alpha",
     "react-dom": ">=16.7.0-alpha"
