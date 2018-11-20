@@ -91,7 +91,7 @@
     "build:dev": "npm run clean && webpack",
     "build:docs": "rimraf docs && typedoc --out './docs' --theme node_modules/typedoc-twilio-theme/bin --module commonjs --target ES5 --name 'React Atom' --mode file --excludeNotExported src",
     "clean": "rimraf dist",
-    "commit": "git-cz",
+    "git:commit": "npx git-cz",
     "dev": "npm run test -- --watch",
     "lint": "tslint --project .",
     "lint:fix": "tslint --project --fix",
