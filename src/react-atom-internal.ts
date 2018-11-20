@@ -1,4 +1,11 @@
-import React, {useMutationEffect, useState} from "react";
+import {useMutationEffect, useState} from "react";
+
+/**
+ * **`react-atom` is a _lightweight_ abstraction around React's proposed Hooks API
+ * that provides the ability to share and update state across function
+ * components**. It is a simpler, more intuitive means of global app state-
+ * management than libraries like `redux` or `mobx`.
+ */
 
 /** @ignore */
 const LIB_NAMESPACE = "@@react-hook";
@@ -35,6 +42,37 @@ export function getAtomHooks(a: Atom<unknown>): Array<ReactStateHook> {
  *
  * When an Atom's value is changed, all components that `deref`
  * the Atom will automatically rerender to read the new state.
+ *
+ * @example
+```jsx
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Atom, deref, swap} from '@dbeining/react-atom';
+
+const stateAtom = Atom.of({ count: 0 });
+
+const increment = () =>
+  swap(stateAtom, (state) => ({...state, count: state.count + 1}));
+
+const decrement = () =>
+  swap(stateAtom, (state) => ({...state, count: state.count - 1}));
+
+export const App = () => {
+  const {count, data, text} = deref(stateAtom);
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={increment}>Moar</button>
+      <button onClick={decrement}>Less</button>
+    </div>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));
+
+```
  */
 export class Atom<A> {
   /**
@@ -43,6 +81,8 @@ export class Atom<A> {
    *
    * @example
 ```js
+
+import {Atom} from '@dbeining/react-atom'
 
 const a1 = Atom.of(0)
 const a2 = Atom.of("zero")
@@ -73,6 +113,8 @@ const a3 = Atom.of({ count: 0 })
 
  ```js
 
+import {atom} from '@dbeining/react-atom'
+
 const a1 = atom(0)
 const a2 = atom("zero")
 const a3 = atom({ count: 0 })
@@ -99,6 +141,8 @@ export function atom<A>(state: A): Atom<A> {
  * @example
 
  ```jsx
+
+import {Atom, deref} from '@dbeining/react-atom'
 
 const stateAtom = Atom.of({ count: 0 })
 
@@ -152,8 +196,12 @@ export function deref<A>(atom: Atom<A>): A {
  * @example
 ```js
 
+import {Atom, swap, deref} from 'dbeining/react-atom'
+
 const atom = Atom.of({ count: 0 })
 swap(atom, (state) => ({ count: state.count + 1 }))
+
+// ...in a React function component:
 deref(atom) // => { count: 1 }
 ```
  */
@@ -183,8 +231,12 @@ export function swap<S>(atom: Atom<S>, updateFn: (state: S) => S): void {
   * @example
 ```js
 
+import {Atom, deref, set} from '@dbeining/react-atom'
+
 const atom = Atom.of({ count: 0 })
 set(atom, { count: 100 })
+
+// in a React function component:
 deref(atom) // => { count: 100 }
 ```
  */
