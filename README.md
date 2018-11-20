@@ -129,7 +129,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 You can play with `react-atom` live right away at the following places:
 
 - [JS React CodeSandbox](https://codesandbox.io/s/5v6wlwy2yn)
-- [TypeScript React CodeSandbox](https://codesandbox.io/s/5wkq7jjqll)
+- [TypeScript React CodeSandbox](https://codesandbox.io/s/vmnzyl7jm7)
 
 ## Installation
 
@@ -148,5 +148,5 @@ npm i -S @dbeining/react-atom react@^16.7.0-alpha.0 react-dom@^16.7.0-alpha.0
 ## Contributing / Feedback
 
 Please open an issue if you have any questions, suggestions for
-improvements/features, or want to submit a PR for bug-fix (please include tests
-if applicable).
+improvements/features, or want to submit a PR for a bug-fix (please include
+tests if applicable).
