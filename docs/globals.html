@@ -95,7 +95,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/derrickbeining/react-atom/blob/68cbbfd/src/react-atom-internal.ts#L81">react-atom-internal.ts:81</a></li>
+									<li>Defined in react-atom-internal.ts:123</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -107,6 +107,8 @@
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><pre><code class="language-js">
+<span class="hljs-keyword">import</span> {atom} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
+
 <span class="hljs-keyword">const</span> a1 = atom(<span class="hljs-number">0</span>)
 <span class="hljs-keyword">const</span> a2 = atom(<span class="hljs-string">"zero"</span>)
 <span class="hljs-keyword">const</span> a3 = atom({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })</code></pre>
@@ -139,7 +141,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/derrickbeining/react-atom/blob/68cbbfd/src/react-atom-internal.ts#L113">react-atom-internal.ts:113</a></li>
+									<li>Defined in react-atom-internal.ts:157</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -158,6 +160,8 @@
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><pre><code class="language-jsx">
+<span class="hljs-keyword">import</span> {Atom, deref} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
+
 <span class="hljs-keyword">const</span> stateAtom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })
 
 <span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CountDisplay</span>(<span class="hljs-params">props</span>) </span>{
@@ -194,7 +198,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/derrickbeining/react-atom/blob/68cbbfd/src/react-atom-internal.ts#L192">react-atom-internal.ts:192</a></li>
+									<li>Defined in react-atom-internal.ts:244</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -206,8 +210,12 @@
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><pre><code class="language-js">
+<span class="hljs-keyword">import</span> {Atom, deref, set} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
+
 <span class="hljs-keyword">const</span> atom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })
 set(atom, { <span class="hljs-attr">count</span>: <span class="hljs-number">100</span> })
+
+<span class="hljs-comment">// in a React function component:</span>
 deref(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></pre>
 									</dd>
 								</dl>
@@ -235,7 +243,7 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></pr
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/derrickbeining/react-atom/blob/68cbbfd/src/react-atom-internal.ts#L169">react-atom-internal.ts:169</a></li>
+									<li>Defined in react-atom-internal.ts:217</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -250,8 +258,12 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></pr
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><pre><code class="language-js">
+<span class="hljs-keyword">import</span> {Atom, swap, deref} <span class="hljs-keyword">from</span> <span class="hljs-string">'dbeining/react-atom'</span>
+
 <span class="hljs-keyword">const</span> atom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })
 swap(atom, (state) =&gt; ({ <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span> }))
+
+<span class="hljs-comment">// ...in a React function component:</span>
 deref(atom) <span class="hljs-comment">// =&gt; { count: 1 }</span></code></pre>
 									</dd>
 								</dl>

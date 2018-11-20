@@ -75,6 +75,37 @@
 					with <code>deref</code>. To change the value of an Atom, you can use <code>swap</code>.</p>
 					<p>When an Atom&#39;s value is changed, all components that <code>deref</code>
 					the Atom will automatically rerender to read the new state.</p>
+					<dl class="tsd-comment-tags">
+						<dt>example</dt>
+						<dd><pre><code class="language-jsx">
+<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
+<span class="hljs-keyword">import</span> {Atom, deref, swap} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>;
+
+<span class="hljs-keyword">const</span> stateAtom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });
+
+<span class="hljs-keyword">const</span> increment = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
+swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span>}));
+
+<span class="hljs-keyword">const</span> decrement = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
+swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count - <span class="hljs-number">1</span>}));
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+<span class="hljs-keyword">const</span> {count, data, text} = deref(stateAtom);
+
+<span class="hljs-keyword">return</span> (
+<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Count: {count}<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{increment}</span>&gt;</span>Moar<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{decrement}</span>&gt;</span>Less<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+);
+};
+
+ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById('root'));
+</span></code></pre>
+						</dd>
+					</dl>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-type-parameters">
@@ -118,7 +149,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/derrickbeining/react-atom/blob/68cbbfd/src/react-atom-internal.ts#L52">react-atom-internal.ts:52</a></li>
+									<li>Defined in react-atom-internal.ts:92</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -129,6 +160,8 @@
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><pre><code class="language-js">
+<span class="hljs-keyword">import</span> {Atom} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
+
 <span class="hljs-keyword">const</span> a1 = Atom.of(<span class="hljs-number">0</span>)
 <span class="hljs-keyword">const</span> a2 = Atom.of(<span class="hljs-string">"zero"</span>)
 <span class="hljs-keyword">const</span> a3 = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })</code></pre>
