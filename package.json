@@ -59,6 +59,7 @@
     "dist",
     "src"
   ],
+  "homepage": "https://derrickbeining.github.io/react-atom/",
   "husky": {
     "hooks": {
       "pre-commit": "npm run lint && npm test",
@@ -74,7 +75,7 @@
     "atom",
     "reagent"
   ],
-  "license": "ISC",
+  "license": "MIT",
   "main": "dist/react-atom.js",
   "name": "@dbeining/react-atom",
   "peerDependencies": {
