@@ -51,7 +51,7 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="index.html">Globals</a>
+					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
 			<h1> React Atom</h1>
@@ -61,251 +61,140 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Classes</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-has-type-parameter"><a href="classes/atom.html" class="tsd-kind-icon">Atom</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Functions</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-has-type-parameter"><a href="index.html#atom" class="tsd-kind-icon">atom</a></li>
-								<li class="tsd-kind-function tsd-has-type-parameter"><a href="index.html#deref" class="tsd-kind-icon">deref</a></li>
-								<li class="tsd-kind-function"><a href="index.html#set" class="tsd-kind-icon">set</a></li>
-								<li class="tsd-kind-function tsd-has-type-parameter"><a href="index.html#swap" class="tsd-kind-icon">swap</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
-					<a name="atom" class="tsd-anchor"></a>
-					<h3>atom</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">atom&lt;A&gt;<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/derrickbeining/react-atom/blob/45071dc/src/react-atom-internal.ts#L81">react-atom-internal.ts:81</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>A convenient alias for <code>Atom.of</code></p>
-								</div>
-								<p>A factory function that takes <code>state</code> of any type and returns
-								an Atom with its internal state set to <code>state</code></p>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code class="language-js">
-<span class="hljs-keyword">const</span> a1 = atom(<span class="hljs-number">0</span>)
-<span class="hljs-keyword">const</span> a2 = atom(<span class="hljs-string">"zero"</span>)
-<span class="hljs-keyword">const</span> a3 = atom({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })</code></pre>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>A</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>state: <span class="tsd-signature-type">A</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
-					<a name="deref" class="tsd-anchor"></a>
-					<h3>deref</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">deref&lt;A&gt;<span class="tsd-signature-symbol">(</span>atom<span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">A</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/derrickbeining/react-atom/blob/45071dc/src/react-atom-internal.ts#L113">react-atom-internal.ts:113</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Reads the current state of <code>atom</code> and subscribes the currently
-										rendering function component to <code>atom</code>&#39;s state such that it
-									will rerender any time <code>atom</code>&#39;s value changes.</p>
-								</div>
-								<p>The subscription is removed when the component unmounts.</p>
-								<blockquote>
-									<p><strong>IMPORTANT:</strong></p>
-									<p><code>deref</code> uses React Hooks API internally, therefore the
-										<a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-rules.md">Rules of Hooks</a>
-									apply to <code>deref</code></p>
-								</blockquote>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code class="language-jsx">
-<span class="hljs-keyword">const</span> stateAtom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })
+			<div class="tsd-panel tsd-typography">
+				<p><a href="https://github.com/ellerbrock/typescript-badges/"><img src="https://badges.frapsoft.com/typescript/love/typescript-150x33.png?v=101" alt="TypeScript"></a></p>
+				<p><a href="https://travis-ci.com/derrickbeining/react-atom"><img src="https://travis-ci.com/derrickbeining/react-atom.svg?branch=master" alt="Build Status"></a>
+					<a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a>
+				<a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a></p>
+				<h1 id="-dbeining-react-atom-">@dbeining/react-atom ⚛️ 🔄 ⚛️</h1>
+				<p><strong>Simple state-management <em>made easy</em> for <a href="https://reactjs.org/">React</a></strong></p>
+				<p><strong>Built on
+				<a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">React Hooks</a></strong></p>
+				<p><strong><del>Plagiarized from</del> Inspired by
+						<a href="https://purelyfunctional.tv/guide/reagent/#atoms">ratom</a>s from
+				<a href="https://reagent-project.github.io/">reagent.cljs</a></strong></p>
+				<blockquote>
+					<h3 id="disclaimer-the-react-hooks-api-is-currently-in-the-proposal-stage-therefore-this-library-should-be-considered-experimental-and-unfit-for-production-apps-at-this-time">Disclaimer: the React Hooks API is currently in the proposal stage, therefore this library should be considered experimental and unfit for production apps at this time</h3>
+				</blockquote>
+				<h2 id="elevator-pitch-">Elevator Pitch:</h2>
+				<p>React&#39;s new Hooks API may very well render <code>class</code> components (heh 😏) obsolete.
+					Hooks like <code>useState</code> and <code>useEffect</code> enable you to share <strong><em>share logic</em></strong> that
+					is stateful and/or effectful across your function components, eliminating the
+					need for patterns like
+					<a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/higher-order-components.md">higher-order-components</a>
+					or
+				<a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/render-props.md">render props</a>.</p>
+				<p>However, <strong>hooks currently do not provide a simple means to share and update
+					<em>state</em> across functions components</strong> (<code>useContext</code> will only get you so far).
+					That means heavy-duty state-management libraries like
+					<a href="https://redux.js.org/">redux</a> or <a href="https://mobx.js.org/">mobx</a> still reign as
+					the most popular solutions for managing stated shared across your application.
+					Unfortunately, many find these libraries to be unacceptably cumbersome at scale,
+					<em>especially</em> when using a statically typed language like
+					<a href="https://www.typescriptlang.org/index.html">TypeScript</a>. <code>react-atom</code> is meant
+					to provide an alternative, simpler solution by building on the new capabilities
+				exposed by React&#39;s proposed Hooks API.</p>
+				<p><strong><code>react-atom</code> is a <em>lightweight</em> abstraction around React&#39;s proposed Hooks API
+						that provides the ability to share and update state across function
+					components</strong>. It provides all the power of heavy-duty state management libraries
+					and patterns, like <code>redux</code> or <code>mobx</code>, without bogging you down with a ton of new
+				concepts, conventions, and hard-to-remember proprietary APIs.</p>
+				<p><code>react-atom</code> has a tiny API (4 functions currently). You can use an <code>Atom</code> as a
+					global state store and when you update its value with <code>swap</code> or <code>set</code>, any
+					function components that <code>deref</code> it will automatically rerender. You can also
+					use <code>Atom</code>s as local state for function components, <strong>but</strong> the <code>useState</code> hook
+				may be a better fit for most of those cases.</p>
+				<h2 id="let-s-see-some-code">Let&#39;s see some code</h2>
+				<details>
+					<summary>
+						Click for code sample
+					</summary>
+					<pre><code class="language-jsx"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
+<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
+<span class="hljs-keyword">import</span> {Atom, deref, swap} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>;
 
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CountDisplay</span>(<span class="hljs-params">props</span>) </span>{
-<span class="hljs-keyword">const</span> {count} = deref(stateAtom)
+<span class="hljs-comment">/////////////////////// APP STATE /////////////////////////</span>
+<span class="hljs-comment">/**
+ * An atom can be constructed with `Atom.of` or its alias, `atom`.
+ * Atoms have no methods and cannot be written to. The only way to
+ * get the value of an atom is to `deref` it
+ */</span>
+<span class="hljs-keyword">const</span> stateAtom = Atom.of({
+  <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
+  <span class="hljs-attr">text</span>: <span class="hljs-string">''</span>,
+  <span class="hljs-attr">data</span>: {
+    <span class="hljs-comment">// ...just imagine</span>
+  },
+});
 
-<span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Current count is {count}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
-}</code></pre>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>A</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">A</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="set" class="tsd-anchor"></a>
-					<h3>set</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>atom<span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span>, val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/derrickbeining/react-atom/blob/45071dc/src/react-atom-internal.ts#L192">react-atom-internal.ts:192</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets <code>atom</code>&#39;s internal value to <code>val</code>, then rerenders
-										all React components that <code>deref</code> <code>atom</code> so they read the
-									new state</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code class="language-js">
-<span class="hljs-keyword">const</span> atom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })
-set(atom, { <span class="hljs-attr">count</span>: <span class="hljs-number">100</span> })
-deref(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></pre>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h5>
-								</li>
-								<li>
-									<h5>val: <span class="tsd-signature-type">unknown</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
-					<a name="swap" class="tsd-anchor"></a>
-					<h3>swap</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">swap&lt;S&gt;<span class="tsd-signature-symbol">(</span>atom<span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span>, updateFn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/derrickbeining/react-atom/blob/45071dc/src/react-atom-internal.ts#L169">react-atom-internal.ts:169</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets <code>atom</code>&#39;s internal value to the value returned from
-										applying <code>updateFn</code> to <code>atom</code>&#39;s current value, then rerenders
-										all React components that <code>deref</code> <code>atom</code> so they read the
-									new state</p>
-								</div>
-								<p><code>updateFn</code> must be a pure function and must not mutate <code>atom</code>&#39;s
-								current value</p>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code class="language-js">
-<span class="hljs-keyword">const</span> atom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })
-swap(atom, (state) =&gt; ({ <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span> }))
-deref(atom) <span class="hljs-comment">// =&gt; { count: 1 }</span></code></pre>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>S</h4>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>an instance of a react-atom <code>Atom</code></p>
-									</div>
-								</li>
-								<li>
-									<h5>updateFn: <span class="tsd-signature-type">function</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a pure function that takes an Atom&#39;s current state and returns its next state</p>
-									</div>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter-siganture">
-											<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span></li>
-											</ul>
-											<ul class="tsd-descriptions">
-												<li class="tsd-description">
-													<h4 class="tsd-parameters-title">Parameters</h4>
-													<ul class="tsd-parameters">
-														<li>
-															<h5>state: <span class="tsd-signature-type">S</span></h5>
-														</li>
-													</ul>
-													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">S</span></h4>
-												</li>
-											</ul>
-										</li>
-									</ul>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-						</li>
-					</ul>
-				</section>
-			</section>
+<span class="hljs-comment">/////////////////////// EFFECTS /////////////////////</span>
+<span class="hljs-comment">/**
+ * `swap` applies an update function to the current value of the Atom
+ * then tells all components referencing the Atom to rerender and read
+ * the new state
+ */</span>
+<span class="hljs-keyword">const</span> increment = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
+  swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span>}));
+
+<span class="hljs-keyword">const</span> decrement = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
+  swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count - <span class="hljs-number">1</span>}));
+
+<span class="hljs-keyword">const</span> updateText = <span class="hljs-function">(<span class="hljs-params">evt</span>) =&gt;</span>
+  swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">text</span>: evt.target.value}));
+
+<span class="hljs-keyword">const</span> loadSomething = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
+  fetch(<span class="hljs-string">'https://jsonplaceholder.typicode.com/todos/1'</span>)
+    .then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> res.json())
+    .then(<span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> swap(stateAtom, (state) =&gt; ({...state, data})))
+    .catch(<span class="hljs-built_in">console</span>.error);
+
+<span class="hljs-comment">///////////////// COMPONENT  /////////////////////</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+  <span class="hljs-comment">/**
+   * `deref` reads the value of the atom at the time of rendering and
+   * subscribes the component to the Atom so that it will rerender any
+   * time the Atom's value changes. It will automatically unsubscribe
+   * from Atom updates when the component unmounts.
+   */</span>
+  <span class="hljs-keyword">const</span> {count, data, text} = deref(stateAtom);
+
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Count: {count}<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{increment}</span>&gt;</span>Moar<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{decrement}</span>&gt;</span>Less<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{loadSomething}</span>&gt;</span>Load Data<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{updateText}</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{text}</span> /&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{JSON.stringify(data, null, '  ')}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  );
+};
+
+ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById('root'));</span></code></pre>
+				</details>
+				<hr>
+				<p>You can play with <code>react-atom</code> live right away at the following places:</p>
+				<ul>
+					<li><a href="https://codesandbox.io/s/5v6wlwy2yn">JS React CodeSandbox</a></li>
+					<li><a href="https://codesandbox.io/s/5wkq7jjqll">TypeScript React CodeSandbox</a></li>
+				</ul>
+				<h2 id="installation">Installation</h2>
+				<p><code>react-atom</code> has zero bundled <code>dependencies</code> and only two <code>peerDependency</code>,
+					namely, <code>react@^16.7.0-alpha.0</code> and <code>react-dom@^16.7.0-alpha.0</code>, which contain
+				the new Hooks API that <code>react-atom</code> abstracts upon.</p>
+				<pre><code>npm i -S @dbeining/react-atom <span class="hljs-symbol">react@</span>^<span class="hljs-number">16.7</span><span class="hljs-number">.0</span>-alpha<span class="hljs-number">.0</span> react-<span class="hljs-symbol">dom@</span>^<span class="hljs-number">16.7</span><span class="hljs-number">.0</span>-alpha<span class="hljs-number">.0</span></code></pre><h2 id="documentation">Documentation</h2>
+				<p><a href="https://derrickbeining.github.io/react-atom/">You can find the API for <code>react-atom</code> here</a></p>
+				<h2 id="contributing-feedback">Contributing / Feedback</h2>
+				<p>Please open an issue if you have any questions, suggestions for
+					improvements/features, or want to submit a PR for bug-fix (please include tests
+				if applicable).</p>
+			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
-					<li class="globals current ">
-						<a href="index.html"><em>Globals</em></a>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
 					</li>
 				</ul>
 			</nav>
@@ -315,16 +204,16 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 1 }</span></code></pre>
 						<a href="classes/atom.html" class="tsd-kind-icon">Atom</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="index.html#atom" class="tsd-kind-icon">atom</a>
+						<a href="globals.html#atom" class="tsd-kind-icon">atom</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="index.html#deref" class="tsd-kind-icon">deref</a>
+						<a href="globals.html#deref" class="tsd-kind-icon">deref</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="index.html#set" class="tsd-kind-icon">set</a>
+						<a href="globals.html#set" class="tsd-kind-icon">set</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="index.html#swap" class="tsd-kind-icon">swap</a>
+						<a href="globals.html#swap" class="tsd-kind-icon">swap</a>
 					</li>
 				</ul>
 			</nav>

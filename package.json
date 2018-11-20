@@ -88,7 +88,7 @@
   "scripts": {
     "build": "npm run clean && NODE_ENV=production webpack",
     "build:dev": "npm run clean && webpack",
-    "build:docs": "rimraf docs && typedoc --out './docs' --theme node_modules/typedoc-twilio-theme/bin --module commonjs --target ES5 --readme none --name 'React Atom' --mode file --excludeNotExported src",
+    "build:docs": "rimraf docs && typedoc --out './docs' --theme node_modules/typedoc-twilio-theme/bin --module commonjs --target ES5 --name 'React Atom' --mode file --excludeNotExported src",
     "clean": "rimraf dist",
     "commit": "git-cz",
     "dev": "npm run test -- --watch",
