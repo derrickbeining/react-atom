@@ -224,9 +224,13 @@ export function swap<S>(atom: Atom<S>, updateFn: (state: S) => S): void {
 }
 
 /**
- * Sets `atom`'s internal value to `val`, then rerenders
+ * Takes an `Atom` with state of some type, `S`, and sets its
+ * state to `val` of the same type,`S`, then rerenders
  * all React components that `deref` `atom` so they read the
  * new state
+ *
+ * @param atom a react-atom Atom instance
+ * @param nextState the value being set as `atom`'s state; It should be of the same type/interface as the current state
  *
   * @example
 ```js
@@ -241,6 +245,6 @@ deref(atom) // => { count: 100 }
 ```
  */
 
-export function set(atom: Atom<unknown>, val: unknown): void {
-  swap(atom, () => val);
+export function set<S>(atom: Atom<S>, nextState: S): void {
+  swap(atom, () => nextState);
 }
