@@ -4,6 +4,7 @@
   "jsRules": {},
   "rules": {
     "array-type": false,
+    "curly": false,
     "interface-name": false,
     "jsdoc-format": false,
     "no-redundant-jsdoc": true,

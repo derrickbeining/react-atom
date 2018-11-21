@@ -18,7 +18,7 @@ function ShowCount() {
 describe("set function", () => {
   afterEach(() => {
     // WARNING! DON'T CHANGE THE ORDER OF THESE:
-    set(TEST_ATOM, () => ({count: 0}));
+    set(TEST_ATOM, {count: 0});
     timesRendered = 0;
     cleanup();
     // END WARNING

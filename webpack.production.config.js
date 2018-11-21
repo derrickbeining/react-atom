@@ -8,7 +8,7 @@ const libraryName = 'reactAtom';
 const filename = 'react-atom';
 
 module.exports = {
-  devtool: 'inline-source-map',
+  devtool: 'source-map',
   entry: `./src/${filename}.ts`,
   externals: [nodeExternals()],
   output: {

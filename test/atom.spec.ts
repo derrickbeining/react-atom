@@ -15,7 +15,7 @@ describe("Atom instance", () => {
     expect(Object.getOwnPropertyNames(TEST_ATOM)).toHaveLength(0);
   });
 
-  it("cannot be modified", () => {
+  it("cannot be modified directly", () => {
     const illegalWrite = () => {
       (TEST_ATOM as any).someProp = "someVal";
     };

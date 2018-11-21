@@ -8,7 +8,7 @@ import {useMutationEffect, useState} from "react";
  */
 
 /** @ignore */
-const LIB_NAMESPACE = "@@react-hook";
+const LIB_NAMESPACE = "@@react-atom";
 
 /** @ignore */
 export const atoms: Array<Atom<unknown>> = [];
@@ -17,11 +17,11 @@ export const valuesByAtomId: Record<string, unknown> = {};
 /** @ignore */
 export const hooksByAtomId: Record<string, HookStore> = {};
 /** @ignore */
-export const hookIdKeeperByAtomId: Record<string, number> = {};
+export const nextHookIdByAtomId: Record<string, number> = {};
 
 /** @ignore */
-export function getAtomVal<A>(a: Atom<A>): unknown {
-  return valuesByAtomId[atoms.indexOf(a)];
+export function getAtomVal<S>(a: Atom<S>): S {
+  return valuesByAtomId[atoms.indexOf(a)] as S;
 }
 
 /** @ignore */
@@ -74,7 +74,7 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 ```
  */
-export class Atom<A> {
+export class Atom<S> {
   /**
    * Constructs a new instance of `Atom` with its internal state
    * set to `state`.
@@ -89,16 +89,16 @@ const a2 = Atom.of("zero")
 const a3 = Atom.of({ count: 0 })
 ```
    */
-  public static of<A>(state: A) {
+  public static of<S>(state: S) {
     return new Atom(state);
   }
 
   /** @ignore */
-  private constructor(state: A) {
-    const hookId = atoms.length;
-    valuesByAtomId[hookId] = state;
-    hooksByAtomId[hookId] = {};
-    hookIdKeeperByAtomId[hookId] = 0;
+  private constructor(state: S) {
+    const atomId = atoms.length;
+    valuesByAtomId[atomId] = state;
+    hooksByAtomId[atomId] = {};
+    nextHookIdByAtomId[atomId] = 0;
     atoms.push(this);
     return Object.freeze(this);
   }
@@ -120,7 +120,7 @@ const a2 = atom("zero")
 const a3 = atom({ count: 0 })
 ```
  */
-export function atom<A>(state: A): Atom<A> {
+export function atom<S>(state: S): Atom<S> {
   return Atom.of(state);
 }
 // tslint:disable:max-line-length
@@ -154,23 +154,23 @@ export function CountDisplay(props) {
 ```
  */
 
-export function deref<A>(atom: Atom<A>): A {
+export function deref<S>(atom: Atom<S>): S {
   if (!(atom instanceof Atom)) {
     throw TypeError(
       `Not an instance of Atom\n${JSON.stringify(atom, null, "  ")}`,
     );
   }
-  const atomId = String(atoms.indexOf(atom));
-  const atomValue = valuesByAtomId[atomId] as A;
+  const atomId = atoms.indexOf(atom);
+  const atomValue = valuesByAtomId[atomId] as S;
   const ownHooks = hooksByAtomId[atomId];
   const [_, hook] = useState(true) as [boolean, ReactStateHook];
 
   useMutationEffect(() => {
-    const hookId = hookIdKeeperByAtomId[atomId];
+    const hookId = nextHookIdByAtomId[atomId];
     if (hook[`${LIB_NAMESPACE}/id`] === undefined) {
       hook[`${LIB_NAMESPACE}/id`] = hookId;
       ownHooks[hookId] = hook;
-      hookIdKeeperByAtomId[atomId] += 1;
+      nextHookIdByAtomId[atomId] += 1;
     }
 
     return function unsubscribeHook() {
@@ -182,15 +182,13 @@ export function deref<A>(atom: Atom<A>): A {
 }
 
 /**
- * Sets `atom`'s internal value to the value returned from
- * applying `updateFn` to `atom`'s current value, then rerenders
- * all React components that `deref` `atom` so they read the
- * new state
+ * Takes an `Atom` with state of some type, `S`, and a pure function
+ * of type S -> S, and swaps the state of the `Atom` with the
+ * value returned by applying the function to the `Atom`'s current
+ * state. After swapping, it re-renders all the function components
+ * that `deref` the `Atom` so they read its new state
  *
- * `updateFn` must be a pure function and must not mutate `atom`'s
- * current value
- *
- * @param atom an instance of a react-atom `Atom`
+ * @param atom a react-atom `Atom` instance
  * @param updateFn a pure function that takes an Atom's current state and returns its next state
  *
  * @example
@@ -215,7 +213,7 @@ deref(atom) // => { count: 1 }
 // ): void;
 
 export function swap<S>(atom: Atom<S>, updateFn: (state: S) => S): void {
-  const atomId = String(atoms.indexOf(atom));
+  const atomId = atoms.indexOf(atom);
   const atomValue = valuesByAtomId[atomId] as S;
   valuesByAtomId[atomId] = updateFn(atomValue);
   Object.keys(hooksByAtomId[atomId]).forEach((hookId) => {
@@ -224,9 +222,13 @@ export function swap<S>(atom: Atom<S>, updateFn: (state: S) => S): void {
 }
 
 /**
- * Sets `atom`'s internal value to `val`, then rerenders
+ * Takes an `Atom` with state of some type, `S`, and sets its
+ * state to `val` of the same type,`S`, then rerenders
  * all React components that `deref` `atom` so they read the
  * new state
+ *
+ * @param atom a react-atom Atom instance
+ * @param nextState the value being set as `atom`'s state; It should be of the same type/interface as the current state
  *
   * @example
 ```js
@@ -241,6 +243,6 @@ deref(atom) // => { count: 100 }
 ```
  */
 
-export function set(atom: Atom<unknown>, val: unknown): void {
-  swap(atom, () => val);
+export function set<S>(atom: Atom<S>, nextState: S): void {
+  swap(atom, () => nextState);
 }

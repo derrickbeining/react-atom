@@ -76,7 +76,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#atom" class="tsd-kind-icon">atom</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#deref" class="tsd-kind-icon">deref</a></li>
-								<li class="tsd-kind-function"><a href="globals.html#set" class="tsd-kind-icon">set</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#set" class="tsd-kind-icon">set</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#swap" class="tsd-kind-icon">swap</a></li>
 							</ul>
 						</section>
@@ -89,7 +89,7 @@
 					<a name="atom" class="tsd-anchor"></a>
 					<h3>atom</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">atom&lt;A&gt;<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">atom&lt;S&gt;<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -118,16 +118,16 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>A</h4>
+									<h4>S</h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>state: <span class="tsd-signature-type">A</span></h5>
+									<h5>state: <span class="tsd-signature-type">S</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -135,7 +135,7 @@
 					<a name="deref" class="tsd-anchor"></a>
 					<h3>deref</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">deref&lt;A&gt;<span class="tsd-signature-symbol">(</span>atom<span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">A</span></li>
+						<li class="tsd-signature tsd-kind-icon">deref&lt;S&gt;<span class="tsd-signature-symbol">(</span>atom<span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -175,35 +175,38 @@
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
-									<h4>A</h4>
+									<h4>S</h4>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">A</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">A</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">S</span></h4>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
 					<a name="set" class="tsd-anchor"></a>
 					<h3>set</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>atom<span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span>, val<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">set&lt;S&gt;<span class="tsd-signature-symbol">(</span>atom<span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span>, nextState<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:244</li>
+
+									<li>Defined in react-atom-internal.ts:246</li>
+
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets <code>atom</code>&#39;s internal value to <code>val</code>, then rerenders
+									<p>Takes an <code>Atom</code> with state of some type, <code>S</code>, and sets its
+										state to <code>val</code> of the same type,<code>S</code>, then rerenders
 										all React components that <code>deref</code> <code>atom</code> so they read the
 									new state</p>
 								</div>
@@ -220,13 +223,25 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></pr
 									</dd>
 								</dl>
 							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>S</h4>
+								</li>
+							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a react-atom Atom instance</p>
+									</div>
 								</li>
 								<li>
-									<h5>val: <span class="tsd-signature-type">unknown</span></h5>
+									<h5>nextState: <span class="tsd-signature-type">S</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the value being set as <code>atom</code>&#39;s state; It should be of the same type/interface as the current state</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -243,18 +258,19 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></pr
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:217</li>
+                  
+									<li>Defined in react-atom-internal.ts:215</li>
+
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Sets <code>atom</code>&#39;s internal value to the value returned from
-										applying <code>updateFn</code> to <code>atom</code>&#39;s current value, then rerenders
-										all React components that <code>deref</code> <code>atom</code> so they read the
-									new state</p>
+									<p>Takes an <code>Atom</code> with state of some type, <code>S</code>, and a pure function
+										of type S -&gt; S, and swaps the state of the <code>Atom</code> with the
+										value returned by applying the function to the <code>Atom</code>&#39;s current
+										state. After swapping, it re-renders all the function components
+									that <code>deref</code> the <code>Atom</code> so they read its new state</p>
 								</div>
-								<p><code>updateFn</code> must be a pure function and must not mutate <code>atom</code>&#39;s
-								current value</p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><pre><code class="language-js">
@@ -279,7 +295,7 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 1 }</span></code></pre>
 								<li>
 									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>an instance of a react-atom <code>Atom</code></p>
+										<p>a react-atom <code>Atom</code> instance</p>
 									</div>
 								</li>
 								<li>
@@ -332,7 +348,7 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 1 }</span></code></pre>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#deref" class="tsd-kind-icon">deref</a>
 					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#set" class="tsd-kind-icon">set</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
