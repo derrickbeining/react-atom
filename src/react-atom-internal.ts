@@ -182,15 +182,13 @@ export function deref<S>(atom: Atom<S>): S {
 }
 
 /**
- * Sets `atom`'s internal value to the value returned from
- * applying `updateFn` to `atom`'s current value, then rerenders
- * all React components that `deref` `atom` so they read the
- * new state
+ * Takes an `Atom` with state of some type, `S`, and a pure function
+ * of type S -> S, and swaps the state of the `Atom` with the
+ * value returned by applying the function to the `Atom`'s current
+ * state. After swapping, it re-renders all the function components
+ * that `deref` the `Atom` so they read its new state
  *
- * `updateFn` must be a pure function and must not mutate `atom`'s
- * current value
- *
- * @param atom an instance of a react-atom `Atom`
+ * @param atom a react-atom `Atom` instance
  * @param updateFn a pure function that takes an Atom's current state and returns its next state
  *
  * @example
