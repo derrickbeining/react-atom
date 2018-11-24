@@ -169,5 +169,29 @@ describe("useAtom function", () => {
       const {container: c2} = render(<Sum getter={getter2} />);
       expect(getByTestId(c2, "target").textContent).toBe("-13");
     });
+
+    it("defaults to the identity function when falsey", () => {
+      const TEST_ATOM = Atom.of({nums: [1, 2, 3, 4, 5]});
+      const state = getAtomVal(TEST_ATOM);
+      const getter1 = (s: typeof state) => s.nums.reduce((a, b) => a + b);
+      const getter2 = (s: typeof state) => s.nums.reduce((a, b) => a - b);
+
+      function Sum({getter}: {getter: (s: typeof state) => number}) {
+        const sum = useAtom(TEST_ATOM, {select: getter});
+        timesRendered += 1;
+
+        return (
+          <div>
+            <p data-testid="target">{sum}</p>
+          </div>
+        );
+      }
+
+      const {container: c1} = render(<Sum getter={getter1} />);
+      expect(getByTestId(c1, "target").textContent).toBe("15");
+
+      const {container: c2} = render(<Sum getter={getter2} />);
+      expect(getByTestId(c2, "target").textContent).toBe("-13");
+    });
   });
 });

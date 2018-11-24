@@ -13,8 +13,3 @@ export function isShallowEqual<
 
   return Object.is(a, b);
 }
-
-/** @ignore */
-export function id<T>(x: T): T {
-  return x;
-}
