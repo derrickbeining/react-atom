@@ -6,6 +6,7 @@
     "array-type": false,
     "curly": false,
     "interface-name": false,
+    "interface-over-type-literal": false,
     "jsdoc-format": false,
     "no-redundant-jsdoc": true,
     "no-shadowed-variable": false

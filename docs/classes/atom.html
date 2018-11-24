@@ -38,8 +38,8 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -67,43 +67,46 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A reactive data type for sharing state across React
-							<em>function components</em> (does not work with React.Component
-						class instances).</p>
+						<p>A simple reactive data type designed to make state management in <a href="https://github.com/facebook/react">React</a>
+						as intuitive, ergonomic, and performant as possible.</p>
 					</div>
-					<p>You create an Atom with <code>Atom.of</code> and can read its state
-					with <code>deref</code>. To change the value of an Atom, you can use <code>swap</code>.</p>
-					<p>When an Atom&#39;s value is changed, all components that <code>deref</code>
-					the Atom will automatically rerender to read the new state.</p>
+					<p>The following operations are available for working with <a href="atom.html">Atom</a>s:</p>
+					<ul>
+						<li><strong>create</strong>: <a href="atom.html#of">Atom.of</a>, <a href="../globals.html#atom">atom</a></li>
+						<li><strong>read</strong>: <a href="../globals.html#deref">deref</a>, <a href="../globals.html#useatom">useAtom</a></li>
+						<li><strong>update</strong>: <a href="../globals.html#swap">swap</a>, <a href="../globals.html#set">set</a></li>
+					</ul>
+					<p>When an <a href="atom.html">Atom</a>&#39;s value is updated, all function components that called
+						<a href="../globals.html#useatom">useAtom</a> on that <a href="atom.html">Atom</a> will be notified to re-render and read the
+					next state</p>
 					<dl class="tsd-comment-tags">
 						<dt>example</dt>
 						<dd><pre><code class="language-jsx">
 <span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> {Atom, deref, swap} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>;
+<span class="hljs-keyword">import</span> { Atom, useAtom, swap } <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>;
 
 <span class="hljs-keyword">const</span> stateAtom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });
 
 <span class="hljs-keyword">const</span> increment = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
-swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span>}));
+  swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span>}));
 
 <span class="hljs-keyword">const</span> decrement = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
-swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count - <span class="hljs-number">1</span>}));
+  swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count - <span class="hljs-number">1</span>}));
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-<span class="hljs-keyword">const</span> {count, data, text} = deref(stateAtom);
+  <span class="hljs-keyword">const</span> { count } = useAtom(stateAtom);
 
-<span class="hljs-keyword">return</span> (
-<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Count: {count}<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{increment}</span>&gt;</span>Moar<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{decrement}</span>&gt;</span>Less<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-);
+  <span class="hljs-keyword">return</span> (
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Count: {count}<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{increment}</span>&gt;</span>Moar<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{decrement}</span>&gt;</span>Less<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  );
 };
 
-ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById('root'));
-</span></code></pre>
+ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById('root'));</span></code></pre>
 						</dd>
 					</dl>
 				</div>
@@ -113,6 +116,11 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-n
 				<ul class="tsd-type-parameters">
 					<li>
 						<h4>S</h4>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>the type of the value being set as an Atom&#39;s internal state</p>
+							</div>
+						</div>
 					</li>
 				</ul>
 			</section>
@@ -149,18 +157,18 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-n
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:92</li>
+									<li>Defined in react-atom-internal.ts:121</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Constructs a new instance of <code>Atom</code> with its internal state
+									<p>Constructs a new instance of <a href="atom.html">Atom</a> with its internal state
 									set to <code>state</code>.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><pre><code class="language-js">
-<span class="hljs-keyword">import</span> {Atom} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
+<span class="hljs-keyword">import</span> { Atom } <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
 
 <span class="hljs-keyword">const</span> a1 = Atom.of(<span class="hljs-number">0</span>)
 <span class="hljs-keyword">const</span> a2 = Atom.of(<span class="hljs-string">"zero"</span>)
@@ -172,6 +180,9 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-n
 							<ul class="tsd-type-parameters">
 								<li>
 									<h4>S</h4>
+									<div class="tsd-comment tsd-typography">
+										<p>the type of the value being set as an <a href="atom.html">Atom</a>&#39;s internal state</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -220,12 +231,15 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-n
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="../globals.html#swap" class="tsd-kind-icon">swap</a>
 					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="../globals.html#useatom" class="tsd-kind-icon">use<wbr>Atom</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
 	</div>
 </div>
-<footer class="with-border-bottom">
+<footer>
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
@@ -284,9 +298,6 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-n
 		</div>
 	</div>
 </footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
 <div class="overlay"></div>
 <script src="../assets/js/main.js"></script>
 <script>if (location.protocol == 'file:') document.write('<script src="../assets/js/search.js"><' + '/script>');</script>

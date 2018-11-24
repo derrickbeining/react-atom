@@ -38,8 +38,8 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -62,51 +62,29 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<p><a href="https://github.com/ellerbrock/typescript-badges/"><img src="https://badges.frapsoft.com/typescript/love/typescript-150x33.png?v=101" alt="TypeScript"></a></p>
-				<p><a href="%5B!%5BNpmLicense%5D(https://img.shields.io/npm/l/@dbeining/react-atom.svg)%5D(https://www.npmjs.com/package/@dbeining/react-atom)"><img src="https://img.shields.io/npm/v/@dbeining/react-atom.svg" alt="npm (scoped)"></a>
-					<a href="https://travis-ci.com/derrickbeining/react-atom"><img src="https://travis-ci.com/derrickbeining/react-atom.svg?branch=master" alt="Build Status"></a>
-					<a href="https://codecov.io/gh/derrickbeining/react-atom"><img src="https://codecov.io/gh/derrickbeining/react-atom/branch/master/graph/badge.svg" alt="codecov"></a>
-					<a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a>
-					<a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a>
-				<a href="https://www.npmjs.com/package/@dbeining/react-atom"><img src="https://img.shields.io/npm/l/@dbeining/react-atom.svg" alt="NpmLicense"></a></p>
-				<h1 id="-dbeining-react-atom-">@dbeining/react-atom ⚛️ 🔄 ⚛️</h1>
-				<p><strong>Simple state-management <em>made easy</em> for <a href="https://reactjs.org/">React</a></strong></p>
-				<p><strong>Built on
-				<a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">React Hooks</a></strong></p>
-				<p><strong><del>Plagiarized from</del> Inspired by
-						<a href="https://purelyfunctional.tv/guide/reagent/#atoms">ratom</a>s from
-				<a href="https://reagent-project.github.io/">reagent.cljs</a></strong></p>
+				<p><a href="https://github.com/derrickbeining/react-atom"><img src="https://img.shields.io/github/stars/derrickbeining/react-atom.svg?label=Star&style=social" alt="GitHub stars"></a></p>
+				<h1 align="center" style="border-bottom: none;">react ⚛🔄⚛ atom</h1>
+				<h3 align="center">State-management made <em style="border-bottom: solid 1px;">simple</em> for <a href="https://reactjs.org/">React</a></h3>
+				<h4 align="center">Built on the <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">React Hooks API</a></h4>
+				<h4 align="center">Inspired by <a href="https://purelyfunctional.tv/guide/reagent/#atoms">atom</a>s in <a href="https://reagent-project.github.io/">reagent.cljs</a></h4>
 				<blockquote>
-					<h3 id="disclaimer-the-react-hooks-api-is-currently-in-the-proposal-stage-therefore-this-library-should-be-considered-experimental-and-unfit-for-production-apps-at-this-time">Disclaimer: the React Hooks API is currently in the proposal stage, therefore this library should be considered experimental and unfit for production apps at this time</h3>
+					<h4 id="disclaimer-the-react-hooks-api-is-currently-only-a-proposal-therefore-this-library-should-be-considered-experimental-and-unfit-for-production-apps-at-this-time">Disclaimer: the React Hooks API is currently only a proposal, therefore this library should be considered experimental and unfit for production apps at this time</h4>
 				</blockquote>
-				<h2 id="elevator-pitch-">Elevator Pitch:</h2>
-				<p>React&#39;s new Hooks API may very well render <code>class</code> components (heh 😏) obsolete.
-					Hooks like <code>useState</code> and <code>useEffect</code> enable you to share <strong><em>share logic</em></strong> that
-					is stateful and/or effectful across your function components, eliminating the
-					need for patterns like
-					<a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/higher-order-components.md">higher-order-components</a>
-					or
-				<a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/render-props.md">render props</a>.</p>
-				<p>However, <strong>hooks currently do not provide a simple means to share and update
-					<em>state</em> across functions components</strong> (<code>useContext</code> will only get you so far).
-					That means heavy-duty state-management libraries like
-					<a href="https://redux.js.org/">redux</a> or <a href="https://mobx.js.org/">mobx</a> still reign as
-					the most popular solutions for managing stated shared across your application.
-					Unfortunately, many find these libraries to be unacceptably cumbersome at scale,
-					<em>especially</em> when using a statically typed language like
-					<a href="https://www.typescriptlang.org/index.html">TypeScript</a>. <code>react-atom</code> is meant
-					to provide an alternative, simpler solution by building on the new capabilities
-				exposed by React&#39;s proposed Hooks API.</p>
-				<p><strong><code>react-atom</code> is a <em>lightweight</em> abstraction around React&#39;s proposed Hooks API
-						that provides the ability to share and update state across function
-					components</strong>. It provides all the power of heavy-duty state management libraries
-					and patterns, like <code>redux</code> or <code>mobx</code>, without bogging you down with a ton of new
-				concepts, conventions, and hard-to-remember proprietary APIs.</p>
-				<p><code>react-atom</code> has a tiny API (4 functions currently). You can use an <code>Atom</code> as a
-					global state store and when you update its value with <code>swap</code> or <code>set</code>, any
-					function components that <code>deref</code> it will automatically rerender. You can also
-					use <code>Atom</code>s as local state for function components, <strong>but</strong> the <code>useState</code> hook
-				may be a better fit for most of those cases.</p>
+				<hr />
+				<p><a href="https://github.com/ellerbrock/typescript-badges/"><img src="https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101" alt="TypeScript"></a>
+					<a href="https://www.npmjs.com/package/@dbeining/react-atom"><img src="https://img.shields.io/npm/v/@dbeining/react-atom.svg" alt="npm (scoped)"></a>
+					<a href="https://bundlephobia.com/result?p=@dbeining/react-atom"><img src="https://img.shields.io/bundlephobia/min/@dbeining/react-atom.svg" alt="npm bundle size (minified)"></a>
+				<a href="https://bundlephobia.com/result?p=@dbeining/react-atom"><img src="https://img.shields.io/bundlephobia/minzip/@dbeining/react-atom.svg" alt="npm bundle size (minified + gzip)"></a></p>
+				<p><a href="https://travis-ci.com/derrickbeining/react-atom"><img src="https://travis-ci.com/derrickbeining/react-atom.svg?branch=master" alt="Build Status"></a>
+					<a href="https://codecov.io/gh/derrickbeining/react-atom"><img src="https://codecov.io/gh/derrickbeining/react-atom/branch/master/graph/badge.svg" alt="codecov"></a>
+				<a href="https://www.npmjs.com/package/@dbeining/react-atom"><img src="https://img.shields.io/npm/dt/@dbeining/react-atom.svg" alt="npm"></a></p>
+				<p><a href="https://www.npmjs.com/package/@dbeining/react-atom"><img src="https://img.shields.io/npm/l/@dbeining/react-atom.svg" alt="NpmLicense"></a>
+					<a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a>
+				<a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a></p>
+				<h2 id="description">Description</h2>
+				<p><code>react-atom</code> is a <em>lightweight</em> abstraction over <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">React Hooks</a> that enables a truly <em>simple</em>, ergonomic, and intuitive approach to app state-management in React apps. It&#39;s meant to replace <code>redux</code>/<code>mobx</code>/etc for apps that embrace a pro-hooks, functions-only approach to React.</p>
+				<h3 id="advantages">Advantages</h3>
+				<p>😌 Tiny API / learning curve<br>🚫 No verbose boilerplate conventions<br><strong><a href="">TS</a></strong> First-class TypeScript support<br>🔬 Well-tested<br>⚛️ Embraces React&#39;s future with Hooks</p>
 				<h2 id="let-s-see-some-code">Let&#39;s see some code</h2>
 				<details>
 					<summary>
@@ -114,13 +92,13 @@
 					</summary>
 					<pre><code class="language-jsx"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
 <span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> {Atom, deref, swap} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>;
+<span class="hljs-keyword">import</span> {Atom, useAtom, swap} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>;
 
 <span class="hljs-comment">/////////////////////// APP STATE /////////////////////////</span>
 <span class="hljs-comment">/**
- * An atom can be constructed with `Atom.of` or its alias, `atom`.
- * Atoms have no methods and cannot be written to. The only way to
- * get the value of an atom is to `deref` it
+ * An atom can be constructed with `Atom.of`.
+ * The only way to get the value of an atom is with the `useAtom`
+ * hook or `deref`
  */</span>
 <span class="hljs-keyword">const</span> stateAtom = Atom.of({
   <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
@@ -132,9 +110,8 @@
 
 <span class="hljs-comment">/////////////////////// EFFECTS /////////////////////</span>
 <span class="hljs-comment">/**
- * `swap` applies an update function to the current value of the Atom
- * then tells all components referencing the Atom to rerender and read
- * the new state
+ * `swap` applies a pure function to the current state of the Atom
+ * to compute and set its next state.
  */</span>
 <span class="hljs-keyword">const</span> increment = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
   swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span>}));
@@ -154,20 +131,24 @@
 <span class="hljs-comment">///////////////// COMPONENT  /////////////////////</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
   <span class="hljs-comment">/**
-   * `deref` reads the value of the atom at the time of rendering and
+   * `useAtom` is a custom React Hook and should follow the "Rules of Hooks".
+   * It reads the value of the atom at the time of rendering and
    * subscribes the component to the Atom so that it will rerender any
-   * time the Atom's value changes. It will automatically unsubscribe
-   * from Atom updates when the component unmounts.
+   * time the Atom's state changes. It will automatically unsubscribe
+   * when the component unmounts.
    */</span>
-  <span class="hljs-keyword">const</span> {count, data, text} = deref(stateAtom);
+  <span class="hljs-keyword">const</span> {count, data, text} = useAtom(stateAtom);
 
   <span class="hljs-keyword">return</span> (
     <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Count: {count}<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Count: {count}<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">h2</span>&gt;</span>Text: {text}<span class="hljs-tag">&lt;/<span class="hljs-name">h2</span>&gt;</span>
+
       <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{increment}</span>&gt;</span>Moar<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{decrement}</span>&gt;</span>Less<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{loadSomething}</span>&gt;</span>Load Data<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{updateText}</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{text}</span> /&gt;</span>
+
       <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{JSON.stringify(data, null, '  ')}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   );
@@ -175,16 +156,24 @@
 
 ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById('root'));</span></code></pre>
 				</details>
-				<hr>
-				<p>You can play with <code>react-atom</code> live right away at the following places:</p>
-				<ul>
-					<li><a href="https://codesandbox.io/s/5v6wlwy2yn">JS React CodeSandbox</a></li>
-					<li><a href="https://codesandbox.io/s/vmnzyl7jm7">TypeScript React CodeSandbox</a></li>
-				</ul>
+				<h2 id="try-react-atom-in-codesandbox">Try <code>react-atom</code> in CodeSandbox</h2>
+				<p>You can play with <code>react-atom</code> live right away with no setup at the following links:</p>
+				<table>
+					<thead>
+						<tr>
+							<th>JavaScript Sandbox</th>
+							<th>TypeScript Sandbox</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td><a href="https://codesandbox.io/s/m3x9wn6kmy"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="try react-atom"></a></td>
+							<td><a href="https://codesandbox.io/s/km72yynqov"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="try react-atom"></a></td>
+						</tr>
+				</tbody></table>
 				<h2 id="installation">Installation</h2>
 				<p><code>react-atom</code> has zero bundled <code>dependencies</code> and only two <code>peerDependency</code>,
 					namely, <code>react@^16.7.0-alpha.0</code> and <code>react-dom@^16.7.0-alpha.0</code>, which contain
-				the new Hooks API that <code>react-atom</code> abstracts upon.</p>
+				the new Hooks API.</p>
 				<pre><code>npm i -S @dbeining/react-atom <span class="hljs-symbol">react@</span>^<span class="hljs-number">16.7</span><span class="hljs-number">.0</span>-alpha<span class="hljs-number">.0</span> react-<span class="hljs-symbol">dom@</span>^<span class="hljs-number">16.7</span><span class="hljs-number">.0</span>-alpha<span class="hljs-number">.0</span></code></pre><h2 id="documentation">Documentation</h2>
 				<p><a href="https://derrickbeining.github.io/react-atom/">You can find the API for <code>react-atom</code> here</a></p>
 				<h2 id="contributing-feedback">Contributing / Feedback</h2>
@@ -218,12 +207,15 @@ ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#swap" class="tsd-kind-icon">swap</a>
 					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#useatom" class="tsd-kind-icon">use<wbr>Atom</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
 	</div>
 </div>
-<footer class="with-border-bottom">
+<footer>
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
@@ -282,9 +274,6 @@ ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&
 		</div>
 	</div>
 </footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
 <script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>

@@ -38,8 +38,8 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -78,6 +78,7 @@
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#deref" class="tsd-kind-icon">deref</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#set" class="tsd-kind-icon">set</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#swap" class="tsd-kind-icon">swap</a></li>
+								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#useatom" class="tsd-kind-icon">use<wbr>Atom</a></li>
 							</ul>
 						</section>
 					</div>
@@ -95,15 +96,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:123</li>
+									<li>Defined in react-atom-internal.ts:151</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>A convenient alias for <code>Atom.of</code></p>
+									<p>An alias for <a href="classes/atom.html#of">Atom.of</a></p>
 								</div>
-								<p>A factory function that takes <code>state</code> of any type and returns
-								an Atom with its internal state set to <code>state</code></p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><pre><code class="language-js">
@@ -119,6 +118,9 @@
 							<ul class="tsd-type-parameters">
 								<li>
 									<h4>S</h4>
+									<div class="tsd-comment tsd-typography">
+										<p>the type of the value being set as an <a href="classes/atom.html">Atom</a>&#39;s internal state</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -136,39 +138,28 @@
 					<h3>deref</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
 						<li class="tsd-signature tsd-kind-icon">deref&lt;S&gt;<span class="tsd-signature-symbol">(</span>atom<span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span></li>
+						<li class="tsd-signature tsd-kind-icon">deref&lt;S, R&gt;<span class="tsd-signature-symbol">(</span>atom<span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:157</li>
+									<li>Defined in react-atom-internal.ts:176</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Reads the current state of <code>atom</code> and subscribes the currently
-										rendering function component to <code>atom</code>&#39;s state such that it
-									will rerender any time <code>atom</code>&#39;s value changes.</p>
+									<p>Reads the current state of an <a href="classes/atom.html">Atom</a></p>
 								</div>
-								<p>The subscription is removed when the component unmounts.</p>
-								<blockquote>
-									<p><strong>IMPORTANT:</strong></p>
-									<p><code>deref</code> uses React Hooks API internally, therefore the
-										<a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-rules.md">Rules of Hooks</a>
-									apply to <code>deref</code></p>
-								</blockquote>
+								<p>Differs from <a href="globals.html#useatom">useAtom</a> in that it is <strong><em>not</em></strong> a React Hook. It can therefore
+								be used freely outside of function components.</p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="language-jsx">
+									<dd><pre><code class="language-js">
 <span class="hljs-keyword">import</span> {Atom, deref} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
 
 <span class="hljs-keyword">const</span> stateAtom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })
-
-<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CountDisplay</span>(<span class="hljs-params">props</span>) </span>{
-<span class="hljs-keyword">const</span> {count} = deref(stateAtom)
-
-<span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Current count is {count}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
-}</code></pre>
+<span class="hljs-keyword">const</span> {count} = deref(stateAtom)</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -176,6 +167,9 @@
 							<ul class="tsd-type-parameters">
 								<li>
 									<h4>S</h4>
+									<div class="tsd-comment tsd-typography">
+										<p>the internal state of the <a href="classes/atom.html">Atom</a> passed to <a href="globals.html#deref">deref</a></p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -185,6 +179,92 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">S</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in react-atom-internal.ts:207</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Reads the current state of an <a href="classes/atom.html">Atom</a>. Behavior can be customized with
+									the <code>options</code> argument.</p>
+								</div>
+								<p>Differs from <a href="globals.html#useatom">useAtom</a> in that it is <strong><em>not</em></strong> a React Hook. It can therefore
+								be used freely outside of function components.</p>
+								<dl class="tsd-comment-tags">
+									<dt>tip</dt>
+									<dd><p>memoize <code>options.select</code> if it is an expensive computation and you expect it to run
+										frequently</p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-jsx">
+<span class="hljs-keyword">import</span> { Atom, deref}  <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
+<span class="hljs-keyword">import</span> { Orders } <span class="hljs-keyword">from</span> <span class="hljs-string">'elsewhere'</span>
+
+<span class="hljs-keyword">const</span> stateAtom = Atom.of({ <span class="hljs-attr">orders</span>: [...Orders] })
+
+<span class="hljs-keyword">const</span> orderCount = deref(stateAtom, {
+   <span class="hljs-attr">select</span>: <span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span> s.orders.length
+ })</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>S</h4>
+									<div class="tsd-comment tsd-typography">
+										<p>the type of the <a href="classes/atom.html">Atom</a>&#39;s internal state</p>
+									</div>
+								</li>
+								<li>
+									<h4>R</h4>
+									<div class="tsd-comment tsd-typography">
+										<p>the type of <a href="globals.html#deref">deref</a>&#39;s return value, inferred from <code>options.select</code>&#39;s return value</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a react-atom <a href="classes/atom.html">Atom</a> from which to read state</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">object</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>select<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></h5>
+											<div class="tsd-comment tsd-typography">
+												<p>a pure function to apply to the <a href="classes/atom.html">Atom</a>&#39;s state to compute <a href="globals.html#deref">deref</a>&#39;s return value.</p>
+											</div>
+											<ul class="tsd-parameters">
+												<li class="tsd-parameter-siganture">
+													<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable tsd-is-not-exported">
+														<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span></li>
+													</ul>
+													<ul class="tsd-descriptions">
+														<li class="tsd-description">
+															<h4 class="tsd-parameters-title">Parameters</h4>
+															<ul class="tsd-parameters">
+																<li>
+																	<h5>state: <span class="tsd-signature-type">S</span></h5>
+																</li>
+															</ul>
+															<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">R</span></h4>
+														</li>
+													</ul>
+												</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">R</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -198,28 +278,27 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-
-									<li>Defined in react-atom-internal.ts:246</li>
-
+									<li>Defined in react-atom-internal.ts:424</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Takes an <code>Atom</code> with state of some type, <code>S</code>, and sets its
-										state to <code>val</code> of the same type,<code>S</code>, then rerenders
-										all React components that <code>deref</code> <code>atom</code> so they read the
-									new state</p>
+									<p>Takes an <a href="classes/atom.html">Atom</a> with state of some type, <code>S</code>, and sets its
+									state to a value of the same type, <code>S</code>.</p>
 								</div>
+								<p>Once the <a href="classes/atom.html">Atom</a> is set, all function components that have called
+									<a href="globals.html#useatom">useAtom</a> on the <a href="classes/atom.html">Atom</a> will automatically re-render so they
+								read its new state.</p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><pre><code class="language-js">
-<span class="hljs-keyword">import</span> {Atom, deref, set} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
+<span class="hljs-keyword">import</span> {Atom, useAtom, set} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
 
 <span class="hljs-keyword">const</span> atom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })
 set(atom, { <span class="hljs-attr">count</span>: <span class="hljs-number">100</span> })
 
 <span class="hljs-comment">// in a React function component:</span>
-deref(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></pre>
+useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -234,13 +313,13 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></pr
 								<li>
 									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>a react-atom Atom instance</p>
+										<p>a react-atom <a href="classes/atom.html">Atom</a> instance</p>
 									</div>
 								</li>
 								<li>
 									<h5>nextState: <span class="tsd-signature-type">S</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>the value being set as <code>atom</code>&#39;s state; It should be of the same type/interface as the current state</p>
+										<p>the value to which to set the <a href="classes/atom.html">Atom</a>&#39;s state. It should be of the same type/interface as the current state</p>
 									</div>
 								</li>
 							</ul>
@@ -258,29 +337,35 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></pr
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-                  
-									<li>Defined in react-atom-internal.ts:215</li>
-
+									<li>Defined in react-atom-internal.ts:382</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Takes an <code>Atom</code> with state of some type, <code>S</code>, and a pure function
-										of type S -&gt; S, and swaps the state of the <code>Atom</code> with the
-										value returned by applying the function to the <code>Atom</code>&#39;s current
-										state. After swapping, it re-renders all the function components
-									that <code>deref</code> the <code>Atom</code> so they read its new state</p>
+									<p>Takes an <a href="classes/atom.html">Atom</a> with state of some type, <code>S</code>, and a pure function
+										of type <code>S -&gt; S</code>, and swaps the state of the <a href="classes/atom.html">Atom</a> with the
+										value returned by applying the function to the <a href="classes/atom.html">Atom</a>&#39;s current
+									state.</p>
 								</div>
+								<p>Once the <a href="classes/atom.html">Atom</a>&#39;s state is swapped, all the function components that
+									have called <a href="globals.html#useatom">useAtom</a> on the <a href="classes/atom.html">Atom</a> will automatically re-render so
+								they read its new state.</p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="language-js">
-<span class="hljs-keyword">import</span> {Atom, swap, deref} <span class="hljs-keyword">from</span> <span class="hljs-string">'dbeining/react-atom'</span>
+									<dd><pre><code class="language-jsx"><span class="hljs-keyword">import</span> {Atom, swap, useAtom} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
 
-<span class="hljs-keyword">const</span> atom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })
-swap(atom, (state) =&gt; ({ <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span> }))
+<span class="hljs-keyword">const</span> stateAtom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })
+<span class="hljs-keyword">const</span> increment = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> swap(stateAtom, (state) =&gt; ({<span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span>}))
 
-<span class="hljs-comment">// ...in a React function component:</span>
-deref(atom) <span class="hljs-comment">// =&gt; { count: 1 }</span></code></pre>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyComponent</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">const</span> {count} = useAtom(stateAtom)
+  <span class="hljs-keyword">return</span> (
+   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>The count is {count}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+     <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{increment}</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
+  )
+}</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -295,13 +380,13 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 1 }</span></code></pre>
 								<li>
 									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>a react-atom <code>Atom</code> instance</p>
+										<p>a react-atom <a href="classes/atom.html">Atom</a> instance</p>
 									</div>
 								</li>
 								<li>
 									<h5>updateFn: <span class="tsd-signature-type">function</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>a pure function that takes an Atom&#39;s current state and returns its next state</p>
+										<p>a pure function that takes an <a href="classes/atom.html">Atom</a>&#39;s current state and returns its next state</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-siganture">
@@ -324,6 +409,151 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 1 }</span></code></pre>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
+					<a name="useatom" class="tsd-anchor"></a>
+					<h3>use<wbr>Atom</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter">
+						<li class="tsd-signature tsd-kind-icon">use<wbr>Atom&lt;S&gt;<span class="tsd-signature-symbol">(</span>atom<span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span></li>
+						<li class="tsd-signature tsd-kind-icon">use<wbr>Atom&lt;S, R&gt;<span class="tsd-signature-symbol">(</span>atom<span class="tsd-signature-symbol">: </span><a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span>, options<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in react-atom-internal.ts:255</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<h4 id="important-useatom-is-a-react-hook-and-must-follow-the-rules-of-hooks"><strong>Important:</strong> <em><code>useAtom</code> is a React Hook and must follow the <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-rules.md">Rules of Hooks</a></em></h4>
+								</div>
+								<p>Reads the current state of an <a href="classes/atom.html">Atom</a> and subscribes the currently
+									rendering function component to the <a href="classes/atom.html">Atom</a>&#39;s state such that the component
+									will re-render any time the <a href="classes/atom.html">Atom</a>&#39;s state changes. The subscription is
+								removed when the component unmounts.</p>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-jsx">
+<span class="hljs-keyword">import</span> {Atom, useAtom} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
+
+<span class="hljs-keyword">const</span> stateAtom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyComponent</span>(<span class="hljs-params"></span>) </span>{
+ <span class="hljs-keyword">const</span> {count} = useAtom(stateAtom)
+ <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>The count is {count}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+}</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>S</h4>
+									<div class="tsd-comment tsd-typography">
+										<p>the internal state of the <a href="classes/atom.html">Atom</a> passed to <a href="globals.html#useatom">useAtom</a></p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">S</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in react-atom-internal.ts:289</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<h4 id="important-useatom-is-a-react-hook-and-must-follow-the-rules-of-hooks"><strong>Important:</strong> <em><code>useAtom</code> is a React Hook and must follow the <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-rules.md">Rules of Hooks</a></em></h4>
+								</div>
+								<p>Reads the current state of an <a href="classes/atom.html">Atom</a> and subscribes the currently
+									rendering function component to the <a href="classes/atom.html">Atom</a>&#39;s state such that the component
+									will re-render any time the <a href="classes/atom.html">Atom</a>&#39;s state changes. The subscription is
+								removed when the component unmounts.</p>
+								<dl class="tsd-comment-tags">
+									<dt>tip</dt>
+									<dd><p>if <code>options.select</code> is an expensive computation, it should be memoized</p>
+									</dd>
+									<dt>example</dt>
+									<dd><pre><code class="language-jsx">
+<span class="hljs-keyword">import</span> { Atom, useAtom } <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
+<span class="hljs-keyword">import</span> { Orders } <span class="hljs-keyword">from</span> <span class="hljs-string">'elsewhere'</span>
+
+<span class="hljs-keyword">const</span> stateAtom = Atom.of({ <span class="hljs-attr">orders</span>: [...Orders] })
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyComponent</span>(<span class="hljs-params"></span>) </span>{
+ <span class="hljs-keyword">const</span> orderCount = useAtom(stateAtom, {
+   <span class="hljs-attr">select</span>: <span class="hljs-function">(<span class="hljs-params">s</span>) =&gt;</span> s.orders.length
+ })
+
+ <span class="hljs-keyword">return</span> <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>There are {orderCount} orders<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+}</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-type-parameters-title">Type parameters</h4>
+							<ul class="tsd-type-parameters">
+								<li>
+									<h4>S</h4>
+									<div class="tsd-comment tsd-typography">
+										<p>the internal state of the Atom passed to <a href="globals.html#useatom">useAtom</a></p>
+									</div>
+								</li>
+								<li>
+									<h4>R</h4>
+									<div class="tsd-comment tsd-typography">
+										<p>the return value of <a href="globals.html#useatom">useAtom</a></p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>a <code>react-atom</code> <a href="classes/atom.html">Atom</a> instance</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <span class="tsd-signature-type">object</span></h5>
+									<ul class="tsd-parameters">
+										<li class="tsd-parameter">
+											<h5>select<span class="tsd-signature-symbol">: </span>function</h5>
+											<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-type-literal tsd-is-not-exported">
+												<li class="tsd-signature tsd-kind-icon">select<span class="tsd-signature-symbol">(</span>s<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span></li>
+											</ul>
+											<ul class="tsd-descriptions">
+												<li class="tsd-description">
+													<aside class="tsd-sources">
+														<ul>
+															<li>Defined in react-atom-internal.ts:289</li>
+														</ul>
+													</aside>
+													<div class="tsd-comment tsd-typography">
+														<p>a pure function applied to the Atom&#39;s state to compute the value you want <a href="globals.html#useatom">useAtom</a> to return. If provided, the component will only re-render when the value returned from <code>options.select</code> has changed, as determined by a strict equality check for primitive/scalar values or, for objects, a shallow strict equality comparison of own properties.</p>
+													</div>
+													<h4 class="tsd-parameters-title">Parameters</h4>
+													<ul class="tsd-parameters">
+														<li>
+															<h5>s: <span class="tsd-signature-type">S</span></h5>
+														</li>
+													</ul>
+													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">R</span></h4>
+												</li>
+										</ul>        </li>
+									</ul>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">R</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -354,12 +584,15 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 1 }</span></code></pre>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#swap" class="tsd-kind-icon">swap</a>
 					</li>
+					<li class=" tsd-kind-function tsd-has-type-parameter">
+						<a href="globals.html#useatom" class="tsd-kind-icon">use<wbr>Atom</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
 	</div>
 </div>
-<footer class="with-border-bottom">
+<footer>
 	<div class="container">
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
@@ -418,9 +651,6 @@ deref(atom) <span class="hljs-comment">// =&gt; { count: 1 }</span></code></pre>
 		</div>
 	</div>
 </footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
 <script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
