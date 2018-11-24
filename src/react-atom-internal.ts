@@ -311,8 +311,9 @@ export function useAtom<S, R>(atom: Atom<S>, options: {select?(s: S): R} = {}) {
       const maybeHookId = hook[idKey];
 
       if (typeof maybeHookId === "number") {
-        selectorByHookId[maybeHookId] =
-          (select as (s: unknown) => unknown) || null;
+        selectorByHookId[maybeHookId] = select as
+          | ((s: unknown) => unknown)
+          | undefined;
         return function unhookOld() {
           delete atomsOwnHooksById[maybeHookId];
           delete selectorByHookId[maybeHookId];
@@ -322,8 +323,9 @@ export function useAtom<S, R>(atom: Atom<S>, options: {select?(s: S): R} = {}) {
         hook[idKey] = newHookId;
         nextHookIdByAtomId[atomId] += 1;
         atomsOwnHooksById[newHookId] = hook;
-        selectorByHookId[newHookId] =
-          (select as (s: unknown) => unknown) || null;
+        selectorByHookId[newHookId] = select as
+          | ((s: unknown) => unknown)
+          | undefined;
         return function unhookNew() {
           delete atomsOwnHooksById[newHookId];
           delete selectorByHookId[newHookId];
