@@ -1,57 +1,43 @@
-[![TypeScript](https://badges.frapsoft.com/typescript/love/typescript-150x33.png?v=101)](https://github.com/ellerbrock/typescript-badges/)
+[![GitHub stars](https://img.shields.io/github/stars/derrickbeining/react-atom.svg?label=Star&style=social)](https://github.com/derrickbeining/react-atom)
 
-[![npm (scoped)](https://img.shields.io/npm/v/@dbeining/react-atom.svg)](<[![NpmLicense](https://img.shields.io/npm/l/@dbeining/react-atom.svg)](https://www.npmjs.com/package/@dbeining/react-atom)>)
+<h1 align="center" style="border-bottom: none;">react ⚛🔄⚛ atom</h1>
+<h3 align="center">State-management made <em style="border-bottom: solid 1px;">simple</em> for <a href="https://reactjs.org/">React</a></h3>
+<h4 align="center">Built on the <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">React Hooks API</a></h4>
+<h4 align="center">Inspired by <a href="https://purelyfunctional.tv/guide/reagent/#atoms">atom</a>s in <a href="https://reagent-project.github.io/">reagent.cljs</a></h4>
+
+> #### Disclaimer: the React Hooks API is currently only a proposal, therefore this library should be considered experimental and unfit for production apps at this time
+
+<hr />
+
+
+[![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
+[![npm (scoped)](https://img.shields.io/npm/v/@dbeining/react-atom.svg)](https://www.npmjs.com/package/@dbeining/react-atom)
+[![npm bundle size (minified)](https://img.shields.io/bundlephobia/min/@dbeining/react-atom.svg)](https://bundlephobia.com/result?p=@dbeining/react-atom)
+[![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@dbeining/react-atom.svg)](https://bundlephobia.com/result?p=@dbeining/react-atom)
+
 [![Build Status](https://travis-ci.com/derrickbeining/react-atom.svg?branch=master)](https://travis-ci.com/derrickbeining/react-atom)
 [![codecov](https://codecov.io/gh/derrickbeining/react-atom/branch/master/graph/badge.svg)](https://codecov.io/gh/derrickbeining/react-atom)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![npm](https://img.shields.io/npm/dt/@dbeining/react-atom.svg)](https://www.npmjs.com/package/@dbeining/react-atom)
+
 [![NpmLicense](https://img.shields.io/npm/l/@dbeining/react-atom.svg)](https://www.npmjs.com/package/@dbeining/react-atom)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-# @dbeining/react-atom ⚛️ 🔄 ⚛️
 
-**Simple state-management _made easy_ for [React](https://reactjs.org/)**
 
-**Built on
-[React Hooks](https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md)**
 
-**~~Plagiarized from~~ Inspired by
-[ratom](https://purelyfunctional.tv/guide/reagent/#atoms)s from
-[reagent.cljs](https://reagent-project.github.io/)**
 
-> ### Disclaimer: the React Hooks API is currently in the proposal stage, therefore this library should be considered experimental and unfit for production apps at this time
+## Description
 
-## Elevator Pitch:
+`react-atom` is a _lightweight_ abstraction over [React Hooks][hooksurl] that enables a truly _simple_, ergonomic, and intuitive approach to app state-management in React apps. It's meant to replace `redux`/`mobx`/etc for apps that embrace a pro-hooks, functions-only approach to React.
 
-React's new Hooks API may very well render `class` components (heh 😏) obsolete.
-Hooks like `useState` and `useEffect` enable you to share **_share logic_** that
-is stateful and/or effectful across your function components, eliminating the
-need for patterns like
-[higher-order-components](https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/higher-order-components.md)
-or
-[render props](https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/render-props.md).
+### Advantages
 
-However, **hooks currently do not provide a simple means to share and update
-_state_ across functions components** (`useContext` will only get you so far).
-That means heavy-duty state-management libraries like
-[redux](https://redux.js.org/) or [mobx](https://mobx.js.org/) still reign as
-the most popular solutions for managing stated shared across your application.
-Unfortunately, many find these libraries to be unacceptably cumbersome at scale,
-_especially_ when using a statically typed language like
-[TypeScript](https://www.typescriptlang.org/index.html). `react-atom` is meant
-to provide an alternative, simpler solution by building on the new capabilities
-exposed by React's proposed Hooks API.
-
-**`react-atom` is a _lightweight_ abstraction around React's proposed Hooks API
-that provides the ability to share and update state across function
-components**. It provides all the power of heavy-duty state management libraries
-and patterns, like `redux` or `mobx`, without bogging you down with a ton of new
-concepts, conventions, and hard-to-remember proprietary APIs.
-
-`react-atom` has a tiny API (4 functions currently). You can use an `Atom` as a
-global state store and when you update its value with `swap` or `set`, any
-function components that `deref` it will automatically rerender. You can also
-use `Atom`s as local state for function components, **but** the `useState` hook
-may be a better fit for most of those cases.
+😌 Tiny API / learning curve  
+🚫 No verbose boilerplate conventions  
+**[TS]()** First-class TypeScript support  
+🔬 Well-tested  
+⚛️ Embraces React's future with Hooks
 
 ## Let's see some code
 
@@ -63,13 +49,13 @@ may be a better fit for most of those cases.
 ```jsx
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Atom, deref, swap} from '@dbeining/react-atom';
+import {Atom, useAtom, swap} from '@dbeining/react-atom';
 
 /////////////////////// APP STATE /////////////////////////
 /**
- * An atom can be constructed with `Atom.of` or its alias, `atom`.
- * Atoms have no methods and cannot be written to. The only way to
- * get the value of an atom is to `deref` it
+ * An atom can be constructed with `Atom.of`.
+ * The only way to get the value of an atom is with the `useAtom`
+ * hook or `deref`
  */
 const stateAtom = Atom.of({
   count: 0,
@@ -81,9 +67,8 @@ const stateAtom = Atom.of({
 
 /////////////////////// EFFECTS /////////////////////
 /**
- * `swap` applies an update function to the current value of the Atom
- * then tells all components referencing the Atom to rerender and read
- * the new state
+ * `swap` applies a pure function to the current state of the Atom
+ * to compute and set its next state.
  */
 const increment = () =>
   swap(stateAtom, (state) => ({...state, count: state.count + 1}));
@@ -103,20 +88,24 @@ const loadSomething = () =>
 ///////////////// COMPONENT  /////////////////////
 export const App = () => {
   /**
-   * `deref` reads the value of the atom at the time of rendering and
+   * `useAtom` is a custom React Hook and should follow the "Rules of Hooks".
+   * It reads the value of the atom at the time of rendering and
    * subscribes the component to the Atom so that it will rerender any
-   * time the Atom's value changes. It will automatically unsubscribe
-   * from Atom updates when the component unmounts.
+   * time the Atom's state changes. It will automatically unsubscribe
+   * when the component unmounts.
    */
-  const {count, data, text} = deref(stateAtom);
+  const {count, data, text} = useAtom(stateAtom);
 
   return (
     <div>
-      <h1>Count: {count}</h1>
+      <h2>Count: {count}</h2>
+      <h2>Text: {text}</h2>
+
       <button onClick={increment}>Moar</button>
       <button onClick={decrement}>Less</button>
       <button onClick={loadSomething}>Load Data</button>
       <input type="text" onChange={updateText} value={text} />
+
       <p>{JSON.stringify(data, null, '  ')}</p>
     </div>
   );
@@ -127,18 +116,28 @@ ReactDOM.render(<App />, document.getElementById('root'));
 
 </details>
 
----
 
-You can play with `react-atom` live right away at the following places:
+## Try `react-atom` in CodeSandbox
 
-- [JS React CodeSandbox](https://codesandbox.io/s/5v6wlwy2yn)
-- [TypeScript React CodeSandbox](https://codesandbox.io/s/vmnzyl7jm7)
+You can play with `react-atom` live right away with no setup at the following links:
+
+
+| JavaScript Sandbox              | TypeScript Sandbox              |
+| ------------------------------- | ------------------------------- |
+| [![try react-atom][imgurl]][js] | [![try react-atom][imgurl]][ts] |
+
+
+[imgurl]:https://codesandbox.io/static/img/play-codesandbox.svg
+[js]:https://codesandbox.io/s/m3x9wn6kmy
+[ts]:https://codesandbox.io/s/km72yynqov
+
+
 
 ## Installation
 
 `react-atom` has zero bundled `dependencies` and only two `peerDependency`,
 namely, `react@^16.7.0-alpha.0` and `react-dom@^16.7.0-alpha.0`, which contain
-the new Hooks API that `react-atom` abstracts upon.
+the new Hooks API.
 
 ```
 npm i -S @dbeining/react-atom react@^16.7.0-alpha.0 react-dom@^16.7.0-alpha.0
@@ -153,3 +152,6 @@ npm i -S @dbeining/react-atom react@^16.7.0-alpha.0 react-dom@^16.7.0-alpha.0
 Please open an issue if you have any questions, suggestions for
 improvements/features, or want to submit a PR for a bug-fix (please include
 tests if applicable).
+
+
+[hooksurl]:https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md

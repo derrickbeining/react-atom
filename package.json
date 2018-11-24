@@ -12,7 +12,7 @@
     }
   },
   "dependencies": {},
-  "description": "Dead simple state management for React, inspired by `reagent` `ratom`s in Cljs",
+  "description": "State management made simple for React. Built on React Hooks. Inspired by `atom`s in `reagent.cljs`.",
   "devDependencies": {
     "@babel/core": "^7.1.6",
     "@babel/preset-env": "^7.1.6",
@@ -57,7 +57,9 @@
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "package.json",
+    "LICENSE"
   ],
   "homepage": "https://derrickbeining.github.io/react-atom/",
   "husky": {
@@ -89,7 +91,7 @@
   "scripts": {
     "build": "npm run clean && NODE_ENV=production webpack",
     "build:dev": "npm run clean && webpack",
-    "build:docs": "rimraf docs && typedoc --out './docs' --theme node_modules/typedoc-twilio-theme/bin --module commonjs --target ES5 --name 'React Atom' --mode file --excludeNotExported src",
+    "build:docs": "rimraf docs && typedoc --tsconfig tdconfig.json --out './docs' --name 'React Atom' --theme default --mode file --includeDeclarations --excludeExternals --hideGenerator src",
     "clean": "rimraf dist",
     "git:commit": "npx git-cz",
     "dev": "npm run test -- --watch",
