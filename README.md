@@ -1,14 +1,14 @@
-[![GitHub stars](https://img.shields.io/github/stars/derrickbeining/react-atom.svg?label=Star&style=social)](https://github.com/derrickbeining/react-atom)
+<h1 align="center" style="border-bottom: none;">🔄 react-atom ⚛</h1>
 
-<h1 align="center" style="border-bottom: none;">react ⚛🔄⚛ atom</h1>
 <h3 align="center">State-management made <em style="border-bottom: solid 1px;">simple</em> for <a href="https://reactjs.org/">React</a></h3>
+
 <h4 align="center">Built on the <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">React Hooks API</a></h4>
+
 <h4 align="center">Inspired by <a href="https://purelyfunctional.tv/guide/reagent/#atoms">atom</a>s in <a href="https://reagent-project.github.io/">reagent.cljs</a></h4>
 
 > #### Disclaimer: the React Hooks API is currently only a proposal, therefore this library should be considered experimental and unfit for production apps at this time
 
-<hr />
-
+---
 
 [![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
 [![npm (scoped)](https://img.shields.io/npm/v/@dbeining/react-atom.svg)](https://www.npmjs.com/package/@dbeining/react-atom)
@@ -22,10 +22,6 @@
 [![NpmLicense](https://img.shields.io/npm/l/@dbeining/react-atom.svg)](https://www.npmjs.com/package/@dbeining/react-atom)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-
-
-
-
 
 ## Description
 
@@ -98,8 +94,8 @@ export const App = () => {
 
   return (
     <div>
-      <h2>Count: {count}</h2>
-      <h2>Text: {text}</h2>
+      <p>Count: {count}</p>
+      <p>Text: {text}</p>
 
       <button onClick={increment}>Moar</button>
       <button onClick={decrement}>Less</button>
