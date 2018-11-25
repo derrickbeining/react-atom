@@ -96,7 +96,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:151</li>
+									<li>Defined in react-atom-internal.ts:150</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -144,7 +144,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:176</li>
+									<li>Defined in react-atom-internal.ts:175</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -183,7 +183,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:207</li>
+									<li>Defined in react-atom-internal.ts:206</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -278,7 +278,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:426</li>
+									<li>Defined in react-atom-internal.ts:427</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -337,7 +337,7 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:384</li>
+									<li>Defined in react-atom-internal.ts:385</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -423,7 +423,7 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:255</li>
+									<li>Defined in react-atom-internal.ts:249</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -431,9 +431,9 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 									<h4 id="important-useatom-is-a-react-hook-and-must-follow-the-rules-of-hooks"><strong>Important:</strong> <em><code>useAtom</code> is a React Hook and must follow the <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-rules.md">Rules of Hooks</a></em></h4>
 								</div>
 								<p>Reads the current state of an <a href="classes/atom.html">Atom</a> and subscribes the currently
-									rendering function component to the <a href="classes/atom.html">Atom</a>&#39;s state such that the component
-									will re-render any time the <a href="classes/atom.html">Atom</a>&#39;s state changes. The subscription is
-								removed when the component unmounts.</p>
+									rendering function component to the <a href="classes/atom.html">Atom</a>&#39;s state such that, when the
+									<a href="classes/atom.html">Atom</a>&#39;s state changes, the component will automatically re-render to
+								read the new state. The subscription is removed when the component unmounts.</p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><pre><code class="language-jsx">
@@ -453,7 +453,7 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 								<li>
 									<h4>S</h4>
 									<div class="tsd-comment tsd-typography">
-										<p>the internal state of the <a href="classes/atom.html">Atom</a> passed to <a href="globals.html#useatom">useAtom</a></p>
+										<p>the type of the internal state of the <a href="classes/atom.html">Atom</a></p>
 									</div>
 								</li>
 							</ul>
@@ -464,21 +464,23 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">S</span></h4>
+							<p>the internal state of the <a href="classes/atom.html">Atom</a></p>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:289</li>
+									<li>Defined in react-atom-internal.ts:284</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<h4 id="important-useatom-is-a-react-hook-and-must-follow-the-rules-of-hooks"><strong>Important:</strong> <em><code>useAtom</code> is a React Hook and must follow the <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-rules.md">Rules of Hooks</a></em></h4>
 								</div>
+								<p><a href="globals.html#useatom">useAtom</a> enhanced with <code>options</code>.</p>
 								<p>Reads the current state of an <a href="classes/atom.html">Atom</a> and subscribes the currently
-									rendering function component to the <a href="classes/atom.html">Atom</a>&#39;s state such that the component
-									will re-render any time the <a href="classes/atom.html">Atom</a>&#39;s state changes. The subscription is
-								removed when the component unmounts.</p>
+									rendering function component to the <a href="classes/atom.html">Atom</a>&#39;s state such that, when the
+									<a href="classes/atom.html">Atom</a>&#39;s state changes, the component will automatically re-render to
+								read the new state. The subscription is removed when the component unmounts.</p>
 								<dl class="tsd-comment-tags">
 									<dt>tip</dt>
 									<dd><p>if <code>options.select</code> is an expensive computation, it should be memoized</p>
@@ -505,13 +507,13 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 								<li>
 									<h4>S</h4>
 									<div class="tsd-comment tsd-typography">
-										<p>the internal state of the Atom passed to <a href="globals.html#useatom">useAtom</a></p>
+										<p>the type of the internal state of the <a href="classes/atom.html">Atom</a></p>
 									</div>
 								</li>
 								<li>
 									<h4>R</h4>
 									<div class="tsd-comment tsd-typography">
-										<p>the return value of <a href="globals.html#useatom">useAtom</a></p>
+										<p>the type of the return value of <a href="globals.html#useatom">useAtom</a> computed via <code>options.select</code></p>
 									</div>
 								</li>
 							</ul>
@@ -519,9 +521,6 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 							<ul class="tsd-parameters">
 								<li>
 									<h5>atom: <a href="classes/atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>a <code>react-atom</code> <a href="classes/atom.html">Atom</a> instance</p>
-									</div>
 								</li>
 								<li>
 									<h5>options: <span class="tsd-signature-type">object</span></h5>
@@ -535,11 +534,11 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 												<li class="tsd-description">
 													<aside class="tsd-sources">
 														<ul>
-															<li>Defined in react-atom-internal.ts:289</li>
+															<li>Defined in react-atom-internal.ts:284</li>
 														</ul>
 													</aside>
 													<div class="tsd-comment tsd-typography">
-														<p>a pure function applied to the Atom&#39;s state to compute the value you want <a href="globals.html#useatom">useAtom</a> to return. If provided, the component will only re-render when the value returned from <code>options.select</code> has changed, as determined by a strict equality check for primitive/scalar values or, for objects, a shallow strict equality comparison of own properties.</p>
+														<p>a pure function applied to the Atom&#39;s state to compute the value you want <a href="globals.html#useatom">useAtom</a> to return. If provided, <strong>the component will only re-render when the value returned from <code>options.select</code> has changed</strong>, as determined by a strict equality check for primitive/scalar values, or, for objects, a shallow strict equality comparison of own properties.</p>
 													</div>
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
@@ -554,6 +553,7 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">R</span></h4>
+							<p>the value returned from applying <code>options.select</code> to <code>S</code></p>
 						</li>
 					</ul>
 				</section>

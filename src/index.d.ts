@@ -1,11 +1,11 @@
 /** @ignore */
-declare interface ReactStateHook
-  extends React.Dispatch<React.SetStateAction<boolean>> {
+declare interface ReactStateHook<T>
+  extends React.Dispatch<React.SetStateAction<T>> {
   "@@react-atom/hook_id"?: number;
   [K: string]: unknown;
 }
 
 /** @ignore */
 declare interface HookStore {
-  [K: string]: ReactStateHook;
+  [K: string]: ReactStateHook<any>;
 }
