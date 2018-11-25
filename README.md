@@ -31,7 +31,8 @@
 
 😌 Tiny API / learning curve  
 🚫 No verbose boilerplate conventions  
-**[TS]()** First-class TypeScript support  
+🎵 Tuned for performant component rendering  
+<span style="background:#00a1f1;color:white;font-weight:500;padding:1px;">TS</span> First-class TypeScript support  
 🔬 Well-tested  
 ⚛️ Embraces React's future with Hooks
 
