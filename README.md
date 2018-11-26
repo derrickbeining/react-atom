@@ -11,7 +11,7 @@
 
 <h3 align="center">A simple, principled way to manage shared state in <a href="https://reactjs.org/">React</a></h3>
 
-<h4 align="center">Built on the <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">React Hooks API</a></h4>
+<h4 align="center">Built on React's new <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">Hooks API</a></h4>
 
 <h4 align="center">Inspired by <a href="https://purelyfunctional.tv/guide/reagent/#atoms">atom</a>s in <a href="https://reagent-project.github.io/">reagent.cljs</a></h4>
 
