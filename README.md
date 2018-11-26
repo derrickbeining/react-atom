@@ -1,4 +1,3 @@
-<h1 align="center">react-atom</h1>
 <div>
   <p align="center">
     <img 
