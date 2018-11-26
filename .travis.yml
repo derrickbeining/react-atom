@@ -2,9 +2,9 @@ language: node_js
 notifications:
   email: false
 node_js:
-  - '8'
+  - "8"
 install:
-  - npm i
+  - npm i --no-progress
 script:
   - npm run lint
   - npm run test:withCoverage
