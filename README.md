@@ -1,8 +1,12 @@
-<h1 align="center" style="border-bottom:none;visibility:hidden;">react-atom</h1>
-<div style="height:350px;width:350px;margin:0 auto;">
-  <image 
-    src="https://document-export.canva.com/DADKCHDUJzk/169/preview/0001-533895153.png"
-    alt="react-atom" />
+<h1 align="center">react-atom</h1>
+<div>
+  <p align="center">
+    <image 
+      src="https://document-export.canva.com/DADKCHDUJzk/169/preview/0001-533895153.png"
+      height="350"
+      width="350"
+      alt="react-atom logo" />
+  </p>
 </div>
 
 <h3 align="center">A simple, principled way to manage shared state in <a href="https://reactjs.org/">React</a></h3>
