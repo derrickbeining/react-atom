@@ -62,14 +62,18 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 align="center" style="border-bottom: none;">🔄 react-atom ⚛</h1>
-				<h3 align="center">State-management made <em style="border-bottom: solid 1px;">simple</em> for <a href="https://reactjs.org/">React</a></h3>
+				<h1 align="center" style="border-bottom:none;visibility:hidden;">react-atom</h1>
+				<div style="height:350px;width:350px;margin:0 auto;">
+					<image
+					src="https://document-export.canva.com/DADKCHDUJzk/169/preview/0001-533895153.png"
+					alt="react-atom" />
+				</div>
+				<h3 align="center">A simple, principled way to manage shared state in <a href="https://reactjs.org/">React</a></h3>
 				<h4 align="center">Built on the <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">React Hooks API</a></h4>
 				<h4 align="center">Inspired by <a href="https://purelyfunctional.tv/guide/reagent/#atoms">atom</a>s in <a href="https://reagent-project.github.io/">reagent.cljs</a></h4>
 				<blockquote>
 					<h4 id="disclaimer-the-react-hooks-api-is-currently-only-a-proposal-therefore-this-library-should-be-considered-experimental-and-unfit-for-production-apps-at-this-time">Disclaimer: the React Hooks API is currently only a proposal, therefore this library should be considered experimental and unfit for production apps at this time</h4>
 				</blockquote>
-				<hr>
 				<p><a href="https://github.com/ellerbrock/typescript-badges/"><img src="https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101" alt="TypeScript"></a>
 					<a href="https://www.npmjs.com/package/@dbeining/react-atom"><img src="https://img.shields.io/npm/v/@dbeining/react-atom.svg" alt="npm (scoped)"></a>
 					<a href="https://bundlephobia.com/result?p=@dbeining/react-atom"><img src="https://img.shields.io/bundlephobia/min/@dbeining/react-atom.svg" alt="npm bundle size (minified)"></a>
@@ -81,62 +85,99 @@
 					<a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a>
 				<a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a></p>
 				<h2 id="description">Description</h2>
-				<p><code>react-atom</code> is a <em>lightweight</em> abstraction over <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">React Hooks</a> that enables a truly <em>simple</em>, ergonomic, and intuitive approach to app state-management in React apps. It&#39;s meant to replace <code>redux</code>/<code>mobx</code>/etc for apps that embrace a pro-hooks, functions-only approach to React.</p>
+				<p><code>react-atom</code> provides a simple, principled way to manage shared state in React:</p>
+				<ul>
+					<li><code>Atom</code>s hold your state</li>
+					<li>the <code>useAtom</code> <a href="https://github.com/reactjs/reactjs.org/blob/b7262e78b6efe1d7901afd851fb9cbef5414b361/content/docs/hooks-custom.md">custom React Hook</a> lets your components read and subscribe to <code>Atom</code> state so they re-render when it changes</li>
+					<li><code>swap</code> allows you to change an <code>Atom</code>&#39;s state by applying a pure function to the <code>Atom</code>&#39;s current state to compute its next state.</li>
+				</ul>
+				<p>Create an <code>Atom</code> with some state, like this:</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> appState = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });</code></pre>
+				<p>Use the <code>Atom</code> in your function components with the <code>useAtom</code> <a href="https://github.com/reactjs/reactjs.org/blob/b7262e78b6efe1d7901afd851fb9cbef5414b361/content/docs/hooks-custom.md">custom React Hook</a>, like this:</p>
+				<pre><code class="language-js"><span class="hljs-keyword">const</span> { count } = useAtom(appState);</code></pre>
+				<p>Use <code>swap</code> to change the state of an <code>Atom</code>, like this:</p>
+				<pre><code class="language-js">swap(appState, ({ count }) =&gt; ({ <span class="hljs-attr">count</span>: count + <span class="hljs-number">1</span> }));</code></pre>
 				<h3 id="advantages">Advantages</h3>
-				<p>😌 Tiny API / learning curve<br>🚫 No verbose boilerplate conventions<br>🎵 Tuned for performant component rendering<br><span style="background:#00a1f1;color:white;font-weight:500;padding:1px;">TS</span> First-class TypeScript support<br>🔬 Well-tested<br>⚛️ Embraces React&#39;s future with Hooks</p>
-				<h2 id="let-s-see-some-code">Let&#39;s see some code</h2>
+				<details>
+					<summary>
+						😌 <strong>Tiny API / learning curve</strong>
+					</summary>
+					A total of five functions, and most of the time you'll only need three of them.
+				</details>
+				<details>
+					<summary>
+						🚫 <strong>No verbose boilerplate conventions required</strong>
+					</summary>
+					You could use <code>redux</code>-style actions and reducers to update state with <code>react-atom</code>, but you certainly don't have to.
+				</details>
+				<details>
+					<summary>
+						🎵 <strong>Tuned for performant component rendering</strong>
+					</summary>
+					The <code>useAtom</code> hook accepts an optional <code>select</code> function that lets components subscribe to computed state. That means the component will only re-render when the value returned from <code>select</code> changes.
+				</details>
+				<details>
+					<summary>
+						<span style="background:#00a1f1;color:white;font-weight:500;padding:1px 0px;">TS</span> <strong>First-class TypeScript support</strong>
+					</summary>
+					<code>react-atom</code> is written in TypeScript so that every release is published with correct, high quality typings.
+				</details>
+				<details>
+					<summary>
+						👣 <strong>Tiny footprint</strong>
+					</summary>
+					<a href="https://bundlephobia.com/result?p=@dbeining/react-atom">
+						<image
+						src="https://img.shields.io/bundlephobia/min/@dbeining/react-atom.svg"
+						alt="react-atom minified file size"/>
+					</a>
+					<a href="https://bundlephobia.com/result?p=@dbeining/react-atom">
+						<image
+						src="https://img.shields.io/bundlephobia/minzip/@dbeining/react-atom.svg"
+						alt="react-atom minified+gzipped file size"/>
+					</a>
+				</details>
+				<details>
+					<summary>
+						⚛️ <strong>Embraces React's future with Hooks</strong>
+					</summary>
+					Hooks will make <code>class</code> components and their kind (higher-order components, render-prop components, and function-as-child components) obsolete. <code>react-atom</code> makes it easy to manage shared state with just function components and hooks.
+				</details>
+				<hr>
+				<h2 id="code-example-react-atom-in-action">Code Example: <code>react-atom</code> in action</h2>
 				<details>
 					<summary>
 						Click for code sample
 					</summary>
-					<pre><code class="language-jsx"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> {Atom, useAtom, swap} <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>;
+					<pre><code class="language-jsx"><span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">"react"</span>;
+<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">"react-dom"</span>;
+<span class="hljs-keyword">import</span> { Atom, useAtom, swap } <span class="hljs-keyword">from</span> <span class="hljs-string">"@dbeining/react-atom"</span>;
 
-<span class="hljs-comment">/////////////////////// APP STATE /////////////////////////</span>
-<span class="hljs-comment">/**
- * An atom can be constructed with `Atom.of`.
- * The only way to get the value of an atom is with the `useAtom`
- * hook or `deref`
- */</span>
+<span class="hljs-comment">//------------------------ APP STATE ------------------------------//</span>
 <span class="hljs-keyword">const</span> stateAtom = Atom.of({
   <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
-  <span class="hljs-attr">text</span>: <span class="hljs-string">''</span>,
+  <span class="hljs-attr">text</span>: <span class="hljs-string">""</span>,
   <span class="hljs-attr">data</span>: {
     <span class="hljs-comment">// ...just imagine</span>
-  },
+  }
 });
 
-<span class="hljs-comment">/////////////////////// EFFECTS /////////////////////</span>
-<span class="hljs-comment">/**
- * `swap` applies a pure function to the current state of the Atom
- * to compute and set its next state.
- */</span>
-<span class="hljs-keyword">const</span> increment = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
-  swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span>}));
+<span class="hljs-comment">//------------------------ EFFECTS ------------------------------//</span>
+<span class="hljs-keyword">const</span> increment = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> swap(stateAtom, state =&gt; ({ ...state, <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span> }));
 
-<span class="hljs-keyword">const</span> decrement = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
-  swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count - <span class="hljs-number">1</span>}));
+<span class="hljs-keyword">const</span> decrement = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> swap(stateAtom, state =&gt; ({ ...state, <span class="hljs-attr">count</span>: state.count - <span class="hljs-number">1</span> }));
 
-<span class="hljs-keyword">const</span> updateText = <span class="hljs-function">(<span class="hljs-params">evt</span>) =&gt;</span>
-  swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">text</span>: evt.target.value}));
+<span class="hljs-keyword">const</span> updateText = <span class="hljs-function"><span class="hljs-params">evt</span> =&gt;</span> swap(stateAtom, state =&gt; ({ ...state, <span class="hljs-attr">text</span>: evt.target.value }));
 
 <span class="hljs-keyword">const</span> loadSomething = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
-  fetch(<span class="hljs-string">'https://jsonplaceholder.typicode.com/todos/1'</span>)
-    .then(<span class="hljs-function">(<span class="hljs-params">res</span>) =&gt;</span> res.json())
-    .then(<span class="hljs-function">(<span class="hljs-params">data</span>) =&gt;</span> swap(stateAtom, (state) =&gt; ({...state, data})))
+  fetch(<span class="hljs-string">"https://jsonplaceholder.typicode.com/todos/1"</span>)
+    .then(<span class="hljs-function"><span class="hljs-params">res</span> =&gt;</span> res.json())
+    .then(<span class="hljs-function"><span class="hljs-params">data</span> =&gt;</span> swap(stateAtom, state =&gt; ({ ...state, data })))
     .catch(<span class="hljs-built_in">console</span>.error);
 
-<span class="hljs-comment">///////////////// COMPONENT  /////////////////////</span>
+<span class="hljs-comment">//------------------------ COMPONENT ------------------------------//</span>
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-  <span class="hljs-comment">/**
-   * `useAtom` is a custom React Hook and should follow the "Rules of Hooks".
-   * It reads the value of the atom at the time of rendering and
-   * subscribes the component to the Atom so that it will rerender any
-   * time the Atom's state changes. It will automatically unsubscribe
-   * when the component unmounts.
-   */</span>
-  <span class="hljs-keyword">const</span> {count, data, text} = useAtom(stateAtom);
+  <span class="hljs-keyword">const</span> { count, data, text } = useAtom(stateAtom);
 
   <span class="hljs-keyword">return</span> (
     <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
@@ -148,12 +189,12 @@
       <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{loadSomething}</span>&gt;</span>Load Data<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">input</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span> <span class="hljs-attr">onChange</span>=<span class="hljs-string">{updateText}</span> <span class="hljs-attr">value</span>=<span class="hljs-string">{text}</span> /&gt;</span>
 
-      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{JSON.stringify(data, null, '  ')}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>{JSON.stringify(data, null, "  ")}<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   );
 };
 
-ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById('root'));</span></code></pre>
+ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById("root"));</span></code></pre>
 				</details>
 				<h2 id="try-react-atom-in-codesandbox">Try <code>react-atom</code> in CodeSandbox</h2>
 				<p>You can play with <code>react-atom</code> live right away with no setup at the following links:</p>
