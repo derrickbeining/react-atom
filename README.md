@@ -9,11 +9,11 @@
   </p>
 </div>
 
-<h3 align="center">A simple, principled way to manage shared state in <a href="https://reactjs.org/">React</a></h3>
+<h3 align="center" style="text-decoration:none;border:0px;">A simple, principled way to manage shared state in <a href="https://reactjs.org/">React</a></h3>
 
-<h4 align="center">Built on React's new <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">Hooks API</a></h4>
+<h4 align="center" style="text-decoration:none;border:0px;">Built on React's new <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">Hooks API</a></h4>
 
-<h4 align="center">Inspired by <a href="https://purelyfunctional.tv/guide/reagent/#atoms">atom</a>s in <a href="https://reagent-project.github.io/">reagent.cljs</a></h4>
+<h4 align="center" style="text-decoration:none;border:0px;">Inspired by <a href="https://purelyfunctional.tv/guide/reagent/#atoms">atom</a>s in <a href="https://reagent-project.github.io/">reagent.cljs</a></h4>
 
 > #### Disclaimer: the React Hooks API is currently only a proposal, therefore this library should be considered experimental and unfit for production apps at this time
 
