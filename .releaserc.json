@@ -3,9 +3,12 @@
     [
       "@semantic-release/commit-analyzer",
       {
-        "preset": "angular",
         "releaseRules": [{ "type": "docs", "scope": "readme", "release": "patch" }]
       }
-    ]
+    ],
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/npm",
+    "@semantic-release/github",
+    { "preset": "angular" }
   ]
 }
