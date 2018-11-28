@@ -292,6 +292,7 @@ export function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {})
 
   const { select } = options;
   const atomId = atoms.indexOf(atom);
+  const atomValue = getAtomValById<S>(atomId);
   let memoizedSelect: typeof select;
   let currValWithSelect: R | undefined;
   let currValNoSelect: S | undefined;
@@ -299,10 +300,10 @@ export function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {})
   let hookWithSelect: ReactUseStateHook<R>;
   try {
     if (typeof select === "undefined") {
-      [currValNoSelect, hookNoSelect] = useState(getAtomValById<S>(atomId)) as [S, ReactUseStateHook<S>];
+      [currValNoSelect, hookNoSelect] = useState(atomValue) as [S, ReactUseStateHook<S>];
     } else {
       memoizedSelect = useMemo(() => memoLast(select), [select]);
-      const firstRun = useMemo(() => select(getAtomValById<S>(atomId)), []);
+      const firstRun = useMemo(() => memoizedSelect && memoizedSelect(atomValue), []);
       [currValWithSelect, hookWithSelect] = useState(firstRun) as [R, ReactUseStateHook<R>];
     }
   } catch (err) {
@@ -316,6 +317,7 @@ export function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {})
       const maybeHookId = (hookWithSelect || hookNoSelect)[idKey];
 
       if (typeof maybeHookId === "number") {
+        atomsOwnHooksById[maybeHookId] = hookNoSelect || hookWithSelect;
         selectorsByHookId[maybeHookId] = memoizedSelect;
         return function unhook() {
           delete atomsOwnHooksById[maybeHookId];
@@ -325,7 +327,7 @@ export function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {})
         const newHookId = hookIdTickerByAtomId[atomId];
         (hookWithSelect || hookNoSelect)[idKey] = newHookId;
         hookIdTickerByAtomId[atomId] += 1;
-        atomsOwnHooksById[newHookId] = hookWithSelect || hookNoSelect;
+        atomsOwnHooksById[newHookId] = hookNoSelect || hookWithSelect;
         selectorsByHookId[newHookId] = memoizedSelect;
         return function unhook() {
           delete atomsOwnHooksById[newHookId];
@@ -357,20 +359,21 @@ export function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {})
  *
  * @example
  * ```jsx
- * import {Atom, swap, useAtom} from '@dbeining/react-atom'
  *
- * const stateAtom = Atom.of({ count: 0 })
- * const increment = () => swap(stateAtom, (state) => ({count: state.count + 1}))
+ *import {Atom, swap, useAtom} from '@dbeining/react-atom'
  *
- * function MyComponent() {
- *   const {count} = useAtom(stateAtom)
- *   return (
- *    <div>
- *      <p>The count is {count}</p>
- *      <button onClick={increment}></button>
- *    </div>
- *   )
- * }
+ *const stateAtom = Atom.of({ count: 0 })
+ *const increment = () => swap(stateAtom, (state) => ({count: state.count + 1}))
+ *
+ *function MyComponent() {
+ *  const {count} = useAtom(stateAtom)
+ *  return (
+ *   <div>
+ *     <p>The count is {count}</p>
+ *     <button onClick={increment}></button>
+ *   </div>
+ *  )
+ *}
  * ```
  */
 // TODO: overload with option to pass updater, getter, and transform separately
@@ -390,10 +393,14 @@ export function swap<S>(atom: Atom<S>, updateFn: (state: S) => S): void {
 
   Object.keys(hooksByAtomId[atomId])
     .map(hookId => {
-      const selector = selectorsByHookId[hookId] || (a => a);
-      return [hookId, ...[currentState, nextState].map(selector)] as [string, unknown, unknown];
+      const select = selectorsByHookId[hookId];
+      return {
+        hookId,
+        shouldRender: !select || !isShallowEqual(select(currentState), select(nextState)),
+        state: select ? select(nextState) : nextState
+      };
     })
-    .forEach(([id, c, n]) => (!isShallowEqual(c, n) ? hooksByAtomId[atomId][id](nextState) : null));
+    .forEach(({ hookId, shouldRender, state }) => (shouldRender ? hooksByAtomId[atomId][hookId](state) : null));
 }
 
 //
