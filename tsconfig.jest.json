@@ -1,14 +1,14 @@
 {
   "compilerOptions": {
     "allowJs": true,
-    "diagnostics": false,
+    "diagnostics": true,
     "esModuleInterop": true,
     "lib": ["dom", "es2018"],
     "jsx": "react",
     "moduleResolution": "node",
     "noImplicitAny": true,
     "outDir": "./dist/",
-    "rootDir": "src",
+    "rootDir": "test",
     "sourceMap": true,
     "strict": true,
     "typeRoots": ["node_modules/@types", "src"]
