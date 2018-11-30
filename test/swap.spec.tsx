@@ -123,5 +123,50 @@ describe("swap function", () => {
       swap(TEST_ATOM, () => [a, c, b]); // change; rerender!
       expect(timesRendered).toBe(3);
     });
+
+    it("works with multiple atoms; not mixing up their states or selectors", () => {
+      const TEST_ATOM_A = Atom.of({ nums: [1, 2, 3, 4, 5] });
+      const TEST_ATOM_B = Atom.of(9);
+      const TEST_ATOM_C = Atom.of({ hi: "hello" });
+
+      function MultiAtom() {
+        const sum = useAtom(TEST_ATOM_A, {
+          select: s => {
+            return s.nums.reduce((a, b) => a + b);
+          }
+        });
+        const num = useAtom(TEST_ATOM_B);
+        const greeting = useAtom(TEST_ATOM_C, { select: s => s.hi });
+
+        return (
+          <div>
+            <p data-testid="a">{sum}</p>
+            <p data-testid="b">{num}</p>
+            <p data-testid="c">{greeting}</p>
+          </div>
+        );
+      }
+
+      const { container, rerender } = render(<MultiAtom />);
+
+      expect(getByTestId(container, "a").textContent).toBe("15");
+      expect(getByTestId(container, "b").textContent).toBe("9");
+      expect(getByTestId(container, "c").textContent).toBe("hello");
+
+      swap(TEST_ATOM_A, s => ({ nums: s.nums.map(n => n + 1) }));
+      expect(getByTestId(container, "a").textContent).toBe("20");
+      expect(getByTestId(container, "b").textContent).toBe("9");
+      expect(getByTestId(container, "c").textContent).toBe("hello");
+
+      swap(TEST_ATOM_B, x => x + 1);
+      expect(getByTestId(container, "a").textContent).toBe("20");
+      expect(getByTestId(container, "b").textContent).toBe("10");
+      expect(getByTestId(container, "c").textContent).toBe("hello");
+
+      swap(TEST_ATOM_C, s => ({ hi: s.hi.toUpperCase() }));
+      expect(getByTestId(container, "a").textContent).toBe("20");
+      expect(getByTestId(container, "b").textContent).toBe("10");
+      expect(getByTestId(container, "c").textContent).toBe("HELLO");
+    });
   });
 });

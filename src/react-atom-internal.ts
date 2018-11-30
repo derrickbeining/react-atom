@@ -1,5 +1,6 @@
-import { useMemo, useMutationEffect, useState } from "react";
+import { useLayoutEffect, useMemo, useState } from "react";
 import * as ErrorMsgs from "./error-messages";
+import { HookMap, ReactUseStateHook, SelectorMap } from "./internal-types";
 import { isShallowEqual, memoLast } from "./utils";
 
 // ------------------------------------------------------------------------------------------ //
@@ -13,13 +14,16 @@ export const atoms: Array<Atom<unknown>> = [];
 export const atomValById: Record<string, unknown> = Object.create(null);
 
 /** @ignore */
-export const hooksByAtomId: Record<string, HookStore> = Object.create(null);
+export const atomIdToHooksById: Record<number, HookMap> = Object.create(null);
 
 /** @ignore */
-export const hookIdTickerByAtomId: Record<string, number> = Object.create(null);
+export const atomIdToSelectorsByHookId: Record<number, SelectorMap> = Object.create(null);
 
 /** @ignore */
-export const selectorsByHookId: Record<string, undefined | ((s: any) => any)> = Object.create(null);
+export const hookIdTickerByAtomId: Record<number, number> = Object.create(null);
+
+/** @ignore */
+export const selectorsByHookId: Record<string, ((s: any) => any)> = Object.create(null);
 
 /** @ignore */
 export function getAtomVal<S>(a: Atom<S>): S {
@@ -34,13 +38,13 @@ export function getAtomValById<S>(id: string | number): S {
 /** @ignore */
 export function listHooks<S>(a: Atom<S>): Array<ReactUseStateHook<S>> {
   const atomId = atoms.indexOf(a);
-  return Object.keys(hooksByAtomId[atomId]).map(hookId => hooksByAtomId[atomId][hookId]);
+  return Object.keys(atomIdToHooksById[atomId]).map(hookId => atomIdToHooksById[atomId][hookId]);
 }
 
 /** @ignore */
-export function getHooks(a: Atom<unknown>): HookStore {
+export function getHooks(a: Atom<unknown>): HookMap {
   const atomId = atoms.indexOf(a);
-  return hooksByAtomId[atomId];
+  return atomIdToHooksById[atomId];
 }
 
 // ------------------------------------------------------------------------------------------ //
@@ -126,7 +130,8 @@ const a3 = Atom.of({ count: 0 })
   private constructor(state: S) {
     const atomId = atoms.length;
     atomValById[atomId] = state;
-    hooksByAtomId[atomId] = {};
+    atomIdToHooksById[atomId] = {};
+    atomIdToSelectorsByHookId[atomId] = {};
     hookIdTickerByAtomId[atomId] = 0;
     atoms.push(this);
     return Object.freeze(this);
@@ -293,52 +298,35 @@ export function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {})
   const { select } = options;
   const atomId = atoms.indexOf(atom);
   const atomValue = getAtomValById<S>(atomId);
-  let memoizedSelect: typeof select;
-  let currValWithSelect: R | undefined;
-  let currValNoSelect: S | undefined;
-  let hookNoSelect: ReactUseStateHook<S>;
-  let hookWithSelect: ReactUseStateHook<R>;
+  let selector: NonNullable<typeof select> = select ? select : <A extends S & R>(a: A) => a;
+  let hook: ReactUseStateHook<S | R>;
   try {
-    if (typeof select === "undefined") {
-      [currValNoSelect, hookNoSelect] = useState(atomValue) as [S, ReactUseStateHook<S>];
-    } else {
-      memoizedSelect = useMemo(() => memoLast(select), [select]);
-      const firstRun = useMemo(() => memoizedSelect && memoizedSelect(atomValue), []);
-      [currValWithSelect, hookWithSelect] = useState(firstRun) as [R, ReactUseStateHook<R>];
-    }
+    selector = useMemo(() => memoLast(selector), [select]);
+    [, hook] = useState({}) as [{}, ReactUseStateHook<S | R>];
   } catch (err) {
     throw new TypeError(ErrorMsgs.calledUseAtomOutsideFunctionComponent);
   }
 
-  useMutationEffect(
+  useLayoutEffect(
     () => {
       const idKey = "@react-atom/hook_id";
-      const atomsOwnHooksById = hooksByAtomId[atomId];
-      const maybeHookId = (hookWithSelect || hookNoSelect)[idKey];
+      const ownHooksById = atomIdToHooksById[atomId];
+      const ownSelectorsByHookId = atomIdToSelectorsByHookId[atomId];
+      const hookId = Number(hook[idKey] !== undefined ? hook[idKey] : hookIdTickerByAtomId[atomId]++);
 
-      if (typeof maybeHookId === "number") {
-        atomsOwnHooksById[maybeHookId] = hookNoSelect || hookWithSelect;
-        selectorsByHookId[maybeHookId] = memoizedSelect;
-        return function unhook() {
-          delete atomsOwnHooksById[maybeHookId];
-          delete selectorsByHookId[maybeHookId];
-        };
-      } else {
-        const newHookId = hookIdTickerByAtomId[atomId];
-        (hookWithSelect || hookNoSelect)[idKey] = newHookId;
-        hookIdTickerByAtomId[atomId] += 1;
-        atomsOwnHooksById[newHookId] = hookNoSelect || hookWithSelect;
-        selectorsByHookId[newHookId] = memoizedSelect;
-        return function unhook() {
-          delete atomsOwnHooksById[newHookId];
-          delete selectorsByHookId[newHookId];
-        };
-      }
+      hook[idKey] = hookId;
+      ownHooksById[hookId] = hook;
+      ownSelectorsByHookId[hookId] = selector;
+
+      return function unhook() {
+        delete ownHooksById[hookId];
+        delete ownSelectorsByHookId[hookId];
+      };
     },
-    [select]
+    [hook, select]
   );
 
-  return currValWithSelect ? currValWithSelect : currValNoSelect;
+  return selector(atomValue);
 }
 
 //
@@ -391,16 +379,15 @@ export function swap<S>(atom: Atom<S>, updateFn: (state: S) => S): void {
   const nextState = updateFn(currentState);
   atomValById[atomId] = nextState;
 
-  Object.keys(hooksByAtomId[atomId])
+  Object.keys(atomIdToHooksById[atomId])
     .map(hookId => {
-      const select = selectorsByHookId[hookId];
+      const select = atomIdToSelectorsByHookId[atomId][Number(hookId)];
       return {
         hookId,
-        shouldRender: !select || !isShallowEqual(select(currentState), select(nextState)),
-        state: select ? select(nextState) : nextState
+        shouldRender: !isShallowEqual(select(currentState), select(nextState))
       };
     })
-    .forEach(({ hookId, shouldRender, state }) => (shouldRender ? hooksByAtomId[atomId][hookId](state) : null));
+    .forEach(({ hookId, shouldRender }) => (shouldRender ? atomIdToHooksById[atomId][hookId]({}) : null));
 }
 
 //
