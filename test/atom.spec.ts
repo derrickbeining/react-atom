@@ -1,4 +1,4 @@
-import {Atom, atom} from "../src/react-atom";
+import { Atom, atom } from "../src/react-atom";
 
 describe("Atom instance", () => {
   const TEST_ATOM = Atom.of(1);
@@ -20,8 +20,6 @@ describe("Atom instance", () => {
       (TEST_ATOM as any).someProp = "someVal";
     };
 
-    expect(illegalWrite).toThrow(
-      new TypeError("Cannot add property someProp, object is not extensible"),
-    );
+    expect(illegalWrite).toThrow(new TypeError("Cannot add property someProp, object is not extensible"));
   });
 });

@@ -13,12 +13,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "es5",
-    "typeRoots": ["node_modules/@types", "src"]
-  },
-  "globals": {
-    "ts-jest": {
-      "tsConfig": "tsconfig.jest.json"
-    }
+    "typeRoots": ["node_modules/@types"]
   },
   "include": ["src/**/*.ts"]
 }
