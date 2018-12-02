@@ -7,44 +7,34 @@ import { isShallowEqual, memoLast } from "./utils";
 // ---------------------------------- INTERNAL STATE ---------------------------------------- //
 // ------------------------------------------------------------------------------------------ //
 
-/** @ignore */
-export const atoms: Array<Atom<unknown>> = [];
+let nextAtomUid = 0;
+
+const stateByAtomId: Record<string, unknown> = Object.create(null);
+
+const atomIdToHooksById: Record<number, HookMap> = Object.create(null);
+
+const atomIdToSelectorsByHookId: Record<number, SelectorMap> = Object.create(null);
+
+const hookIdTickerByAtomId: Record<number, number> = Object.create(null);
 
 /** @ignore */
-export const atomValById: Record<string, unknown> = Object.create(null);
-
-/** @ignore */
-export const atomIdToHooksById: Record<number, HookMap> = Object.create(null);
-
-/** @ignore */
-export const atomIdToSelectorsByHookId: Record<number, SelectorMap> = Object.create(null);
-
-/** @ignore */
-export const hookIdTickerByAtomId: Record<number, number> = Object.create(null);
-
-/** @ignore */
-export const selectorsByHookId: Record<string, ((s: any) => any)> = Object.create(null);
-
-/** @ignore */
-export function getAtomVal<S>(a: Atom<S>): S {
-  return atomValById[atoms.indexOf(a)] as S;
+export function getAtomVal<S>(atom: Atom<S>): S {
+  return stateByAtomId[atom.id] as S;
 }
 
 /** @ignore */
-export function getAtomValById<S>(id: string | number): S {
-  return atomValById[id] as S;
+export function getAtomValById<S>(id: number): S {
+  return stateByAtomId[id] as S;
 }
 
 /** @ignore */
-export function listHooks<S>(a: Atom<S>): Array<ReactUseStateHook<S>> {
-  const atomId = atoms.indexOf(a);
-  return Object.keys(atomIdToHooksById[atomId]).map(hookId => atomIdToHooksById[atomId][hookId]);
+export function listHooks<S>(atom: Atom<S>): Array<ReactUseStateHook<S>> {
+  return Object.keys(atomIdToHooksById[atom.id]).map(hookId => atomIdToHooksById[atom.id][hookId]);
 }
 
 /** @ignore */
-export function getHooks(a: Atom<unknown>): HookMap {
-  const atomId = atoms.indexOf(a);
-  return atomIdToHooksById[atomId];
+export function getHooks(atom: Atom<unknown>): HookMap {
+  return atomIdToHooksById[atom.id];
 }
 
 // ------------------------------------------------------------------------------------------ //
@@ -106,7 +96,7 @@ export function getHooks(a: Atom<unknown>): HookMap {
  * ReactDOM.render(<App />, document.getElementById('root'));
  * ```
  */
-export class Atom<S> {
+export class Atom<S = unknown> {
   /**
    * Constructs a new instance of [[Atom]] with its internal state
    * set to `state`.
@@ -127,14 +117,18 @@ const a3 = Atom.of({ count: 0 })
   }
 
   /** @ignore */
+  // tslint:disable-next-line:variable-name
+  public readonly id: number;
+
+  /** @ignore */
+  // tslint:disable-next-line:variable-name
   private constructor(state: S) {
-    const atomId = atoms.length;
-    atomValById[atomId] = state;
-    atomIdToHooksById[atomId] = {};
-    atomIdToSelectorsByHookId[atomId] = {};
-    hookIdTickerByAtomId[atomId] = 0;
-    atoms.push(this);
-    return Object.freeze(this);
+    this.id = nextAtomUid++;
+    stateByAtomId[this.id] = state;
+    atomIdToHooksById[this.id] = {};
+    atomIdToSelectorsByHookId[this.id] = {};
+    hookIdTickerByAtomId[this.id] = 0;
+    if (process && process.env && process.env.NODE_ENV !== "production") Object.freeze(this);
   }
 }
 
@@ -217,8 +211,7 @@ export function deref<S, R>(atom: Atom<S>, options: { select?: (state: S) => R }
     throw TypeError(`${ErrorMsgs.calledDerefWithNonAtom}\n${arg}`);
   }
   const { select } = options;
-  const atomId = atoms.indexOf(atom);
-  const atomValue = atomValById[atomId] as S;
+  const atomValue = stateByAtomId[atom.id] as S;
   return select ? select(atomValue) : atomValue;
 }
 
@@ -296,8 +289,7 @@ export function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {})
   }
 
   const { select } = options;
-  const atomId = atoms.indexOf(atom);
-  const atomValue = getAtomValById<S>(atomId);
+  const atomValue = getAtomValById<S>(atom.id);
   let selector: NonNullable<typeof select> = select ? select : <A extends S & R>(a: A) => a;
   let hook: ReactUseStateHook<S | R>;
   try {
@@ -310,9 +302,9 @@ export function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {})
   useLayoutEffect(
     () => {
       const idKey = "@react-atom/hook_id";
-      const ownHooksById = atomIdToHooksById[atomId];
-      const ownSelectorsByHookId = atomIdToSelectorsByHookId[atomId];
-      const hookId = Number(hook[idKey] !== undefined ? hook[idKey] : hookIdTickerByAtomId[atomId]++);
+      const ownHooksById = atomIdToHooksById[atom.id];
+      const ownSelectorsByHookId = atomIdToSelectorsByHookId[atom.id];
+      const hookId = Number(hook[idKey] !== undefined ? hook[idKey] : hookIdTickerByAtomId[atom.id]++);
 
       hook[idKey] = hookId;
       ownHooksById[hookId] = hook;
@@ -374,20 +366,19 @@ export function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {})
 // ): void;
 
 export function swap<S>(atom: Atom<S>, updateFn: (state: S) => S): void {
-  const atomId = atoms.indexOf(atom);
-  const currentState = atomValById[atomId] as S;
+  const currentState = stateByAtomId[atom.id] as S;
   const nextState = updateFn(currentState);
-  atomValById[atomId] = nextState;
+  stateByAtomId[atom.id] = nextState;
 
-  Object.keys(atomIdToHooksById[atomId])
+  Object.keys(atomIdToHooksById[atom.id])
     .map(hookId => {
-      const select = atomIdToSelectorsByHookId[atomId][Number(hookId)];
+      const select = atomIdToSelectorsByHookId[atom.id][Number(hookId)];
       return {
         hookId,
         shouldRender: !isShallowEqual(select(currentState), select(nextState))
       };
     })
-    .forEach(({ hookId, shouldRender }) => (shouldRender ? atomIdToHooksById[atomId][hookId]({}) : null));
+    .forEach(({ hookId, shouldRender }) => (shouldRender ? atomIdToHooksById[atom.id][hookId]({}) : null));
 }
 
 //

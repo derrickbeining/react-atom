@@ -11,10 +11,6 @@ describe("Atom instance", () => {
     expect(atom("hi")).toBeInstanceOf(Atom);
   });
 
-  it("doesn't have any instance members", () => {
-    expect(Object.getOwnPropertyNames(TEST_ATOM)).toHaveLength(0);
-  });
-
   it("cannot be modified directly", () => {
     const illegalWrite = () => {
       (TEST_ATOM as any).someProp = "someVal";
