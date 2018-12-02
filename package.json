@@ -92,7 +92,7 @@
   "scripts": {
     "build": "npm run clean && NODE_ENV=production webpack",
     "build:dev": "npm run clean && webpack",
-    "build:docs": "rimraf docs && typedoc --tsconfig tdconfig.json --out './docs' --name 'React Atom' --theme default --mode file --includeDeclarations --excludeExternals --hideGenerator src",
+    "build:docs": "rimraf docs && typedoc --options typedoc.js src",
     "clean": "rimraf dist",
     "git:commit": "npx git-cz",
     "dev": "npm run test -- --watch",
