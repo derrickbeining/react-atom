@@ -2,7 +2,7 @@ import * as React from "react";
 import { cleanup, getByTestId, render } from "react-testing-library";
 import * as ErrorMsgs from "../src/error-messages";
 
-import { Atom, getAtomVal, getHooks, listHooks, swap, useAtom } from "./../src/react-atom-internal";
+import { Atom, getAtomVal, getHooks, listHooks, useAtom } from "./../src/react-atom-internal";
 
 const TEST_ATOM = Atom.of({ count: 1 });
 let timesRendered = 0;
