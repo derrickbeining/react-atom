@@ -5,12 +5,12 @@ import { Atom, swap, useAtom } from "./../src/react-atom-internal";
 const TEST_ATOM = Atom.of({ count: 0 });
 let timesRendered = 0;
 
-function ShowCount() {
-  const { count } = useAtom(TEST_ATOM);
+function GenericComponent({ testAtom = TEST_ATOM }: { testAtom?: Atom<any> }) {
+  const state = useAtom(testAtom);
   timesRendered += 1;
   return (
     <div>
-      <p data-testid="count">{count}</p>
+      <p data-testid="target">{JSON.stringify(state)}</p>
     </div>
   );
 }
@@ -29,22 +29,22 @@ describe("swap function", () => {
   });
 
   it("applies the passed-in fn to the Atom's value and sets the Atom's value to the return value", () => {
-    const { container } = render(<ShowCount />);
+    const { container } = render(<GenericComponent />);
     swap(TEST_ATOM, s => ({ ...s, count: s.count + 1 }));
-    expect(getByTestId(container, "count").textContent).toBe("1");
+    expect(getByTestId(container, "target").textContent).toBe(JSON.stringify({ count: 1 }));
   });
 
   it("triggers a rerender on all Components that useAtom the swapped Atom", () => {
-    render(<ShowCount />); // 1
-    render(<ShowCount />); // 2
+    render(<GenericComponent />); // 1
+    render(<GenericComponent />); // 2
     swap(TEST_ATOM, s => ({ count: s.count + 1 })); // 3 & 4
     swap(TEST_ATOM, s => ({ count: s.count + 1 })); // 5 & 6
     expect(timesRendered).toBe(6);
   });
 
   it("does not attempt to rerender unmounted components that had previously called `useAtom` on the Atom being swapped", () => {
-    const component1 = render(<ShowCount />); // 1
-    const component2 = render(<ShowCount />); // 2
+    const component1 = render(<GenericComponent />); // 1
+    const component2 = render(<GenericComponent />); // 2
 
     swap(TEST_ATOM, s => ({ count: s.count + 1 })); // 3 & 4 (2 components)
     component2.unmount();
@@ -62,7 +62,7 @@ describe("swap function", () => {
       const vals = [a, b, c, d];
       const TEST_ATOM = Atom.of(vals);
 
-      function ShowCount<T>({ selector }: { selector: (s: Array<typeof b>) => T }) {
+      function GenericComponent<T>({ selector }: { selector: (s: Array<typeof b>) => T }) {
         const val = useAtom(TEST_ATOM, { select: selector });
         return (
           <div>
@@ -71,8 +71,8 @@ describe("swap function", () => {
         );
       }
 
-      const { container: c1 } = render(<ShowCount selector={s => s[2].a} />);
-      const { container: c2 } = render(<ShowCount selector={s => s.length} />);
+      const { container: c1 } = render(<GenericComponent selector={s => s[2].a} />);
+      const { container: c2 } = render(<GenericComponent selector={s => s.length} />);
 
       expect(getByTestId(c1, "target").textContent).toBe("a");
       expect(getByTestId(c2, "target").textContent).toBe("4");
@@ -95,7 +95,7 @@ describe("swap function", () => {
       const TEST_ATOM = Atom.of(vals);
       let timesRendered = 0;
 
-      function ShowCount() {
+      function GenericComponent() {
         const vals = useAtom(TEST_ATOM, { select: s => ({ length: s.length, val: s[2] }) });
         timesRendered += 1;
         return (
@@ -105,7 +105,7 @@ describe("swap function", () => {
         );
       }
 
-      render(<ShowCount />); // render 1
+      render(<GenericComponent />); // render 1
       expect(timesRendered).toBe(1);
 
       swap(TEST_ATOM, v => v); // didn't change; shouldn't rerender
