@@ -34,6 +34,46 @@ describe("swap function", () => {
     expect(getByTestId(container, "target").textContent).toBe(JSON.stringify({ count: 1 }));
   });
 
+  test("when the atom state is a {} object, the return value of the update fn is deeply merged into the state", () => {
+    const atom = Atom.of({
+      one: {
+        two: {
+          three: {
+            arr: [1, 2, 3],
+            prim: "hi"
+          }
+        }
+      }
+    });
+    const { container } = render(<GenericComponent testAtom={atom} />);
+    swap(atom, s => ({ one: { two: { three: { arr: [3] } } } }));
+    expect(getByTestId(container, "target").textContent).toBe(
+      JSON.stringify({
+        one: {
+          two: {
+            three: {
+              arr: [3],
+              prim: "hi"
+            }
+          }
+        }
+      })
+    );
+    swap(atom, s => ({ one: { two: { three: { prim: s.one.two.three.prim.toUpperCase() } } } }));
+    expect(getByTestId(container, "target").textContent).toBe(
+      JSON.stringify({
+        one: {
+          two: {
+            three: {
+              arr: [3],
+              prim: "HI"
+            }
+          }
+        }
+      })
+    );
+  });
+
   it("triggers a rerender on all Components that useAtom the swapped Atom", () => {
     render(<GenericComponent />); // 1
     render(<GenericComponent />); // 2

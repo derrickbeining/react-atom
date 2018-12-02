@@ -1,7 +1,7 @@
 import { useLayoutEffect, useMemo, useState } from "react";
 import * as ErrorMsgs from "./error-messages";
-import { HookMap, ReactUseStateHook, SelectorMap } from "./internal-types";
-import { isShallowEqual, memoLast } from "./utils";
+import { DeepPartial, HookMap, ReactUseStateHook, SelectorMap } from "./internal-types";
+import { isPOJO, isShallowEqual, memoLast, mergeRTL } from "./utils";
 
 // ------------------------------------------------------------------------------------------ //
 // ---------------------------------- INTERNAL STATE ---------------------------------------- //
@@ -325,32 +325,47 @@ export function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {})
 // ======================================= SWAP ==============================================
 //
 /**
- * Takes an [[Atom]] with state of some type, `S`, and a pure function
- * of type `S -> S`, and swaps the state of the [[Atom]] with the
- * value returned by applying the function to the [[Atom]]'s current
- * state.
+ * Swaps `atom`'s state (in part or in whole) with the return value of applying `updateFn` to `state`.
+ * If `state` is a plain JS object (i.e. `{}`), then the return value of `updateFn`
+ * is deeply merged into `state`.
+ * `updateFn` must be a pure function and must return a value that is either
+ *   1. the same type/interface as `state`, or
+ *   2. a partial of the same type/iterface
  *
- * Once the [[Atom]]'s state is swapped, all the function components that
- * have called [[useAtom]] on the [[Atom]] will automatically re-render so
- * they read its new state.
+ * @note all components that called [[useAtom]] on `atom` will re-render after its state is `swap`ped
  *
  * @param atom a react-atom [[Atom]] instance
- * @param updateFn a pure function that takes an [[Atom]]'s current state and returns its next state
+ * @param updateFn a pure function that takes an [[Atom]]'s current state and returns its next state. If `state` is a plain JS object (i.e. `{}`), then the return value of `updateFn` is deeply merged into `state`.
  *
  * @example
  * ```jsx
  *
  *import {Atom, swap, useAtom} from '@dbeining/react-atom'
  *
- *const stateAtom = Atom.of({ count: 0 })
- *const increment = () => swap(stateAtom, (state) => ({count: state.count + 1}))
+ *const stateAtom = Atom.of({
+ *  count: 0,
+ *  data: {
+ *    attribute: "idk"
+ *  }
+ *})
+ *const increment = () => swap(stateAtom, (state) => ({
+ *  count: state.count + 1
+ * }))
+ *const updateData = (val) => swap(stateAtom, (state) => ({
+ *  data: val
+ * }))
  *
  *function MyComponent() {
- *  const {count} = useAtom(stateAtom)
+ *  const {count, data} = useAtom(stateAtom)
  *  return (
  *   <div>
  *     <p>The count is {count}</p>
+ *     <p>Your data is {data.attribute}</p>
  *     <button onClick={increment}></button>
+ *     <input
+ *       onChange={(evt) => updateData(evt.target.value)}
+ *       value={data.attribute}
+ *     />
  *   </div>
  *  )
  *}
@@ -365,9 +380,16 @@ export function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {})
 //   transformFn: (t: T) => T,
 // ): void;
 
-export function swap<S>(atom: Atom<S>, updateFn: (state: S) => S): void {
+export function swap<S extends Exclude<any, Record<string, any>>>(atom: Atom<S>, updateFn: (state: S) => S): void;
+export function swap<S extends Record<string, any>>(atom: Atom<S>, updateFn: (state: S) => DeepPartial<S>): void;
+export function swap<S>(atom: Atom<S>, updateFn: (state: S) => S | DeepPartial<S>): void {
   const currentState = stateByAtomId[atom.id] as S;
-  const nextState = updateFn(currentState);
+  let nextState = updateFn(currentState);
+
+  if ([currentState, nextState].every(isPOJO)) {
+    nextState = mergeRTL(currentState, nextState as DeepPartial<S>);
+  }
+
   stateByAtomId[atom.id] = nextState;
 
   Object.keys(atomIdToHooksById[atom.id])
@@ -410,5 +432,5 @@ useAtom(atom) // => { count: 100 }
  */
 
 export function set<S>(atom: Atom<S>, nextState: S): void {
-  swap(atom, () => nextState);
+  swap(atom, () => nextState as DeepPartial<S>);
 }
