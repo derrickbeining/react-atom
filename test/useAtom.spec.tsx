@@ -36,11 +36,16 @@ describe("useAtom function", () => {
   });
 
   it("fails when called with anything other than an Atom instance", () => {
-    expect(() => useAtom({})).toThrow(ErrorMsgs.calledUseAtomWithNonAtom);
-    expect(() => useAtom([])).toThrow(ErrorMsgs.calledUseAtomWithNonAtom);
-    expect(() => useAtom(1)).toThrow(ErrorMsgs.calledUseAtomWithNonAtom);
-    expect(() => useAtom("hello")).toThrow(ErrorMsgs.calledUseAtomWithNonAtom);
-    expect(() => useAtom(true)).toThrow(ErrorMsgs.calledUseAtomWithNonAtom);
+    const pojo: unknown = {};
+    const arr: unknown = [];
+    const num: unknown = 1;
+    const str: unknown = "hello";
+    const bool: unknown = true;
+    expect(() => useAtom(pojo as Atom<any>)).toThrow(ErrorMsgs.calledUseAtomWithNonAtom);
+    expect(() => useAtom(arr as Atom<any>)).toThrow(ErrorMsgs.calledUseAtomWithNonAtom);
+    expect(() => useAtom(num as Atom<any>)).toThrow(ErrorMsgs.calledUseAtomWithNonAtom);
+    expect(() => useAtom(str as Atom<any>)).toThrow(ErrorMsgs.calledUseAtomWithNonAtom);
+    expect(() => useAtom(bool as Atom<any>)).toThrow(ErrorMsgs.calledUseAtomWithNonAtom);
   });
 
   it("returns the state of the atom", () => {
@@ -137,10 +142,11 @@ describe("useAtom function", () => {
 
     it("defaults to identity fn if set to falsey value", () => {
       const TEST_ATOM = Atom.of("hello");
+      const nilSelect: unknown = undefined;
 
       function Sum() {
         const sum = useAtom(TEST_ATOM, {
-          select: undefined
+          select: nilSelect as (s: string) => any
         });
 
         return (
@@ -227,6 +233,7 @@ describe("useAtom function", () => {
       const TEST_ATOM = Atom.of(innerState);
       const state = getAtomVal(TEST_ATOM);
       const getter1 = (s: typeof state) => s.nums.reduce((a, b) => a + b);
+      const nilGetter: unknown = undefined;
 
       function Sum({ getter }: { getter: (s: typeof state) => number }) {
         const sum = useAtom(TEST_ATOM, { select: getter });
@@ -240,7 +247,8 @@ describe("useAtom function", () => {
 
       const { container: c1, rerender } = render(<Sum getter={getter1} />);
       expect(getByTestId(c1, "target").textContent).toBe("15");
-      rerender(<Sum getter={undefined as typeof getter1} />);
+      // @ts-ignore: Conversion of type 'undefined' to type '(s: string) => any' may be a mistake
+      rerender(<Sum getter={nilGetter as typeof getter1} />);
       expect(getByTestId(c1, "target").textContent).toBe(JSON.stringify(innerState));
     });
   });
