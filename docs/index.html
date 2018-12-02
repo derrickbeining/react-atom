@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>React Atom</title>
+	<title>@dbeining/react-atom</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">React Atom</a>
+					<a href="index.html" class="title">@dbeining/react-atom</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -38,8 +38,6 @@
 							</div>
 							<input type="checkbox" id="tsd-filter-inherited" checked />
 							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
 						</div>
 					</div>
 					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
@@ -54,7 +52,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> React Atom</h1>
+			<h1> @dbeining/react-atom</h1>
 		</div>
 	</div>
 </header>
@@ -87,43 +85,56 @@
 				<p><a href="https://www.npmjs.com/package/@dbeining/react-atom"><img src="https://img.shields.io/npm/l/@dbeining/react-atom.svg" alt="NpmLicense"></a>
 					<a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg" alt="Commitizen friendly"></a>
 				<a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a></p>
+				<ul>
+					<li><a href="#description">Description</a></li>
+					<li><a href="#why-use-react-atom">Why use <code>react-atom</code>?</a></li>
+					<li><a href="#installation">Installation</a></li>
+					<li><a href="#documentation">Documentation</a></li>
+					<li><a href="#code-example-react-atom-in-action">Code Example: <code>react-atom</code> in action</a></li>
+					<li><a href="#%F0%9F%95%B9%EF%B8%8F-play-with-react-atom-in-codesandbox-%F0%9F%8E%AE%EF%B8%8F">🕹️ Play with <code>react-atom</code> in CodeSandbox 🎮️</a></li>
+					<li><a href="#contributing--feedback">Contributing / Feedback</a></li>
+				</ul>
 				<h2 id="description">Description</h2>
 				<p><code>react-atom</code> provides a simple, principled way to manage shared state in React:</p>
-				<ul>
-					<li><code>Atom</code>s hold your state</li>
-					<li>the <code>useAtom</code> <a href="https://github.com/reactjs/reactjs.org/blob/b7262e78b6efe1d7901afd851fb9cbef5414b361/content/docs/hooks-custom.md">custom React Hook</a> lets your components read and subscribe to <code>Atom</code> state so they re-render when it changes</li>
-					<li><code>swap</code> allows you to change an <code>Atom</code>&#39;s state by applying a pure function to the <code>Atom</code>&#39;s current state to compute its next state.</li>
-				</ul>
-				<p>Create an <code>Atom</code> with some state, like this:</p>
+				<p><code>Atom</code>s hold your state. You can use one for a global state store (like <code>redux</code>). You can also use them for local component state. You create them like this:</p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> appState = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });</code></pre>
-				<p>Use the <code>Atom</code> in your function components with the <code>useAtom</code> <a href="https://github.com/reactjs/reactjs.org/blob/b7262e78b6efe1d7901afd851fb9cbef5414b361/content/docs/hooks-custom.md">custom React Hook</a>, like this:</p>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> { count } = useAtom(appState);</code></pre>
-				<p>Use <code>swap</code> to change the state of an <code>Atom</code>, like this:</p>
-				<pre><code class="language-js">swap(appState, ({ count }) =&gt; ({ <span class="hljs-attr">count</span>: count + <span class="hljs-number">1</span> }));</code></pre>
-				<h3 id="advantages">Advantages</h3>
+				<p>The <code>useAtom</code> <a href="https://github.com/reactjs/reactjs.org/blob/b7262e78b6efe1d7901afd851fb9cbef5414b361/content/docs/hooks-custom.md">custom React Hook</a> reads <code>Atom</code> state and subscribes function components to that <code>Atom</code>&#39;s state so they re-render when it changes. It looks like this:</p>
+				<pre><code class="language-js"><span class="hljs-comment">// in a function component</span>
+<span class="hljs-keyword">const</span> { count } = useAtom(appState);</code></pre>
+				<p><code>swap</code> changes an <code>Atom</code>&#39;s state by applying a pure function to the <code>Atom</code>&#39;s current state to compute its next state, like this:</p>
+				<pre><code class="language-js"><span class="hljs-comment">// in an event handler / effect callback</span>
+swap(appState, state =&gt; ({
+  ...state,
+  <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span>
+}));</code></pre>
+				<h2 id="why-use-react-atom-">Why use <code>react-atom</code>?</h2>
 				<details>
 					<summary>
 						😌 <strong>Tiny API / learning curve</strong>
 					</summary>
 					A total of five functions, and most of the time you'll only need three of them.
+					<hr>
 				</details>
 				<details>
 					<summary>
 						🚫 <strong>No verbose boilerplate conventions required</strong>
 					</summary>
 					You could use <code>redux</code>-style actions and reducers to update state with <code>react-atom</code>, but you certainly don't have to.
+					<hr>
 				</details>
 				<details>
 					<summary>
 						🎵 <strong>Tuned for performant component rendering</strong>
 					</summary>
 					The <code>useAtom</code> hook accepts an optional <code>select</code> function that lets components subscribe to computed state. That means the component will only re-render when the value returned from <code>select</code> changes.
+					<hr>
 				</details>
 				<details>
 					<summary>
 						<span style="background:#00a1f1;color:white;font-weight:500;padding:1px 0px;">TS</span> <strong>First-class TypeScript support</strong>
 					</summary>
 					<code>react-atom</code> is written in TypeScript so that every release is published with correct, high quality typings.
+					<hr>
 				</details>
 				<details>
 					<summary>
@@ -139,6 +150,7 @@
 						src="https://img.shields.io/bundlephobia/minzip/@dbeining/react-atom.svg"
 						alt="react-atom minified+gzipped file size"/>
 					</a>
+					<hr>
 				</details>
 				<details>
 					<summary>
@@ -147,6 +159,12 @@
 					Hooks will make <code>class</code> components and their kind (higher-order components, render-prop components, and function-as-child components) obsolete. <code>react-atom</code> makes it easy to manage shared state with just function components and hooks.
 				</details>
 				<hr>
+				<h2 id="installation">Installation</h2>
+				<p><code>react-atom</code> has zero bundled <code>dependencies</code> and only two <code>peerDependency</code>,
+					namely, <code>react@^16.7.0-alpha.0</code> and <code>react-dom@^16.7.0-alpha.0</code>, which contain
+				the new Hooks API.</p>
+				<pre><code>npm i -S @dbeining/react-atom <span class="hljs-symbol">react@</span>^<span class="hljs-number">16.7</span><span class="hljs-number">.0</span>-alpha<span class="hljs-number">.0</span> react-<span class="hljs-symbol">dom@</span>^<span class="hljs-number">16.7</span><span class="hljs-number">.0</span>-alpha<span class="hljs-number">.0</span></code></pre><h2 id="documentation">Documentation</h2>
+				<p><a href="https://derrickbeining.github.io/react-atom/">You can find API docs for <code>react-atom</code> here</a></p>
 				<h2 id="code-example-react-atom-in-action">Code Example: <code>react-atom</code> in action</h2>
 				<details>
 					<summary>
@@ -157,6 +175,7 @@
 <span class="hljs-keyword">import</span> { Atom, useAtom, swap } <span class="hljs-keyword">from</span> <span class="hljs-string">"@dbeining/react-atom"</span>;
 
 <span class="hljs-comment">//------------------------ APP STATE ------------------------------//</span>
+
 <span class="hljs-keyword">const</span> stateAtom = Atom.of({
   <span class="hljs-attr">count</span>: <span class="hljs-number">0</span>,
   <span class="hljs-attr">text</span>: <span class="hljs-string">""</span>,
@@ -166,11 +185,21 @@
 });
 
 <span class="hljs-comment">//------------------------ EFFECTS ------------------------------//</span>
-<span class="hljs-keyword">const</span> increment = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> swap(stateAtom, state =&gt; ({ ...state, <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span> }));
 
-<span class="hljs-keyword">const</span> decrement = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> swap(stateAtom, state =&gt; ({ ...state, <span class="hljs-attr">count</span>: state.count - <span class="hljs-number">1</span> }));
+<span class="hljs-keyword">const</span> increment = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> swap(stateAtom, state =&gt; ({ 
+  ...state, 
+  <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span> 
+}));
 
-<span class="hljs-keyword">const</span> updateText = <span class="hljs-function"><span class="hljs-params">evt</span> =&gt;</span> swap(stateAtom, state =&gt; ({ ...state, <span class="hljs-attr">text</span>: evt.target.value }));
+<span class="hljs-keyword">const</span> decrement = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> swap(stateAtom, state =&gt; ({ 
+  ...state, 
+  <span class="hljs-attr">count</span>: state.count - <span class="hljs-number">1</span> 
+}));
+
+<span class="hljs-keyword">const</span> updateText = <span class="hljs-function"><span class="hljs-params">evt</span> =&gt;</span> swap(stateAtom, state =&gt; ({ 
+  ...state, 
+<span class="hljs-attr">text</span>: evt.target.value 
+}));
 
 <span class="hljs-keyword">const</span> loadSomething = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
   fetch(<span class="hljs-string">"https://jsonplaceholder.typicode.com/todos/1"</span>)
@@ -179,6 +208,7 @@
     .catch(<span class="hljs-built_in">console</span>.error);
 
 <span class="hljs-comment">//------------------------ COMPONENT ------------------------------//</span>
+
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
   <span class="hljs-keyword">const</span> { count, data, text } = useAtom(stateAtom);
 
@@ -199,7 +229,7 @@
 
 ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById("root"));</span></code></pre>
 				</details>
-				<h2 id="try-react-atom-in-codesandbox">Try <code>react-atom</code> in CodeSandbox</h2>
+				<h2 id="-play-with-react-atom-in-codesandbox-">🕹️ Play with <code>react-atom</code> in CodeSandbox 🎮️</h2>
 				<p>You can play with <code>react-atom</code> live right away with no setup at the following links:</p>
 				<table>
 					<thead>
@@ -213,12 +243,6 @@ ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&
 							<td><a href="https://codesandbox.io/s/km72yynqov"><img src="https://codesandbox.io/static/img/play-codesandbox.svg" alt="try react-atom"></a></td>
 						</tr>
 				</tbody></table>
-				<h2 id="installation">Installation</h2>
-				<p><code>react-atom</code> has zero bundled <code>dependencies</code> and only two <code>peerDependency</code>,
-					namely, <code>react@^16.7.0-alpha.0</code> and <code>react-dom@^16.7.0-alpha.0</code>, which contain
-				the new Hooks API.</p>
-				<pre><code>npm i -S @dbeining/react-atom <span class="hljs-symbol">react@</span>^<span class="hljs-number">16.7</span><span class="hljs-number">.0</span>-alpha<span class="hljs-number">.0</span> react-<span class="hljs-symbol">dom@</span>^<span class="hljs-number">16.7</span><span class="hljs-number">.0</span>-alpha<span class="hljs-number">.0</span></code></pre><h2 id="documentation">Documentation</h2>
-				<p><a href="https://derrickbeining.github.io/react-atom/">You can find the API for <code>react-atom</code> here</a></p>
 				<h2 id="contributing-feedback">Contributing / Feedback</h2>
 				<p>Please open an issue if you have any questions, suggestions for
 					improvements/features, or want to submit a PR for a bug-fix (please include
