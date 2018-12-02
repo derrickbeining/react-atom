@@ -29,57 +29,72 @@
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
+- [Description](#description)
+- [Why use `react-atom`?](#why-use-react-atom)
+- [Installation](#installation)
+- [Documentation](#documentation)
+- [Code Example: `react-atom` in action](#code-example-react-atom-in-action)
+- [🕹️ Play with `react-atom` in CodeSandbox 🎮️](#%F0%9F%95%B9%EF%B8%8F-play-with-react-atom-in-codesandbox-%F0%9F%8E%AE%EF%B8%8F)
+- [Contributing / Feedback](#contributing--feedback)
+
+
+
 ## Description
 
 `react-atom` provides a simple, principled way to manage shared state in React:
 
-- `Atom`s hold your state
-- the `useAtom` [custom React Hook][customhooksurl] lets your components read and subscribe to `Atom` state so they re-render when it changes
-- `swap` allows you to change an `Atom`'s state by applying a pure function to the `Atom`'s current state to compute its next state.
-
-Create an `Atom` with some state, like this:
+`Atom`s hold your state. You can use one for a global state store (like `redux`). You can also use them for local component state. You create them like this:
 
 ```js
 const appState = Atom.of({ count: 0 });
 ```
 
-Use the `Atom` in your function components with the `useAtom` [custom React Hook][customhooksurl], like this:
+The `useAtom` [custom React Hook][customhooksurl] reads `Atom` state and subscribes function components to that `Atom`'s state so they re-render when it changes. It looks like this:
 
 ```js
+// in a function component
 const { count } = useAtom(appState);
 ```
 
-Use `swap` to change the state of an `Atom`, like this:
+`swap` changes an `Atom`'s state by applying a pure function to the `Atom`'s current state to compute its next state, like this:
 
 ```js
-swap(appState, ({ count }) => ({ count: count + 1 }));
+// in an event handler / effect callback
+swap(appState, state => ({
+  ...state,
+  count: state.count + 1
+}));
 ```
 
-### Advantages
+## Why use `react-atom`?
 
 <details>
   <summary>
     😌 <strong>Tiny API / learning curve</strong>
   </summary>
   A total of five functions, and most of the time you'll only need three of them.
+  <hr>
 </details>
 <details>
   <summary>
     🚫 <strong>No verbose boilerplate conventions required</strong>   
   </summary>
   You could use <code>redux</code>-style actions and reducers to update state with <code>react-atom</code>, but you certainly don't have to.
+  <hr>
 </details>
 <details>
   <summary>
     🎵 <strong>Tuned for performant component rendering</strong>   
   </summary>
-  The <code>useAtom</code> hook accepts an optional <code>select</code> function that lets components subscribe to computed state. That means the component will only re-render when the value returned from <code>select</code> changes. 
+  The <code>useAtom</code> hook accepts an optional <code>select</code> function that lets components subscribe to computed state. That means the component will only re-render when the value returned from <code>select</code> changes.
+  <hr>
 </details>
 <details>
   <summary>
     <span style="background:#00a1f1;color:white;font-weight:500;padding:1px 0px;">TS</span> <strong>First-class TypeScript support</strong>   
   </summary>
   <code>react-atom</code> is written in TypeScript so that every release is published with correct, high quality typings.
+  <hr>
 </details>
 <details>
   <summary>
@@ -97,7 +112,7 @@ swap(appState, ({ count }) => ({ count: count + 1 }));
       src="https://img.shields.io/bundlephobia/minzip/@dbeining/react-atom.svg" 
       alt="react-atom minified+gzipped file size"/>
   </a>
-  
+  <hr>
 </details>
 <details>
   <summary>
@@ -107,6 +122,21 @@ swap(appState, ({ count }) => ({ count: count + 1 }));
 </details>
 
 ---
+
+
+## Installation
+
+`react-atom` has zero bundled `dependencies` and only two `peerDependency`,
+namely, `react@^16.7.0-alpha.0` and `react-dom@^16.7.0-alpha.0`, which contain
+the new Hooks API.
+
+```
+npm i -S @dbeining/react-atom react@^16.7.0-alpha.0 react-dom@^16.7.0-alpha.0
+```
+
+## Documentation
+
+[You can find API docs for `react-atom` here](https://derrickbeining.github.io/react-atom/)
 
 ## Code Example: `react-atom` in action
 
@@ -121,6 +151,7 @@ import ReactDOM from "react-dom";
 import { Atom, useAtom, swap } from "@dbeining/react-atom";
 
 //------------------------ APP STATE ------------------------------//
+
 const stateAtom = Atom.of({
   count: 0,
   text: "",
@@ -130,11 +161,21 @@ const stateAtom = Atom.of({
 });
 
 //------------------------ EFFECTS ------------------------------//
-const increment = () => swap(stateAtom, state => ({ ...state, count: state.count + 1 }));
 
-const decrement = () => swap(stateAtom, state => ({ ...state, count: state.count - 1 }));
+const increment = () => swap(stateAtom, state => ({ 
+  ...state, 
+  count: state.count + 1 
+}));
 
-const updateText = evt => swap(stateAtom, state => ({ ...state, text: evt.target.value }));
+const decrement = () => swap(stateAtom, state => ({ 
+  ...state, 
+  count: state.count - 1 
+}));
+
+const updateText = evt => swap(stateAtom, state => ({ 
+  ...state, 
+text: evt.target.value 
+}));
 
 const loadSomething = () =>
   fetch("https://jsonplaceholder.typicode.com/todos/1")
@@ -143,6 +184,7 @@ const loadSomething = () =>
     .catch(console.error);
 
 //------------------------ COMPONENT ------------------------------//
+
 export const App = () => {
   const { count, data, text } = useAtom(stateAtom);
 
@@ -166,27 +208,13 @@ ReactDOM.render(<App />, document.getElementById("root"));
 
 </details>
 
-## Try `react-atom` in CodeSandbox
+## 🕹️ Play with `react-atom` in CodeSandbox 🎮️
 
 You can play with `react-atom` live right away with no setup at the following links:
 
 | JavaScript Sandbox              | TypeScript Sandbox              |
 | ------------------------------- | ------------------------------- |
 | [![try react-atom][imgurl]][js] | [![try react-atom][imgurl]][ts] |
-
-## Installation
-
-`react-atom` has zero bundled `dependencies` and only two `peerDependency`,
-namely, `react@^16.7.0-alpha.0` and `react-dom@^16.7.0-alpha.0`, which contain
-the new Hooks API.
-
-```
-npm i -S @dbeining/react-atom react@^16.7.0-alpha.0 react-dom@^16.7.0-alpha.0
-```
-
-## Documentation
-
-[You can find the API for `react-atom` here](https://derrickbeining.github.io/react-atom/)
 
 ## Contributing / Feedback
 
