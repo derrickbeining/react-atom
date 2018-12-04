@@ -1,12 +1,12 @@
 module.exports = {
   excludeExternals: true,
+  excludeNotExported: true,
   excludePrivate: true,
   excludeProtected: true,
-  theme: "default",
-  name: "@dbeining/react-atom",
-  mode: "file",
-  out: "./docs",
-  includeDeclarations: true,
   hideGenerator: true,
-  excludeNotExported: true
+  includeDeclarations: true,
+  mode: "file",
+  name: "@dbeining/react-atom",
+  out: "./docs",
+  theme: "default"
 };

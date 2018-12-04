@@ -70,6 +70,12 @@
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#atomstate" class="tsd-kind-icon">Atom<wbr>State</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#atom" class="tsd-kind-icon">atom</a></li>
@@ -79,6 +85,32 @@
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#useatom" class="tsd-kind-icon">use<wbr>Atom</a></li>
 							</ul>
 						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
+					<a name="atomstate" class="tsd-anchor"></a>
+					<h3>Atom<wbr>State</h3>
+					<div class="tsd-signature tsd-kind-icon">Atom<wbr>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AtomState&lt;A&gt;</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in internal-types.ts:31</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Extracts the type info of an <a href="classes/atom.html">Atom</a>&#39;s inner state</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>example</dt>
+							<dd><pre><code class="language-ts">
+<span class="hljs-keyword">const</span> state = Atom.of({count: <span class="hljs-number">0</span>});
+<span class="hljs-keyword">const</span> increment = <span class="hljs-function">(<span class="hljs-params">s: AtomState&lt;<span class="hljs-keyword">typeof</span> state&gt;</span>) =&gt;</span> ({ count: s.count + <span class="hljs-number">1</span> })
+swap(state, increment);</code></pre>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>
@@ -94,7 +126,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:150</li>
+									<li>Defined in react-atom-internal.ts:149</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -142,7 +174,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:175</li>
+									<li>Defined in react-atom-internal.ts:174</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -181,7 +213,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:206</li>
+									<li>Defined in react-atom-internal.ts:205</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -252,7 +284,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:412</li>
+									<li>Defined in react-atom-internal.ts:411</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -311,7 +343,7 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:368</li>
+									<li>Defined in react-atom-internal.ts:367</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -398,7 +430,7 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:248</li>
+									<li>Defined in react-atom-internal.ts:247</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -444,7 +476,7 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:283</li>
+									<li>Defined in react-atom-internal.ts:282</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -522,6 +554,9 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 				<ul class="before-current">
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/atom.html" class="tsd-kind-icon">Atom</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
+						<a href="globals.html#atomstate" class="tsd-kind-icon">Atom<wbr>State</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#atom" class="tsd-kind-icon">atom</a>
