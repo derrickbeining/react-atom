@@ -1,5 +1,6 @@
 import React from "react";
 import { cleanup, getByTestId, render } from "react-testing-library";
+import { AtomState } from "../src/internal-types";
 import { Atom, swap, useAtom } from "./../src/react-atom-internal";
 
 const TEST_ATOM = Atom.of({ count: 0 });
@@ -96,7 +97,8 @@ describe("swap function", () => {
       let timesRendered = 0;
 
       function GenericComponent() {
-        const vals = useAtom(TEST_ATOM, { select: s => ({ length: s.length, val: s[2] }) });
+        const select = (s: AtomState<typeof TEST_ATOM>) => ({ length: s.length, val: s[2] });
+        const vals = useAtom(TEST_ATOM, { select });
         timesRendered += 1;
         return (
           <div>
