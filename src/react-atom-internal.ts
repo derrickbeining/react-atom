@@ -127,7 +127,7 @@ const a3 = Atom.of({ count: 0 })
     atomIdToHooksById[this.id] = {};
     atomIdToSelectorsByHookId[this.id] = {};
     hookIdTickerByAtomId[this.id] = 0;
-    if (process && process.env && process.env.NODE_ENV !== "production") Object.freeze(this);
+    Object.freeze(this);
   }
 }
 
