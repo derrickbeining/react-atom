@@ -117,7 +117,6 @@ const a3 = Atom.of({ count: 0 })
   }
 
   /** @ignore */
-  // tslint:disable-next-line:variable-name
   public readonly id: number;
 
   /** @ignore */
