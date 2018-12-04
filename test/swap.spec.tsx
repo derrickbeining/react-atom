@@ -97,7 +97,7 @@ describe("swap function", () => {
       let timesRendered = 0;
 
       function GenericComponent() {
-        const select = (s: AtomState<typeof TEST_ATOM>) => ({ length: s.length, val: s[2] });
+        const select = (s: AtomState<typeof TEST_ATOM>) => s;
         const vals = useAtom(TEST_ATOM, { select });
         timesRendered += 1;
         return (
