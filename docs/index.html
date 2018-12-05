@@ -95,7 +95,8 @@
 					<li><a href="#contributing--feedback">Contributing / Feedback</a></li>
 				</ul>
 				<h2 id="description">Description</h2>
-				<p><code>react-atom</code> provides a simple way to manage state in React, for both global app state and for local component state: ✨ <code>Atom</code>s ✨</p>
+				<p><code>react-atom</code> provides a simple way to manage state in React, for both global app state and for local component state:</p>
+				<p>✨ <code>Atom</code>s ✨</p>
 				<h3 id="put-your-state-in-an-atom-">Put your state in an <code>Atom</code>:</h3>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Atom } <span class="hljs-keyword">from</span> <span class="hljs-string">"@dbeining/react-atom"</span>;
 
@@ -128,8 +129,8 @@
 				<h3 id="side-effects-just-use-swap-">Side-Effects? Just use <code>swap</code>.</h3>
 				<p>You don&#39;t need to do anything special for managing side-effects. Just write your IO-related logic as per usual, and call <code>swap</code> when you&#39;ve got what you need. For example:</p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> saveColor = <span class="hljs-keyword">async</span> color =&gt; {
-  <span class="hljs-keyword">const</span> { userId } = deref(appState);
-  <span class="hljs-keyword">const</span> theme = <span class="hljs-keyword">await</span> post(<span class="hljs-string">`/api/user/<span class="hljs-subst">${userId}</span>/theme`</span>);
+  <span class="hljs-keyword">const</span> { userId, color } = deref(appState);
+  <span class="hljs-keyword">const</span> theme = <span class="hljs-keyword">await</span> post(<span class="hljs-string">`/api/user/<span class="hljs-subst">${userId}</span>/theme`</span>, { color });
   swap(appState, state =&gt; ({ ...state, <span class="hljs-attr">color</span>: theme.color }));
 };</code></pre>
 				<h3 id="use-atoms-in-components-with-useatom-">Use Atoms in components with ✨ <code>useAtom</code> ✨</h3>
@@ -187,7 +188,7 @@
   <span class="hljs-keyword">const</span> [bigState, setBigState] = useState({ ...useYourImagination });
 
   <span class="hljs-keyword">const</span> updateName = <span class="hljs-function"><span class="hljs-params">evt</span> =&gt;</span> setName(evt.target.value);
-  <span class="hljs-keyword">const</span> handleDidComplete = <span class="hljs-function"><span class="hljs-params">val</span> =&gt;</span> setState({ ...bigState, <span class="hljs-attr">inner</span>: val });
+  <span class="hljs-keyword">const</span> handleDidComplete = <span class="hljs-function"><span class="hljs-params">val</span> =&gt;</span> setBigState({ ...bigState, <span class="hljs-attr">inner</span>: val });
 
   <span class="hljs-keyword">return</span> (
     &lt;&gt;

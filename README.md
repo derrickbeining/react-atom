@@ -39,7 +39,9 @@
 
 ## Description
 
-`react-atom` provides a simple way to manage state in React, for both global app state and for local component state: ✨ `Atom`s ✨
+`react-atom` provides a simple way to manage state in React, for both global app state and for local component state:
+
+✨ `Atom`s ✨
 
 ### Put your state in an `Atom`:
 
@@ -95,8 +97,8 @@ You don't need to do anything special for managing side-effects. Just write your
 
 ```js
 const saveColor = async color => {
-  const { userId } = deref(appState);
-  const theme = await post(`/api/user/${userId}/theme`);
+  const { userId, color } = deref(appState);
+  const theme = await post(`/api/user/${userId}/theme`, { color });
   swap(appState, state => ({ ...state, color: theme.color }));
 };
 ```
@@ -165,7 +167,7 @@ function Awkwardddd(props) {
   const [bigState, setBigState] = useState({ ...useYourImagination });
 
   const updateName = evt => setName(evt.target.value);
-  const handleDidComplete = val => setState({ ...bigState, inner: val });
+  const handleDidComplete = val => setBigState({ ...bigState, inner: val });
 
   return (
     <>
