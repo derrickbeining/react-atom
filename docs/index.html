@@ -95,8 +95,7 @@
 					<li><a href="#contributing--feedback">Contributing / Feedback</a></li>
 				</ul>
 				<h2 id="description">Description</h2>
-				<p><code>react-atom</code> provides a simple way to manage state in React, for both global app state and for local component state:</p>
-				<p>✨ <code>Atom</code>s ✨</p>
+				<p><code>react-atom</code> provides a simple way to manage state in React, for both global app state and for local component state: ✨<code>Atom</code>s✨</p>
 				<h3 id="put-your-state-in-an-atom-">Put your state in an <code>Atom</code>:</h3>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Atom } <span class="hljs-keyword">from</span> <span class="hljs-string">"@dbeining/react-atom"</span>;
 
@@ -104,15 +103,15 @@
   color: <span class="hljs-string">"blue"</span>,
   userId: <span class="hljs-number">1</span>
 });</code></pre>
-				<h3 id="read-atom-state-with-deref">Read Atom state with <code>deref</code></h3>
-				<p>You can&#39;t inspect <code>Atom</code> state directly, you have to <code>deref</code> it, like this:</p>
+				<h3 id="read-state-with-deref">Read state with <code>deref</code></h3>
+				<p>You can&#39;t inspect <code>Atom</code> state directly, you have to <code>deref</code>erence it, like this:</p>
 				<pre><code class="language-js"><span class="hljs-keyword">import</span> { deref } <span class="hljs-keyword">from</span> <span class="hljs-string">"@dbeining/react-atom"</span>;
 
 <span class="hljs-keyword">const</span> { color } = deref(appState);</code></pre>
-				<h3 id="update-the-state-with-swap">Update the state with <code>swap</code></h3>
-				<p>You can&#39;t modify an <code>Atom</code> directly. The only way to alter the state of an <code>Atom</code> is with <code>swap</code>. Here&#39;s its call signature:</p>
+				<h3 id="update-state-with-swap">Update state with <code>swap</code></h3>
+				<p>You can&#39;t modify an <code>Atom</code> directly. The main way to update state is with <code>swap</code>. Here&#39;s its call signature:</p>
 				<pre><code class="language-ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">swap</span>&lt;<span class="hljs-title">S</span>&gt;(<span class="hljs-params">atom: Atom&lt;S&gt;, updateFn: (state: S) =&gt; S</span>): <span class="hljs-title">void</span></span>;</code></pre>
-				<p><code>updateFn</code> is applied to <code>atom</code>&#39;s state and its return value is set as <code>atom</code>&#39;s new state. There are just two simple rules for <code>updateFn</code>:</p>
+				<p><code>updateFn</code> is applied to <code>atom</code>&#39;s state and the return value is set as <code>atom</code>&#39;s new state. There are just two simple rules for <code>updateFn</code>:</p>
 				<ol>
 					<li>it must return a value of the same type/interface as the previous state</li>
 					<li>it must not mutate the previous state</li>
@@ -126,14 +125,14 @@
     <span class="hljs-attr">color</span>: color
   }));</code></pre>
 				<p>Take notice that our <code>updateFn</code> is <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax">spread</a>ing the old state onto a new object before overriding <code>color</code>. This is an easy way to obey the rules of <code>updateFn</code>.</p>
-				<h3 id="side-effects-just-use-swap-">Side-Effects? Just use <code>swap</code>.</h3>
+				<h3 id="side-effects-just-use-swap">Side-Effects? Just use <code>swap</code></h3>
 				<p>You don&#39;t need to do anything special for managing side-effects. Just write your IO-related logic as per usual, and call <code>swap</code> when you&#39;ve got what you need. For example:</p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> saveColor = <span class="hljs-keyword">async</span> color =&gt; {
   <span class="hljs-keyword">const</span> { userId, color } = deref(appState);
   <span class="hljs-keyword">const</span> theme = <span class="hljs-keyword">await</span> post(<span class="hljs-string">`/api/user/<span class="hljs-subst">${userId}</span>/theme`</span>, { color });
   swap(appState, state =&gt; ({ ...state, <span class="hljs-attr">color</span>: theme.color }));
 };</code></pre>
-				<h3 id="use-atoms-in-components-with-useatom-">Use Atoms in components with ✨ <code>useAtom</code> ✨</h3>
+				<h3 id="-useatom-to-subscribe-to-atom-state-in-components">✨<code>useAtom</code>✨ to subscribe to Atom state in components</h3>
 				<p><code>useAtom</code> is a <a href="https://github.com/reactjs/reactjs.org/blob/b7262e78b6efe1d7901afd851fb9cbef5414b361/content/docs/hooks-custom.md">custom React Hook</a>. It does two things:</p>
 				<ol>
 					<li>returns the current state of an atom (like <code>deref</code>), and</li>
@@ -182,8 +181,10 @@
 					<summary>
 						😬 <strong><code>React.useState</code> doesn't play nice with <code>React.memo</code></strong>
 					</summary>
-					<p><code>useState</code> is cool until you realize that in most cases it forces you to pass new function instances through props on every render because you usually need to wrap the <code>setState</code> function in another function. That makes it hard to take advantage of <code>React.memo</code>. For example:</p>
-					<pre><code class="language-jsx"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Awkwardddd</span>(<span class="hljs-params">props</span>) </span>{
+					<blockquote>
+						<code>useState</code> is cool until you realize that in most cases it forces you to pass new function instances through props on every render because you usually need to wrap the <code>setState</code> function in another function. That makes it hard to take advantage of <code>React.memo</code>. For example:
+						<div>---</div>
+						<pre><code class="language-jsx"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Awkwardddd</span>(<span class="hljs-params">props</span>) </span>{
   <span class="hljs-keyword">const</span> [name, setName] = useState(<span class="hljs-string">""</span>);
   <span class="hljs-keyword">const</span> [bigState, setBigState] = useState({ ...useYourImagination });
 
@@ -197,22 +198,17 @@
     &lt;/&gt;
   );
 }</code></pre>
-					<p>Every time <code>input</code> fires <code>onChange</code>, <code>ExpensiveButMemoized</code> has to re-render because <code>handleDidComplete</code> is not strictly equal (===) to the last instance passed down.</p>
-					<p>The React docs admit this is awkward and <a href="https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down">suggest using Context to work around it</a>, because <a href="https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback">the alternative is super convoluted</a>.</p>
-					<p>With <code>react-atom</code>, this problem doesn&#39;t even exist. You can define your update functions outside the component so they are referentially stable across renders.</p>
-					<pre><code class="language-jsx"><span class="hljs-keyword">const</span> state = Atom.of({ name, <span class="hljs-attr">bigState</span>: { ...useYourImagination } });
-<span class="hljs-keyword">const</span> updateName = <span class="hljs-function"><span class="hljs-params">evt</span> =&gt;</span>
-  swap(state, s =&gt; ({
-    ...s,
-    <span class="hljs-attr">name</span>: evt.target.value
-  }));
+						<p>Every time <code>input</code> fires <code>onChange</code>, <code>ExpensiveButMemoized</code> has to re-render because <code>handleDidComplete</code> is not strictly equal (===) to the last instance passed down.</p>
+						<p>The React docs admit this is awkward and <a href="https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down">suggest using Context to work around it</a>, because <a href="https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback">the alternative is super convoluted</a>.</p>
+						<p>With <code>react-atom</code>, this problem doesn&#39;t even exist. You can define your update functions outside the component so they are referentially stable across renders.</p>
+						<pre><code class="language-jsx"><span class="hljs-keyword">const</span> state = Atom.of({ name, <span class="hljs-attr">bigState</span>: { ...useYourImagination } });
+
+<span class="hljs-keyword">const</span> updateName = <span class="hljs-function">(<span class="hljs-params">{ target }</span>) =&gt;</span> swap(state, prev =&gt; ({ ...prev, <span class="hljs-attr">name</span>: target.value }));
+
 <span class="hljs-keyword">const</span> handleDidComplete = <span class="hljs-function"><span class="hljs-params">val</span> =&gt;</span>
-  swap(state, s =&gt; ({
-    ...s,
-    <span class="hljs-attr">bigState</span>: {
-      ...s.bigState,
-      <span class="hljs-attr">inner</span>: val
-    }
+  swap(state, prev =&gt; ({
+    ...prev,
+    <span class="hljs-attr">bigState</span>: { ...prev.bigState, <span class="hljs-attr">inner</span>: val }
   }));
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">SoSmoooooth</span>(<span class="hljs-params">props</span>) </span>{
@@ -225,6 +221,7 @@
     &lt;/&gt;
   );
 }</code></pre>
+					</blockquote>
 				</details>
 				<details>
 					<summary>

@@ -126,7 +126,7 @@ swap(state, increment);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:149</li>
+									<li>Defined in react-atom-internal.ts:148</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -174,7 +174,7 @@ swap(state, increment);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:174</li>
+									<li>Defined in react-atom-internal.ts:173</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -213,7 +213,7 @@ swap(state, increment);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:205</li>
+									<li>Defined in react-atom-internal.ts:204</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -284,17 +284,16 @@ swap(state, increment);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:411</li>
+									<li>Defined in react-atom-internal.ts:410</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Takes an <a href="classes/atom.html">Atom</a> with state of some type, <code>S</code>, and sets its
-									state to a value of the same type, <code>S</code>.</p>
+									<p>Sets <code>atom</code>s state to <code>nextState</code>.</p>
 								</div>
-								<p>Once the <a href="classes/atom.html">Atom</a> is set, all function components that have called
-									<a href="globals.html#useatom">useAtom</a> on the <a href="classes/atom.html">Atom</a> will automatically re-render so they
-								read its new state.</p>
+								<p>It is equivalent to <code>swap(atom, () =&gt; newState)</code> and actually calls <code>swap</code> internally.</p>
+								<p>Once the <code>atom</code>&#39;s state is set, all components that have called <a href="globals.html#useatom">useAtom</a> on the
+								<code>atom</code> will automatically re-render so they read its new state.</p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
 									<dd><pre><code class="language-js">
@@ -343,7 +342,7 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:367</li>
+									<li>Defined in react-atom-internal.ts:366</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -430,7 +429,7 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:247</li>
+									<li>Defined in react-atom-internal.ts:246</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -476,7 +475,7 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:282</li>
+									<li>Defined in react-atom-internal.ts:281</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
