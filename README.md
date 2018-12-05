@@ -37,34 +37,94 @@
 - [🕹️ Play with `react-atom` in CodeSandbox 🎮️](#%F0%9F%95%B9%EF%B8%8F-play-with-react-atom-in-codesandbox-%F0%9F%8E%AE%EF%B8%8F)
 - [Contributing / Feedback](#contributing--feedback)
 
-
-
 ## Description
 
-`react-atom` provides a simple, principled way to manage shared state in React:
+`react-atom` provides a simple way to manage state in React, for both global app state and for local component state: ✨ `Atom`s ✨
 
-`Atom`s hold your state. You can use one for a global state store (like `redux`). You can also use them for local component state. You create them like this:
+### Put your state in an `Atom`:
 
-```js
-const appState = Atom.of({ count: 0 });
+```ts
+import { Atom } from "@dbeining/react-atom";
+
+const appState = Atom.of({
+  color: "blue",
+  userId: 1
+});
 ```
 
-The `useAtom` [custom React Hook][customhooksurl] reads `Atom` state and subscribes function components to that `Atom`'s state so they re-render when it changes. It looks like this:
+### Read Atom state with `deref`
+
+You can't inspect `Atom` state directly, you have to `deref` it, like this:
 
 ```js
-// in a function component
-const { count } = useAtom(appState);
+import { deref } from "@dbeining/react-atom";
+
+const { color } = deref(appState);
 ```
 
-`swap` changes an `Atom`'s state by applying a pure function to the `Atom`'s current state to compute its next state, like this:
+### Update the state with `swap`
+
+You can't modify an `Atom` directly. The only way to alter the state of an `Atom` is with `swap`. Here's its call signature:
+
+```ts
+function swap(atom: Atom<S>, updateFn: (state: S) => S): void;
+```
+
+`updateFn` is applied to `atom`'s state and its return value is set as `atom`'s new state. There are just two simple rules for `updateFn`:
+
+1. it must return a value of the same type/interface as the previous state
+2. it must not mutate the previous state
+
+To illustrate, here is how we might update `appState`'s color:
 
 ```js
-// in an event handler / effect callback
-swap(appState, state => ({
-  ...state,
-  count: state.count + 1
-}));
+import { swap } from "@dbeining/react-atom";
+
+const setColor = color =>
+  swap(appState, state => ({
+    ...state,
+    color: color
+  }));
 ```
+
+Take notice that our `updateFn` is [spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)ing the old state onto a new object before overriding `color`. This is an easy way to obey the rules of `updateFn`.
+
+### Side-Effects? Just use `swap`.
+
+You don't need to do anything special for managing side-effects. Just write your IO-related logic as per usual, and call `swap` when you've got what you need. For example:
+
+```js
+const saveColor = async color => {
+  const { userId } = deref(appState);
+  const theme = await post(`/api/user/${userId}/theme`);
+  swap(appState, state => ({ ...state, color: theme.color }));
+};
+```
+
+### Use Atoms in components with ✨ `useAtom` ✨
+
+`useAtom` is a [custom React Hook][customhooksurl]. It does two things:
+
+1. returns the current state of an atom (like `deref`), and
+2. subscribes your component to the atom so that it re-renders every time its state changes
+
+It looks like this:
+
+```js
+export function ColorReporter(props) {
+  const { color, userId } = useAtom(appState);
+
+  return (
+    <p>
+      User {userId} has selected {color}
+    </p>
+  );
+}
+```
+
+> Nota Bene: You can also subscribe to computed state by using the `options.select` argument. [Read the docs](https://derrickbeining.github.io/react-atom/globals.html#useatom) for details.
+
+###
 
 ## Why use `react-atom`?
 
@@ -72,35 +132,98 @@ swap(appState, state => ({
   <summary>
     😌 <strong>Tiny API / learning curve</strong>
   </summary>
-  A total of five functions, and most of the time you'll only need three of them.
-  <hr>
+  <blockquote>
+    A total of five functions, and most of the time you'll only need three of them.
+  </blockquote>
 </details>
 <details>
   <summary>
-    🚫 <strong>No verbose boilerplate conventions required</strong>   
+    🚫 <strong>No boilerplate, just predictable state management</strong>   
   </summary>
-  You could use <code>redux</code>-style actions and reducers to update state with <code>react-atom</code>, but you certainly don't have to.
-  <hr>
+  <blockquote>
+   Reducers? Actions? Thunks? Sagas? Forget about it. 
+  </blockquote>
 </details>
 <details>
   <summary>
     🎵 <strong>Tuned for performant component rendering</strong>   
   </summary>
+  <blockquote>
   The <code>useAtom</code> hook accepts an optional <code>select</code> function that lets components subscribe to computed state. That means the component will only re-render when the value returned from <code>select</code> changes.
-  <hr>
+  </blockquote>
+</details>
+<details>
+  <summary>
+    😬 <strong><code>React.useState</code> doesn't play nice with <code>React.memo</code></strong>
+  </summary>
+
+`useState` is cool until you realize that in most cases it forces you to pass new function instances through props on every render because you usually need to wrap the `setState` function in another function. That makes it hard to take advantage of `React.memo`. For example:
+
+```jsx
+function Awkwardddd(props) {
+  const [name, setName] = useState("");
+  const [bigState, setBigState] = useState({ ...useYourImagination });
+
+  const updateName = evt => setName(evt.target.value);
+  const handleDidComplete = val => setState({ ...bigState, inner: val });
+
+  return (
+    <>
+      <input type="text" value={name} onChange={updateName} />
+      <ExpensiveButMemoized onComplete={handleDidComplete} />
+    </>
+  );
+}
+```
+
+Every time `input` fires `onChange`, `ExpensiveButMemoized` has to re-render because `handleDidComplete` is not strictly equal (===) to the last instance passed down.
+
+The React docs admit this is awkward and [suggest using Context to work around it](https://reactjs.org/docs/hooks-faq.html#how-to-avoid-passing-callbacks-down), because [the alternative is super convoluted](https://reactjs.org/docs/hooks-faq.html#how-to-read-an-often-changing-value-from-usecallback).
+
+With `react-atom`, this problem doesn't even exist. You can define your update functions outside the component so they are referentially stable across renders.
+
+```jsx
+const state = Atom.of({ name, bigState: { ...useYourImagination } });
+const updateName = evt =>
+  swap(state, s => ({
+    ...s,
+    name: evt.target.value
+  }));
+const handleDidComplete = val =>
+  swap(state, s => ({
+    ...s,
+    bigState: {
+      ...s.bigState,
+      inner: val
+    }
+  }));
+
+function SoSmoooooth(props) {
+  const { name, bigState } = useAtom(state);
+
+  return (
+    <>
+      <input type="text" value={name} onChange={updateName} />
+      <ExpensiveButMemoized data={bigState} onComplete={handleDidComplete} />
+    </>
+  );
+}
+```
+
 </details>
 <details>
   <summary>
     <span style="background:#00a1f1;color:white;font-weight:500;padding:1px 0px;">TS</span> <strong>First-class TypeScript support</strong>   
   </summary>
+  <blockquote>
   <code>react-atom</code> is written in TypeScript so that every release is published with correct, high quality typings.
-  <hr>
+  </blockquote>
 </details>
 <details>
   <summary>
   👣 <strong>Tiny footprint</strong> 
   </summary>
-
+<blockquote>
   <a href="https://bundlephobia.com/result?p=@dbeining/react-atom">
     <image 
       src="https://img.shields.io/bundlephobia/min/@dbeining/react-atom.svg" 
@@ -112,17 +235,16 @@ swap(appState, state => ({
       src="https://img.shields.io/bundlephobia/minzip/@dbeining/react-atom.svg" 
       alt="react-atom minified+gzipped file size"/>
   </a>
-  <hr>
+  </blockquote>
 </details>
 <details>
   <summary>
     ⚛️ <strong>Embraces React's future with Hooks</strong>   
   </summary>
+  <blockquote>
   Hooks will make <code>class</code> components and their kind (higher-order components, render-prop components, and function-as-child components) obsolete. <code>react-atom</code> makes it easy to manage shared state with just function components and hooks.
+  </blockquote>
 </details>
-
----
-
 
 ## Installation
 
@@ -162,20 +284,23 @@ const stateAtom = Atom.of({
 
 //------------------------ EFFECTS ------------------------------//
 
-const increment = () => swap(stateAtom, state => ({ 
-  ...state, 
-  count: state.count + 1 
-}));
+const increment = () =>
+  swap(stateAtom, state => ({
+    ...state,
+    count: state.count + 1
+  }));
 
-const decrement = () => swap(stateAtom, state => ({ 
-  ...state, 
-  count: state.count - 1 
-}));
+const decrement = () =>
+  swap(stateAtom, state => ({
+    ...state,
+    count: state.count - 1
+  }));
 
-const updateText = evt => swap(stateAtom, state => ({ 
-  ...state, 
-text: evt.target.value 
-}));
+const updateText = evt =>
+  swap(stateAtom, state => ({
+    ...state,
+    text: evt.target.value
+  }));
 
 const loadSomething = () =>
   fetch("https://jsonplaceholder.typicode.com/todos/1")
