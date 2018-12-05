@@ -39,9 +39,7 @@
 
 ## Description
 
-`react-atom` provides a simple way to manage state in React, for both global app state and for local component state:
-
-✨ `Atom`s ✨
+`react-atom` provides a simple way to manage state in React, for both global app state and for local component state: ✨`Atom`s✨
 
 ### Put your state in an `Atom`:
 
@@ -54,9 +52,9 @@ const appState = Atom.of({
 });
 ```
 
-### Read Atom state with `deref`
+### Read state with `deref`
 
-You can't inspect `Atom` state directly, you have to `deref` it, like this:
+You can't inspect `Atom` state directly, you have to `deref`erence it, like this:
 
 ```js
 import { deref } from "@dbeining/react-atom";
@@ -64,15 +62,15 @@ import { deref } from "@dbeining/react-atom";
 const { color } = deref(appState);
 ```
 
-### Update the state with `swap`
+### Update state with `swap`
 
-You can't modify an `Atom` directly. The only way to alter the state of an `Atom` is with `swap`. Here's its call signature:
+You can't modify an `Atom` directly. The main way to update state is with `swap`. Here's its call signature:
 
 ```ts
 function swap<S>(atom: Atom<S>, updateFn: (state: S) => S): void;
 ```
 
-`updateFn` is applied to `atom`'s state and its return value is set as `atom`'s new state. There are just two simple rules for `updateFn`:
+`updateFn` is applied to `atom`'s state and the return value is set as `atom`'s new state. There are just two simple rules for `updateFn`:
 
 1. it must return a value of the same type/interface as the previous state
 2. it must not mutate the previous state
@@ -91,7 +89,7 @@ const setColor = color =>
 
 Take notice that our `updateFn` is [spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax)ing the old state onto a new object before overriding `color`. This is an easy way to obey the rules of `updateFn`.
 
-### Side-Effects? Just use `swap`.
+### Side-Effects? Just use `swap`
 
 You don't need to do anything special for managing side-effects. Just write your IO-related logic as per usual, and call `swap` when you've got what you need. For example:
 
@@ -103,7 +101,7 @@ const saveColor = async color => {
 };
 ```
 
-### Use Atoms in components with ✨ `useAtom` ✨
+### ✨`useAtom`✨ to subscribe to Atom state in components
 
 `useAtom` is a [custom React Hook][customhooksurl]. It does two things:
 
@@ -158,8 +156,9 @@ export function ColorReporter(props) {
   <summary>
     😬 <strong><code>React.useState</code> doesn't play nice with <code>React.memo</code></strong>
   </summary>
-
-`useState` is cool until you realize that in most cases it forces you to pass new function instances through props on every render because you usually need to wrap the `setState` function in another function. That makes it hard to take advantage of `React.memo`. For example:
+  <blockquote>
+<code>useState</code> is cool until you realize that in most cases it forces you to pass new function instances through props on every render because you usually need to wrap the <code>setState</code> function in another function. That makes it hard to take advantage of <code>React.memo</code>. For example:
+<div>---</div>
 
 ```jsx
 function Awkwardddd(props) {
@@ -186,18 +185,13 @@ With `react-atom`, this problem doesn't even exist. You can define your update f
 
 ```jsx
 const state = Atom.of({ name, bigState: { ...useYourImagination } });
-const updateName = evt =>
-  swap(state, s => ({
-    ...s,
-    name: evt.target.value
-  }));
+
+const updateName = ({ target }) => swap(state, prev => ({ ...prev, name: target.value }));
+
 const handleDidComplete = val =>
-  swap(state, s => ({
-    ...s,
-    bigState: {
-      ...s.bigState,
-      inner: val
-    }
+  swap(state, prev => ({
+    ...prev,
+    bigState: { ...prev.bigState, inner: val }
   }));
 
 function SoSmoooooth(props) {
@@ -212,6 +206,7 @@ function SoSmoooooth(props) {
 }
 ```
 
+</blockquote>
 </details>
 <details>
   <summary>

@@ -120,7 +120,6 @@ const a3 = Atom.of({ count: 0 })
   public readonly id: number;
 
   /** @ignore */
-  // tslint:disable-next-line:variable-name
   private constructor(state: S) {
     this.id = nextAtomUid++;
     stateByAtomId[this.id] = state;
@@ -385,12 +384,12 @@ export function swap<S>(atom: Atom<S>, updateFn: (state: S) => S): void {
 //
 
 /**
- * Takes an [[Atom]] with state of some type, `S`, and sets its
- * state to a value of the same type, `S`.
+ * Sets `atom`s state to `nextState`.
  *
- * Once the [[Atom]] is set, all function components that have called
- * [[useAtom]] on the [[Atom]] will automatically re-render so they
- * read its new state.
+ * It is equivalent to `swap(atom, () => newState)` and actually calls `swap` internally.
+ *
+ * Once the `atom`'s state is set, all components that have called [[useAtom]] on the
+ * `atom` will automatically re-render so they read its new state.
  *
  * @param atom a react-atom [[Atom]] instance
  * @param nextState the value to which to set the [[Atom]]'s state. It should be of the same type/interface as the current state
