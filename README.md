@@ -69,7 +69,7 @@ const { color } = deref(appState);
 You can't modify an `Atom` directly. The only way to alter the state of an `Atom` is with `swap`. Here's its call signature:
 
 ```ts
-function swap(atom: Atom<S>, updateFn: (state: S) => S): void;
+function swap<S>(atom: Atom<S>, updateFn: (state: S) => S): void;
 ```
 
 `updateFn` is applied to `atom`'s state and its return value is set as `atom`'s new state. There are just two simple rules for `updateFn`:

@@ -111,7 +111,7 @@
 <span class="hljs-keyword">const</span> { color } = deref(appState);</code></pre>
 				<h3 id="update-the-state-with-swap">Update the state with <code>swap</code></h3>
 				<p>You can&#39;t modify an <code>Atom</code> directly. The only way to alter the state of an <code>Atom</code> is with <code>swap</code>. Here&#39;s its call signature:</p>
-				<pre><code class="language-ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">swap</span>(<span class="hljs-params">atom: Atom&lt;S&gt;, updateFn: (state: S) =&gt; S</span>): <span class="hljs-title">void</span></span>;</code></pre>
+				<pre><code class="language-ts"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">swap</span>&lt;<span class="hljs-title">S</span>&gt;(<span class="hljs-params">atom: Atom&lt;S&gt;, updateFn: (state: S) =&gt; S</span>): <span class="hljs-title">void</span></span>;</code></pre>
 				<p><code>updateFn</code> is applied to <code>atom</code>&#39;s state and its return value is set as <code>atom</code>&#39;s new state. There are just two simple rules for <code>updateFn</code>:</p>
 				<ol>
 					<li>it must return a value of the same type/interface as the previous state</li>
