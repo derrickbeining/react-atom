@@ -128,7 +128,7 @@
 				<h3 id="side-effects-just-use-swap">Side-Effects? Just use <code>swap</code></h3>
 				<p>You don&#39;t need to do anything special for managing side-effects. Just write your IO-related logic as per usual, and call <code>swap</code> when you&#39;ve got what you need. For example:</p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> saveColor = <span class="hljs-keyword">async</span> color =&gt; {
-  <span class="hljs-keyword">const</span> { userId, color } = deref(appState);
+  <span class="hljs-keyword">const</span> { userId } = deref(appState);
   <span class="hljs-keyword">const</span> theme = <span class="hljs-keyword">await</span> post(<span class="hljs-string">`/api/user/<span class="hljs-subst">${userId}</span>/theme`</span>, { color });
   swap(appState, state =&gt; ({ ...state, <span class="hljs-attr">color</span>: theme.color }));
 };</code></pre>

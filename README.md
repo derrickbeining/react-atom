@@ -95,7 +95,7 @@ You don't need to do anything special for managing side-effects. Just write your
 
 ```js
 const saveColor = async color => {
-  const { userId, color } = deref(appState);
+  const { userId } = deref(appState);
   const theme = await post(`/api/user/${userId}/theme`, { color });
   swap(appState, state => ({ ...state, color: theme.color }));
 };
@@ -171,7 +171,7 @@ function Awkwardddd(props) {
   return (
     <>
       <input type="text" value={name} onChange={updateName} />
-      <ExpensiveButMemoized onComplete={handleDidComplete} />
+      <ExpensiveButMemoized data={bigState} onComplete={handleDidComplete} />
     </>
   );
 }
