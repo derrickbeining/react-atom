@@ -1,4 +1,7 @@
-import { Atom } from "./react-atom-internal";
+import { useLayoutEffect, useMemo, useState } from "react";
+
+import { Atom, atom, deref, set, swap, useAtom } from "./react-atom-internal";
+
 /** @ignore */
 export interface ReactUseStateHook<T> extends React.Dispatch<React.SetStateAction<T>> {
   "@@react-atom/hook_id"?: number;
@@ -29,3 +32,21 @@ export interface SelectorMap {
  * ```
  */
 export type AtomState<A extends Atom<any>> = A extends Atom<infer S> ? S : never;
+
+/**
+ * Hooks this library depends on internally.
+ */
+export interface HookDependencies {
+  useLayoutEffect: typeof useLayoutEffect;
+  useMemo: typeof useMemo;
+  useState: typeof useState;
+}
+
+export interface PublicExports {
+  Atom: typeof Atom;
+  atom: typeof atom;
+  deref: typeof deref;
+  set: typeof set;
+  swap: typeof swap;
+  useAtom: typeof useAtom;
+}

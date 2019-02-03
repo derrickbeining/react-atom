@@ -1,11 +1,13 @@
 import { useLayoutEffect, useMemo, useState } from "react";
 import * as ErrorMsgs from "./error-messages";
-import { HookMap, ReactUseStateHook, SelectorMap } from "./internal-types";
+import { HookDependencies, HookMap, PublicExports, ReactUseStateHook, SelectorMap } from "./internal-types";
 import { isShallowEqual, memoLast } from "./utils";
 
 // ------------------------------------------------------------------------------------------ //
 // ---------------------------------- INTERNAL STATE ---------------------------------------- //
 // ------------------------------------------------------------------------------------------ //
+
+let initializationCount = 0;
 
 let nextAtomUid = 0;
 
@@ -47,6 +49,77 @@ export function getHooks(atom: Atom<unknown>): HookMap {
  * components___. It offers a truly _simple_, ergonomic, and intuitive approach to global
  * app state-management, and intends to be an alternative to libraries like `redux` or `mobx`.
  */
+
+/**
+ * Initializes the library with the provided [[HookDependencies]].
+ *
+ * This allows you to use react-atom with other implementations of hooks.
+ *
+ * @example
+ * ```jsx
+ *
+ * import {useLayoutEffect, useMemo, useState} from 'alt-hooks'
+ * import { initialize } from '@dbeining/react-atom';
+ *
+ * export const {Atom, deref, set, swap, useAtom} = initialize({
+ *  useLayoutEffect,
+ *  useMemo,
+ *  useState,
+ * });
+ * ```
+ */
+export function initialize(hooks: HookDependencies): PublicExports {
+  const { useLayoutEffect, useMemo, useState } = hooks;
+  initializationCount = initializationCount + 1;
+  /* instanbul ignore next */
+  function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {}) {
+    if (!(atom instanceof Atom)) {
+      const arg = JSON.stringify(atom, null, "  ");
+      throw TypeError(`${ErrorMsgs.calledUseAtomWithNonAtom}\n${arg}`);
+    }
+
+    const { select } = options;
+    const atomValue = getAtomValById<S>(atom.id);
+    let selector: NonNullable<typeof select> = select ? select : <A extends S & R>(a: A) => a;
+    let hook: ReactUseStateHook<S | R>;
+    try {
+      selector = useMemo(() => memoLast(selector), [select]);
+      [, hook] = useState({}) as [{}, ReactUseStateHook<S | R>];
+    } catch (err) {
+      throw new TypeError(ErrorMsgs.calledUseAtomOutsideFunctionComponent);
+    }
+
+    useLayoutEffect(
+      () => {
+        const idKey = "@react-atom/hook_id";
+        const ownHooksById = atomIdToHooksById[atom.id];
+        const ownSelectorsByHookId = atomIdToSelectorsByHookId[atom.id];
+        const hookId = Number(hook[idKey] !== undefined ? hook[idKey] : hookIdTickerByAtomId[atom.id]++);
+
+        hook[idKey] = hookId;
+        ownHooksById[hookId] = hook;
+        ownSelectorsByHookId[hookId] = selector;
+
+        return function unhook() {
+          delete ownHooksById[hookId];
+          delete ownSelectorsByHookId[hookId];
+        };
+      },
+      [hook, select]
+    );
+
+    return selector(atomValue);
+  }
+
+  return {
+    Atom,
+    atom,
+    deref,
+    set,
+    swap,
+    useAtom
+  };
+}
 
 //
 // ======================================= ATOM ==============================================
@@ -96,7 +169,7 @@ export function getHooks(atom: Atom<unknown>): HookMap {
  * ReactDOM.render(<App />, document.getElementById('root'));
  * ```
  */
-export class Atom<S = unknown> {
+export class Atom<S> {
   /**
    * Constructs a new instance of [[Atom]] with its internal state
    * set to `state`.
@@ -219,7 +292,7 @@ export function deref<S, R>(atom: Atom<S>, options: { select?: (state: S) => R }
 // tslint:disable:max-line-length
 
 /**
- * #### **Important:** _`useAtom` is a React Hook and must follow the [Rules of Hooks](https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-rules.md)_
+ * #### **Important:** _`useAtom` is a React Hook and must follow the [Rules of Hooks](https://github.com/reactjs/reactjs\`fromAltHooks()\` AND .org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-rules.md)_
  *
  * Reads the current state of an [[Atom]] and subscribes the currently
  * rendering function component to the [[Atom]]'s state such that, when the
@@ -279,45 +352,16 @@ export function useAtom<S>(atom: Atom<S>): S;
  * ```
  */
 export function useAtom<S, R>(atom: Atom<S>, options: { select(s: S): R }): R;
-
 export function useAtom<S, R>(atom: Atom<S>, options: { select?(s: S): R } = {}) {
-  if (!(atom instanceof Atom)) {
-    const arg = JSON.stringify(atom, null, "  ");
-    throw TypeError(`${ErrorMsgs.calledUseAtomWithNonAtom}\n${arg}`);
-  }
-
+  if (initializationCount > 1) throw Error(ErrorMsgs.multipleInstantiations);
   const { select } = options;
-  const atomValue = getAtomValById<S>(atom.id);
-  let selector: NonNullable<typeof select> = select ? select : <A extends S & R>(a: A) => a;
-  let hook: ReactUseStateHook<S | R>;
-  try {
-    selector = useMemo(() => memoLast(selector), [select]);
-    [, hook] = useState({}) as [{}, ReactUseStateHook<S | R>];
-  } catch (err) {
-    throw new TypeError(ErrorMsgs.calledUseAtomOutsideFunctionComponent);
-  }
-
-  useLayoutEffect(
-    () => {
-      const idKey = "@react-atom/hook_id";
-      const ownHooksById = atomIdToHooksById[atom.id];
-      const ownSelectorsByHookId = atomIdToSelectorsByHookId[atom.id];
-      const hookId = Number(hook[idKey] !== undefined ? hook[idKey] : hookIdTickerByAtomId[atom.id]++);
-
-      hook[idKey] = hookId;
-      ownHooksById[hookId] = hook;
-      ownSelectorsByHookId[hookId] = selector;
-
-      return function unhook() {
-        delete ownHooksById[hookId];
-        delete ownSelectorsByHookId[hookId];
-      };
-    },
-    [hook, select]
-  );
-
-  return selector(atomValue);
+  return select ? internalUseAtom(atom, { select }) : internalUseAtom(atom);
 }
+
+/**
+ * default instance of useAtom
+ */
+const internalUseAtom = initialize({ useLayoutEffect, useMemo, useState }).useAtom;
 
 //
 // ======================================= SWAP ==============================================

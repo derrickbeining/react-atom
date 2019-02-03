@@ -194,7 +194,7 @@
   <span class="hljs-keyword">return</span> (
     &lt;&gt;
       &lt;input type="text" value={name} onChange={updateName} /&gt;
-      &lt;ExpensiveButMemoized onComplete={handleDidComplete} /&gt;
+      &lt;ExpensiveButMemoized data={bigState} onComplete={handleDidComplete} /&gt;
     &lt;/&gt;
   );
 }</code></pre>
@@ -362,6 +362,12 @@ ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/atom.html" class="tsd-kind-icon">Atom</a>
 					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hookdependencies.html" class="tsd-kind-icon">Hook<wbr>Dependencies</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/publicexports.html" class="tsd-kind-icon">Public<wbr>Exports</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="globals.html#atomstate" class="tsd-kind-icon">Atom<wbr>State</a>
 					</li>
@@ -370,6 +376,9 @@ ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#deref" class="tsd-kind-icon">deref</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#initialize" class="tsd-kind-icon">initialize</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#set" class="tsd-kind-icon">set</a>
