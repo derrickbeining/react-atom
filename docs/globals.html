@@ -70,6 +70,13 @@
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
+							<h3>Interfaces</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-interface"><a href="interfaces/hookdependencies.html" class="tsd-kind-icon">Hook<wbr>Dependencies</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/publicexports.html" class="tsd-kind-icon">Public<wbr>Exports</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#atomstate" class="tsd-kind-icon">Atom<wbr>State</a></li>
@@ -80,6 +87,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#atom" class="tsd-kind-icon">atom</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#deref" class="tsd-kind-icon">deref</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#initialize" class="tsd-kind-icon">initialize</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#set" class="tsd-kind-icon">set</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#swap" class="tsd-kind-icon">swap</a></li>
 								<li class="tsd-kind-function tsd-has-type-parameter"><a href="globals.html#useatom" class="tsd-kind-icon">use<wbr>Atom</a></li>
@@ -96,7 +104,7 @@
 					<div class="tsd-signature tsd-kind-icon">Atom<wbr>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AtomState&lt;A&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in internal-types.ts:31</li>
+							<li>Defined in internal-types.ts:34</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -126,7 +134,7 @@ swap(state, increment);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:148</li>
+									<li>Defined in react-atom-internal.ts:221</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -174,7 +182,7 @@ swap(state, increment);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:173</li>
+									<li>Defined in react-atom-internal.ts:246</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -213,7 +221,7 @@ swap(state, increment);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:204</li>
+									<li>Defined in react-atom-internal.ts:277</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -274,6 +282,48 @@ swap(state, increment);</code></pre>
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="initialize" class="tsd-anchor"></a>
+					<h3>initialize</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">initialize<span class="tsd-signature-symbol">(</span>hooks<span class="tsd-signature-symbol">: </span><a href="interfaces/hookdependencies.html" class="tsd-signature-type">HookDependencies</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/publicexports.html" class="tsd-signature-type">PublicExports</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in react-atom-internal.ts:71</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Initializes the library with the provided <a href="interfaces/hookdependencies.html">HookDependencies</a>.</p>
+								</div>
+								<p>This allows you to use react-atom with other implementations of hooks.</p>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="language-jsx">
+<span class="hljs-keyword">import</span> {useLayoutEffect, useMemo, useState} <span class="hljs-keyword">from</span> <span class="hljs-string">'alt-hooks'</span>
+<span class="hljs-keyword">import</span> { initialize } <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>;
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> {Atom, deref, set, swap, useAtom} = initialize({
+ useLayoutEffect,
+ useMemo,
+ useState,
+});</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>hooks: <a href="interfaces/hookdependencies.html" class="tsd-signature-type">HookDependencies</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="interfaces/publicexports.html" class="tsd-signature-type">PublicExports</a></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter">
 					<a name="set" class="tsd-anchor"></a>
 					<h3>set</h3>
@@ -284,7 +334,7 @@ swap(state, increment);</code></pre>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:410</li>
+									<li>Defined in react-atom-internal.ts:454</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -342,7 +392,7 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:366</li>
+									<li>Defined in react-atom-internal.ts:410</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -429,12 +479,12 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:246</li>
+									<li>Defined in react-atom-internal.ts:319</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<h4 id="important-useatom-is-a-react-hook-and-must-follow-the-rules-of-hooks"><strong>Important:</strong> <em><code>useAtom</code> is a React Hook and must follow the <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-rules.md">Rules of Hooks</a></em></h4>
+									<h4 id="important-useatom-is-a-react-hook-and-must-follow-the-rules-of-hooks-https-github-com-reactjs-reactjs-fromalthooks-and-org-blob-f203cd5d86c4c611a31a4f72c5a91e2db0858ce3-content-docs-hooks-rules-md-"><strong>Important:</strong> <em><code>useAtom</code> is a React Hook and must follow the [Rules of Hooks](<a href="https://github.com/reactjs/reactjs%5C%60fromAltHooks()%5C%60">https://github.com/reactjs/reactjs\`fromAltHooks()\`</a> AND .org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-rules.md)</em></h4>
 								</div>
 								<p>Reads the current state of an <a href="classes/atom.html">Atom</a> and subscribes the currently
 									rendering function component to the <a href="classes/atom.html">Atom</a>&#39;s state such that, when the
@@ -475,7 +525,7 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in react-atom-internal.ts:281</li>
+									<li>Defined in react-atom-internal.ts:354</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -554,6 +604,12 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 					<li class=" tsd-kind-class tsd-has-type-parameter">
 						<a href="classes/atom.html" class="tsd-kind-icon">Atom</a>
 					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/hookdependencies.html" class="tsd-kind-icon">Hook<wbr>Dependencies</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/publicexports.html" class="tsd-kind-icon">Public<wbr>Exports</a>
+					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="globals.html#atomstate" class="tsd-kind-icon">Atom<wbr>State</a>
 					</li>
@@ -562,6 +618,9 @@ useAtom(atom) <span class="hljs-comment">// =&gt; { count: 100 }</span></code></
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#deref" class="tsd-kind-icon">deref</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#initialize" class="tsd-kind-icon">initialize</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#set" class="tsd-kind-icon">set</a>

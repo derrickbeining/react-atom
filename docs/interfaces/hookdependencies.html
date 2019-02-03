@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Atom | @dbeining/react-atom</title>
+	<title>HookDependencies | @dbeining/react-atom</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="atom.html">Atom</a>
+					<a href="hookdependencies.html">HookDependencies</a>
 				</li>
 			</ul>
-			<h1>Class Atom&lt;S&gt;</h1>
+			<h1>Interface HookDependencies</h1>
 		</div>
 	</div>
 </header>
@@ -65,68 +65,15 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A simple reactive data type designed to make state management in <a href="https://github.com/facebook/react">React</a>
-						as intuitive, ergonomic, and performant as possible.</p>
+						<p>Hooks this library depends on internally.</p>
 					</div>
-					<p>The following operations are available for working with <a href="atom.html">Atom</a>s:</p>
-					<ul>
-						<li><strong>create</strong>: <a href="atom.html#of">Atom.of</a>, <a href="../globals.html#atom">atom</a></li>
-						<li><strong>read</strong>: <a href="../globals.html#deref">deref</a>, <a href="../globals.html#useatom">useAtom</a></li>
-						<li><strong>update</strong>: <a href="../globals.html#swap">swap</a>, <a href="../globals.html#set">set</a></li>
-					</ul>
-					<p>When an <a href="atom.html">Atom</a>&#39;s value is updated, all function components that called
-						<a href="../globals.html#useatom">useAtom</a> on that <a href="atom.html">Atom</a> will be notified to re-render and read the
-					next state</p>
-					<dl class="tsd-comment-tags">
-						<dt>example</dt>
-						<dd><pre><code class="language-jsx">
-<span class="hljs-keyword">import</span> React <span class="hljs-keyword">from</span> <span class="hljs-string">'react'</span>;
-<span class="hljs-keyword">import</span> ReactDOM <span class="hljs-keyword">from</span> <span class="hljs-string">'react-dom'</span>;
-<span class="hljs-keyword">import</span> { Atom, useAtom, swap } <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>;
-
-<span class="hljs-keyword">const</span> stateAtom = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> });
-
-<span class="hljs-keyword">const</span> increment = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
-  swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count + <span class="hljs-number">1</span>}));
-
-<span class="hljs-keyword">const</span> decrement = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span>
-  swap(stateAtom, (state) =&gt; ({...state, <span class="hljs-attr">count</span>: state.count - <span class="hljs-number">1</span>}));
-
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-  <span class="hljs-keyword">const</span> { count } = useAtom(stateAtom);
-
-  <span class="hljs-keyword">return</span> (
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Count: {count}<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{increment}</span>&gt;</span>Moar<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{decrement}</span>&gt;</span>Less<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
-  );
-};
-
-ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&gt;</span>, document.getElementById('root'));</span></code></pre>
-						</dd>
-					</dl>
 				</div>
-			</section>
-			<section class="tsd-panel tsd-type-parameters">
-				<h3>Type parameters</h3>
-				<ul class="tsd-type-parameters">
-					<li>
-						<h4>S</h4>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>the type of the value being set as an Atom&#39;s internal state</p>
-							</div>
-						</div>
-					</li>
-				</ul>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Atom</span>
+						<span class="target">HookDependencies</span>
 					</li>
 				</ul>
 			</section>
@@ -135,63 +82,47 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-n
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Methods</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static"><a href="atom.html#of" class="tsd-kind-icon">of</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="hookdependencies.html#uselayouteffect" class="tsd-kind-icon">use<wbr>Layout<wbr>Effect</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="hookdependencies.html#usememo" class="tsd-kind-icon">use<wbr>Memo</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="hookdependencies.html#usestate" class="tsd-kind-icon">use<wbr>State</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-					<a name="of" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagStatic">Static</span> of</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-						<li class="tsd-signature tsd-kind-icon">of&lt;S&gt;<span class="tsd-signature-symbol">(</span>state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in react-atom-internal.ts:188</li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Constructs a new instance of <a href="atom.html">Atom</a> with its internal state
-									set to <code>state</code>.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>example</dt>
-									<dd><pre><code class="language-js">
-<span class="hljs-keyword">import</span> { Atom } <span class="hljs-keyword">from</span> <span class="hljs-string">'@dbeining/react-atom'</span>
-
-<span class="hljs-keyword">const</span> a1 = Atom.of(<span class="hljs-number">0</span>)
-<span class="hljs-keyword">const</span> a2 = Atom.of(<span class="hljs-string">"zero"</span>)
-<span class="hljs-keyword">const</span> a3 = Atom.of({ <span class="hljs-attr">count</span>: <span class="hljs-number">0</span> })</code></pre>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>S</h4>
-									<div class="tsd-comment tsd-typography">
-										<p>the type of the value being set as an <a href="atom.html">Atom</a>&#39;s internal state</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>state: <span class="tsd-signature-type">S</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="atom.html" class="tsd-signature-type">Atom</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="uselayouteffect" class="tsd-anchor"></a>
+					<h3>use<wbr>Layout<wbr>Effect</h3>
+					<div class="tsd-signature tsd-kind-icon">use<wbr>Layout<wbr>Effect<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">useLayoutEffect</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in internal-types.ts:40</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="usememo" class="tsd-anchor"></a>
+					<h3>use<wbr>Memo</h3>
+					<div class="tsd-signature tsd-kind-icon">use<wbr>Memo<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">useMemo</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in internal-types.ts:41</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="usestate" class="tsd-anchor"></a>
+					<h3>use<wbr>State</h3>
+					<div class="tsd-signature tsd-kind-icon">use<wbr>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">useState</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in internal-types.ts:42</li>
+						</ul>
+					</aside>
 				</section>
 			</section>
 		</div>
@@ -205,23 +136,29 @@ ReactDOM.render(<span class="xml"><span class="hljs-tag">&lt;<span class="hljs-n
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-class tsd-has-type-parameter">
+						<a href="../classes/atom.html" class="tsd-kind-icon">Atom</a>
+					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-has-type-parameter">
-						<a href="atom.html" class="tsd-kind-icon">Atom</a>
+					<li class="current tsd-kind-interface">
+						<a href="hookdependencies.html" class="tsd-kind-icon">Hook<wbr>Dependencies</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-static">
-								<a href="atom.html#of" class="tsd-kind-icon">of</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="hookdependencies.html#uselayouteffect" class="tsd-kind-icon">use<wbr>Layout<wbr>Effect</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="hookdependencies.html#usememo" class="tsd-kind-icon">use<wbr>Memo</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="hookdependencies.html#usestate" class="tsd-kind-icon">use<wbr>State</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface">
-						<a href="../interfaces/hookdependencies.html" class="tsd-kind-icon">Hook<wbr>Dependencies</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="../interfaces/publicexports.html" class="tsd-kind-icon">Public<wbr>Exports</a>
+						<a href="publicexports.html" class="tsd-kind-icon">Public<wbr>Exports</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 						<a href="../globals.html#atomstate" class="tsd-kind-icon">Atom<wbr>State</a>
