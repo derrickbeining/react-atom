@@ -11,7 +11,9 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "dependencies": {},
+  "dependencies": {
+    "@libre/atom": "^1.3.0"
+  },
   "description": "State management made simple for React. Built on React Hooks. Inspired by `atom`s in `reagent.cljs`.",
   "devDependencies": {
     "@babel/core": "^7.1.6",

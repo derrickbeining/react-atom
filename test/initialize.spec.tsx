@@ -1,7 +1,7 @@
+import { Atom } from "@libre/atom";
 import React, { useLayoutEffect, useMemo, useState } from "react";
 import { render } from "react-testing-library";
-
-import { initialize, Atom, useAtom } from "../src/react-atom-internal";
+import { initialize, useAtom } from "../src/react-atom-internal";
 
 describe("initialize", function() {
   it("causes default useAtom instance to throw an error when used because it creates a separate instance of useAtom", function() {

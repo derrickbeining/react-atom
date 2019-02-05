@@ -1,37 +1,45 @@
+import { addChangeHandler, Atom, deref, removeChangeHandler, set, swap } from "@libre/atom";
 import { useLayoutEffect, useMemo, useState } from "react";
 
-import { Atom, atom, deref, set, swap, useAtom } from "./react-atom-internal";
+import { useAtom } from "./react-atom-internal";
 
 /** @ignore */
 export interface ReactUseStateHook<T> extends React.Dispatch<React.SetStateAction<T>> {
-  "@@react-atom/hook_id"?: number;
+  "@@react-atom/hook_id"?: string;
   [K: string]: unknown;
 }
 
-/** @ignore */
-export interface HookMap {
-  [K: string]: ReactUseStateHook<any>;
-}
-
-/** @ignore */
-export interface SelectorMap {
-  [K: number]: (state: any) => any;
-}
-
 /**
- * Extracts the type info of an [[Atom]]'s inner state
- *
- * @param <A> an [[Atom]]'s type
- *
- * @example
- * ```ts
- *
- * const state = Atom.of({count: 0});
- * const increment = (s: AtomState<typeof state>) => ({ count: s.count + 1 })
- * swap(state, increment);
- * ```
+ * Optional configuration accepted by [[useAtom]]
  */
-export type AtomState<A extends Atom<any>> = A extends Atom<infer S> ? S : never;
+export interface UseAtomOptions<S, R> {
+  /**
+   * A selector function to be applied to the internal state of the Atom
+   * to compute the return value of [[useAtom]].
+   *
+   * If the selector is known to be an expensive computation, you should
+   * consider passing a referentially stable, memoized version of the
+   * function.
+   *
+   * @example
+   *```jsx
+   *
+   *import { Atom, useAtom } from '@dbeining/react-atom'
+   *import { Orders } from 'elsewhere'
+   *
+   *const stateAtom = Atom.of({ orders: [...Orders] })
+   *
+   *function MyComponent() {
+   *  const orderCount = useAtom(stateAtom, {
+   *    select: (s) => s.orders.length
+   *  })
+   *
+   *  return <p>There are {orderCount} orders</p>
+   *}
+   *```
+   */
+  select: (s: S) => R;
+}
 
 /**
  * Hooks this library depends on internally.
@@ -44,8 +52,9 @@ export interface HookDependencies {
 
 export interface PublicExports {
   Atom: typeof Atom;
-  atom: typeof atom;
+  addChangeHandler: typeof addChangeHandler;
   deref: typeof deref;
+  removeChangeHandler: typeof removeChangeHandler;
   set: typeof set;
   swap: typeof swap;
   useAtom: typeof useAtom;
