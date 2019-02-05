@@ -37,9 +37,10 @@
 - [🕹️ Play with `react-atom` in CodeSandbox 🎮️](#%F0%9F%95%B9%EF%B8%8F-play-with-react-atom-in-codesandbox-%F0%9F%8E%AE%EF%B8%8F)
 - [Contributing / Feedback](#contributing--feedback)
 
+
 ## Description
 
-`react-atom` provides a simple way to manage state in React, for both global app state and for local component state: ✨`Atom`s✨
+`react-atom` provides a very simple way to manage state in React, for both global app state and for local component state: ✨`Atom`s✨.
 
 ### Put your state in an `Atom`:
 
@@ -101,7 +102,7 @@ const saveColor = async color => {
 };
 ```
 
-### ✨`useAtom`✨ to subscribe to Atom state in components
+### Re-render components on state change with the ✨`useAtom`✨ custom React hook
 
 `useAtom` is a [custom React Hook][customhooksurl]. It does two things:
 
@@ -115,16 +116,18 @@ export function ColorReporter(props) {
   const { color, userId } = useAtom(appState);
 
   return (
-    <p>
-      User {userId} has selected {color}
-    </p>
+    <div>
+      <p>
+        User {userId} has selected {color}
+      </p>
+      {/* `useAtom` hook will trigger a re-render on `swap` */}
+      <button onClick={() => swap(appState, setRandomColor)}>Change Color</button>
+    </div>
   );
 }
 ```
 
-> Nota Bene: You can also subscribe to computed state by using the `options.select` argument. [Read the docs](https://derrickbeining.github.io/react-atom/globals.html#useatom) for details.
-
-###
+> Nota Bene: You can also use a selector to subscribe to computed state by using the `options.select` argument. [Read the docs](https://derrickbeining.github.io/react-atom/globals.html#useatom) for details.
 
 ## Why use `react-atom`?
 
@@ -243,19 +246,23 @@ function SoSmoooooth(props) {
   </blockquote>
 </details>
 
+
 ## Installation
 
-`react-atom` has zero bundled `dependencies` and only two `peerDependency`,
-namely, `react@^16.7.0-alpha.0` and `react-dom@^16.7.0-alpha.0`, which contain
-the new Hooks API.
+```
+npm i -S @dbeining/react-atom
+```
 
-```
-npm i -S @dbeining/react-atom react@^16.7.0-alpha.0 react-dom@^16.7.0-alpha.0
-```
+## Dependencies
+`react-atom` has one bundled dependency, [@libre/atom](https://github.com/libre-org/atom), which provides the Atom data type. It is re-exported in its entirety from `@dbeining/atom`. You may want to reference the docs [here](https://libre-org.github.io/atom/).
+
+`react-atom` also has two `peerDependencies`, namely, `react >= 16.7.0-alpha.0` and `react-dom >= 16.7.0-alpha.0`, which contain the Hooks API.
 
 ## Documentation
 
-[You can find API docs for `react-atom` here](https://derrickbeining.github.io/react-atom/)
+[`react-atom` API](https://derrickbeining.github.io/react-atom/)
+
+[`@libre/atom` API](https://libre-org.github.io/atom/)
 
 ## Code Example: `react-atom` in action
 

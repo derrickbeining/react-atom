@@ -95,7 +95,7 @@
 					<li><a href="#contributing--feedback">Contributing / Feedback</a></li>
 				</ul>
 				<h2 id="description">Description</h2>
-				<p><code>react-atom</code> provides a simple way to manage state in React, for both global app state and for local component state: ✨<code>Atom</code>s✨</p>
+				<p><code>react-atom</code> provides a very simple way to manage state in React, for both global app state and for local component state: ✨<code>Atom</code>s✨.</p>
 				<h3 id="put-your-state-in-an-atom-">Put your state in an <code>Atom</code>:</h3>
 				<pre><code class="language-ts"><span class="hljs-keyword">import</span> { Atom } <span class="hljs-keyword">from</span> <span class="hljs-string">"@dbeining/react-atom"</span>;
 
@@ -132,7 +132,7 @@
   <span class="hljs-keyword">const</span> theme = <span class="hljs-keyword">await</span> post(<span class="hljs-string">`/api/user/<span class="hljs-subst">${userId}</span>/theme`</span>, { color });
   swap(appState, state =&gt; ({ ...state, <span class="hljs-attr">color</span>: theme.color }));
 };</code></pre>
-				<h3 id="-useatom-to-subscribe-to-atom-state-in-components">✨<code>useAtom</code>✨ to subscribe to Atom state in components</h3>
+				<h3 id="re-render-components-on-state-change-with-the-useatom-custom-react-hook">Re-render components on state change with the ✨<code>useAtom</code>✨ custom React hook</h3>
 				<p><code>useAtom</code> is a <a href="https://github.com/reactjs/reactjs.org/blob/b7262e78b6efe1d7901afd851fb9cbef5414b361/content/docs/hooks-custom.md">custom React Hook</a>. It does two things:</p>
 				<ol>
 					<li>returns the current state of an atom (like <code>deref</code>), and</li>
@@ -143,15 +143,18 @@
   <span class="hljs-keyword">const</span> { color, userId } = useAtom(appState);
 
   <span class="hljs-keyword">return</span> (
-    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
-      User {userId} has selected {color}
-    <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span></span>
+    <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>
+        User {userId} has selected {color}
+      <span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+      {/* `useAtom` hook will trigger a re-render on `swap` */}
+      <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">onClick</span>=<span class="hljs-string">{()</span> =&gt;</span> swap(appState, setRandomColor)}&gt;Change Color<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span></span>
   );
 }</code></pre>
 				<blockquote>
-					<p>Nota Bene: You can also subscribe to computed state by using the <code>options.select</code> argument. <a href="https://derrickbeining.github.io/react-atom/globals.html#useatom">Read the docs</a> for details.</p>
+					<p>Nota Bene: You can also use a selector to subscribe to computed state by using the <code>options.select</code> argument. <a href="https://derrickbeining.github.io/react-atom/globals.html#useatom">Read the docs</a> for details.</p>
 				</blockquote>
-				<p>###</p>
 				<h2 id="why-use-react-atom-">Why use <code>react-atom</code>?</h2>
 				<details>
 					<summary>
@@ -257,11 +260,12 @@
 					</blockquote>
 				</details>
 				<h2 id="installation">Installation</h2>
-				<p><code>react-atom</code> has zero bundled <code>dependencies</code> and only two <code>peerDependency</code>,
-					namely, <code>react@^16.7.0-alpha.0</code> and <code>react-dom@^16.7.0-alpha.0</code>, which contain
-				the new Hooks API.</p>
-				<pre><code>npm i -S @dbeining/react-atom <span class="hljs-symbol">react@</span>^<span class="hljs-number">16.7</span><span class="hljs-number">.0</span>-alpha<span class="hljs-number">.0</span> react-<span class="hljs-symbol">dom@</span>^<span class="hljs-number">16.7</span><span class="hljs-number">.0</span>-alpha<span class="hljs-number">.0</span></code></pre><h2 id="documentation">Documentation</h2>
-				<p><a href="https://derrickbeining.github.io/react-atom/">You can find API docs for <code>react-atom</code> here</a></p>
+				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">i</span> <span class="hljs-selector-tag">-S</span> @<span class="hljs-keyword">dbeining</span>/<span class="hljs-keyword">react</span>-<span class="hljs-keyword">atom</span></code></pre><h2 id="dependencies">Dependencies</h2>
+				<p><code>react-atom</code> has one bundled dependency, <a href="https://github.com/libre-org/atom">@libre/atom</a>, which provides the Atom data type. It is re-exported in its entirety from <code>@dbeining/atom</code>. You may want to reference the docs <a href="https://libre-org.github.io/atom/">here</a>.</p>
+				<p><code>react-atom</code> also has two <code>peerDependencies</code>, namely, <code>react &gt;= 16.7.0-alpha.0</code> and <code>react-dom &gt;= 16.7.0-alpha.0</code>, which contain the Hooks API.</p>
+				<h2 id="documentation">Documentation</h2>
+				<p><a href="https://derrickbeining.github.io/react-atom/"><code>react-atom</code> API</a></p>
+				<p><a href="https://libre-org.github.io/atom/"><code>@libre/atom</code> API</a></p>
 				<h2 id="code-example-react-atom-in-action">Code Example: <code>react-atom</code> in action</h2>
 				<details>
 					<summary>
@@ -359,32 +363,17 @@ ReactDOM.render(<span class="hljs-tag">&lt;<span class="hljs-name">App</span> /&
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/atom.html" class="tsd-kind-icon">Atom</a>
-					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/hookdependencies.html" class="tsd-kind-icon">Hook<wbr>Dependencies</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/publicexports.html" class="tsd-kind-icon">Public<wbr>Exports</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-has-type-parameter">
-						<a href="globals.html#atomstate" class="tsd-kind-icon">Atom<wbr>State</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#atom" class="tsd-kind-icon">atom</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#deref" class="tsd-kind-icon">deref</a>
+					<li class=" tsd-kind-interface tsd-has-type-parameter">
+						<a href="interfaces/useatomoptions.html" class="tsd-kind-icon">Use<wbr>Atom<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#initialize" class="tsd-kind-icon">initialize</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#set" class="tsd-kind-icon">set</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#swap" class="tsd-kind-icon">swap</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#useatom" class="tsd-kind-icon">use<wbr>Atom</a>

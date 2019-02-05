@@ -1,19 +1,23 @@
+import { Atom, AtomState, deref } from "@libre/atom";
 import * as React from "react";
 import { cleanup, getByTestId, render } from "react-testing-library";
 import * as ErrorMsgs from "../src/error-messages";
 
-import { Atom, getAtomVal, getHooks, listHooks, useAtom } from "./../src/react-atom-internal";
+import { useAtom } from "./../src/react-atom-internal";
 
 const TEST_ATOM = Atom.of({ count: 1 });
 let timesRendered = 0;
 
-function ShowCount() {
-  const { count } = useAtom(TEST_ATOM);
+function ShowCount(fns?: Record<string, (v: AtomState<typeof TEST_ATOM>) => void>) {
+  const state = useAtom(TEST_ATOM);
   timesRendered += 1;
+  if (fns) {
+    Object.keys(fns).forEach(k => void fns[k](state));
+  }
 
   return (
     <div>
-      <p data-testid="target">{count}</p>
+      <p data-testid="target">{state.count}</p>
     </div>
   );
 }
@@ -51,71 +55,35 @@ describe("useAtom function", () => {
   it("returns the state of the atom", () => {
     const { container } = render(<ShowCount />);
     const actual = getByTestId(container, "target").textContent;
-    const expected = getAtomVal(TEST_ATOM).count.toString();
+    const expected = deref(TEST_ATOM).count.toString();
     expect(actual).toBe(expected);
   });
 
   it("returns the same value across multiple renders", () => {
-    const { rerender, container } = render(<ShowCount />);
-    rerender(<ShowCount />);
-    rerender(<ShowCount />);
-    expect(getByTestId(container, "target").textContent).toBe("1");
-  });
-
-  it("stores a React useState hook that can be used later when Atom changes to trigger component rerenders with new state", () => {
-    const hookCountBefore = listHooks(TEST_ATOM).length;
-    expect(hookCountBefore).toBe(0);
-
-    const { container } = render(<ShowCount />); // render 1
-    const hookCountAfter = listHooks(TEST_ATOM).length;
-    expect(hookCountAfter).toBe(1);
-
-    listHooks(TEST_ATOM).forEach(hook => hook({ count: 50 })); // render 2
-    listHooks(TEST_ATOM).forEach(hook => hook({ count: 500 })); // render 3
-
-    expect(timesRendered).toBe(3);
-    expect(hookCountAfter).toBe(1);
-  });
-
-  it("stores the same hook to the same key regardless of times rendered", () => {
-    const component = render(<ShowCount />); // render 1
-    const hs1 = getHooks(TEST_ATOM);
-    component.rerender(<ShowCount />);
-    const hs2 = getHooks(TEST_ATOM);
-    component.rerender(<ShowCount />);
-    const hs3 = getHooks(TEST_ATOM);
-
-    Object.keys(hs1).forEach(k => {
-      expect(hs1[k] === hs2[k] && hs1[k] === hs3[k]).toBe(true);
-    });
-  });
-
-  it("stores a unique hook per component that uses an atom", () => {
-    const component1 = render(<ShowCount />); // render 1
-    const component2 = render(<ShowCount />); // render 2
-    const component3 = render(<ShowCount />); // render 3
-
-    const [h1, h2, h3] = listHooks(TEST_ATOM);
-    expect(h1 !== h2 && h1 !== h2 && h2 !== h3).toBe(true);
-  });
-
-  it("discards its stored React useState hook when the component that used it unmounts (no memory leak)", () => {
-    const component1 = render(<ShowCount />);
-    const component2 = render(<ShowCount />);
-    const component3 = render(<ShowCount />);
-    const hooksBeforeUnmount = getHooks(TEST_ATOM);
-
-    // test that the number of hooks decreases on unmount
-    expect(listHooks(TEST_ATOM).length).toBe(3);
-    component2.unmount();
-    expect(listHooks(TEST_ATOM).length).toBe(2);
-
-    const hooksAfterUnmount = getHooks(TEST_ATOM);
-
-    // test that the remaining hooks are the same in-memory functions as before
-    Object.keys(hooksAfterUnmount).forEach(k => {
-      expect(hooksAfterUnmount[k]).toEqual(hooksBeforeUnmount[k]);
-    });
+    let ref: any = null;
+    const { rerender, container } = render(
+      <ShowCount
+        getRef={(v: AtomState<typeof TEST_ATOM>) => {
+          ref = v;
+        }}
+      />
+    );
+    rerender(
+      <ShowCount
+        test={(v: AtomState<typeof TEST_ATOM>) => {
+          expect(v).toBe(ref);
+          expect(v.count).toBe(1);
+        }}
+      />
+    );
+    rerender(
+      <ShowCount
+        test={(v: AtomState<typeof TEST_ATOM>) => {
+          expect(v).toBe(ref);
+          expect(v.count).toBe(1);
+        }}
+      />
+    );
   });
 
   describe("options.select", () => {
@@ -204,7 +172,7 @@ describe("useAtom function", () => {
 
     it("updates the function whenever passed a new function instance", () => {
       const TEST_ATOM = Atom.of({ nums: [1, 2, 3, 4, 5] });
-      const state = getAtomVal(TEST_ATOM);
+      const state = deref(TEST_ATOM);
       const getter1 = (s: typeof state) => s.nums.reduce((a, b) => a + b);
       const getter2 = (s: typeof state) => s.nums.reduce((a, b) => a - b);
 
@@ -231,7 +199,7 @@ describe("useAtom function", () => {
     it("defaults to identity fn even if previously set with an actual function", () => {
       const innerState = { nums: [1, 2, 3, 4, 5] };
       const TEST_ATOM = Atom.of(innerState);
-      const state = getAtomVal(TEST_ATOM);
+      const state = deref(TEST_ATOM);
       const getter1 = (s: typeof state) => s.nums.reduce((a, b) => a + b);
       const nilGetter: unknown = undefined;
 
@@ -247,7 +215,6 @@ describe("useAtom function", () => {
 
       const { container: c1, rerender } = render(<Sum getter={getter1} />);
       expect(getByTestId(c1, "target").textContent).toBe("15");
-      // @ts-ignore: Conversion of type 'undefined' to type '(s: string) => any' may be a mistake
       rerender(<Sum getter={nilGetter as typeof getter1} />);
       expect(getByTestId(c1, "target").textContent).toBe(JSON.stringify(innerState));
     });

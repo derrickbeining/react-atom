@@ -1,2 +1,3 @@
-export { Atom, initialize, atom, deref, useAtom, swap, set } from "./react-atom-internal";
-export { AtomState, HookDependencies } from "./internal-types";
+export * from "@libre/atom";
+export { initialize, useAtom } from "./react-atom-internal";
+export * from "./internal-types";

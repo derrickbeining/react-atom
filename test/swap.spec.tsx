@@ -1,7 +1,7 @@
+import { Atom, AtomState, swap } from "@libre/atom";
 import React from "react";
 import { cleanup, getByTestId, render } from "react-testing-library";
-import { AtomState } from "../src/internal-types";
-import { Atom, swap, useAtom } from "./../src/react-atom-internal";
+import { useAtom } from "./../src/react-atom-internal";
 
 const TEST_ATOM = Atom.of({ count: 0 });
 let timesRendered = 0;
