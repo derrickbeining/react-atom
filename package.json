@@ -24,8 +24,8 @@
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.9",
     "@types/ramda": "^0.25.41",
-    "@types/react": "^16.7.6",
-    "@types/react-dom": "^16.0.9",
+    "@types/react": "^16.8.2",
+    "@types/react-dom": "^16.8.0",
     "@types/react-test-renderer": "^16.0.3",
     "@types/webpack": "^4.4.19",
     "babel-loader": "^8.0.4",
@@ -39,8 +39,8 @@
     "nyc": "^12.0.2",
     "peer-deps-externals-webpack-plugin": "^1.0.4",
     "prettier": "^1.15.2",
-    "react": "16.7.0-alpha.2",
-    "react-dom": "16.7.0-alpha.2",
+    "react": "^16.8.1",
+    "react-dom": "^16.8.1",
     "react-test-renderer": "^16.6.3",
     "react-testing-library": "^5.2.3",
     "rimraf": "^2.6.2",
@@ -84,8 +84,8 @@
   "main": "dist/react-atom.js",
   "name": "@dbeining/react-atom",
   "peerDependencies": {
-    "react": ">=16.7.0-alpha",
-    "react-dom": ">=16.7.0-alpha"
+    "react": ">=16.7.0-alpha.0 || >=16.8.0-alpha.0 || ^16.8.x",
+    "react-dom": ">=16.7.0-alpha.0 || >=16.8.0-alpha.0 || ^16.8.x"
   },
   "repository": {
     "type": "git",

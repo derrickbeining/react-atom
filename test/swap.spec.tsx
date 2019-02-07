@@ -2,6 +2,7 @@ import { Atom, AtomState, swap } from "@libre/atom";
 import React from "react";
 import { cleanup, getByTestId, render } from "react-testing-library";
 import { useAtom } from "./../src/react-atom-internal";
+import { enact } from "./testing-utils";
 
 const TEST_ATOM = Atom.of({ count: 0 });
 let timesRendered = 0;
@@ -19,7 +20,7 @@ function GenericComponent({ testAtom = TEST_ATOM }: { testAtom?: Atom<any> }) {
 describe("swap function", () => {
   afterEach(() => {
     // WARNING! DON'T CHANGE THE ORDER OF THESE:
-    swap(TEST_ATOM, () => ({ count: 0 }));
+    enact(() => swap(TEST_ATOM, () => ({ count: 0 })));
     timesRendered = 0;
     cleanup();
     // END WARNING
@@ -30,26 +31,26 @@ describe("swap function", () => {
   });
 
   it("applies the passed-in fn to the Atom's value and sets the Atom's value to the return value", () => {
-    const { container } = render(<GenericComponent />);
-    swap(TEST_ATOM, s => ({ ...s, count: s.count + 1 }));
+    const { container } = enact(() => render(<GenericComponent />));
+    enact(() => swap(TEST_ATOM, s => ({ ...s, count: s.count + 1 })));
     expect(getByTestId(container, "target").textContent).toBe(JSON.stringify({ count: 1 }));
   });
 
   it("triggers a rerender on all Components that useAtom the swapped Atom", () => {
-    render(<GenericComponent />); // 1
-    render(<GenericComponent />); // 2
-    swap(TEST_ATOM, s => ({ count: s.count + 1 })); // 3 & 4
-    swap(TEST_ATOM, s => ({ count: s.count + 1 })); // 5 & 6
+    enact(() => render(<GenericComponent />)); // 1
+    enact(() => render(<GenericComponent />)); // 2
+    enact(() => swap(TEST_ATOM, s => ({ count: s.count + 1 }))); // 3 & 4
+    enact(() => swap(TEST_ATOM, s => ({ count: s.count + 1 }))); // 5 & 6
     expect(timesRendered).toBe(6);
   });
 
   it("does not attempt to rerender unmounted components that had previously called `useAtom` on the Atom being swapped", () => {
-    const component1 = render(<GenericComponent />); // 1
-    const component2 = render(<GenericComponent />); // 2
+    const component1 = enact(() => render(<GenericComponent />)); // 1
+    const component2 = enact(() => render(<GenericComponent />)); // 2
 
-    swap(TEST_ATOM, s => ({ count: s.count + 1 })); // 3 & 4 (2 components)
+    enact(() => swap(TEST_ATOM, s => ({ count: s.count + 1 }))); // 3 & 4 (2 components)
     component2.unmount();
-    swap(TEST_ATOM, s => ({ count: s.count + 1 })); // 5 (1 component)
+    enact(() => swap(TEST_ATOM, s => ({ count: s.count + 1 }))); // 5 (1 component)
 
     expect(timesRendered).toBe(5);
   });
@@ -72,17 +73,17 @@ describe("swap function", () => {
         );
       }
 
-      const { container: c1 } = render(<GenericComponent selector={s => s[2].a} />);
-      const { container: c2 } = render(<GenericComponent selector={s => s.length} />);
+      const { container: c1 } = enact(() => render(<GenericComponent selector={s => s[2].a} />));
+      const { container: c2 } = enact(() => render(<GenericComponent selector={s => s.length} />));
 
       expect(getByTestId(c1, "target").textContent).toBe("a");
       expect(getByTestId(c2, "target").textContent).toBe("4");
 
-      swap(TEST_ATOM, s => s.map(v => ({ a: v.a.toUpperCase() })));
+      enact(() => swap(TEST_ATOM, s => s.map(v => ({ a: v.a.toUpperCase() }))));
       expect(getByTestId(c1, "target").textContent).toBe("A");
       expect(getByTestId(c2, "target").textContent).toBe("4");
 
-      swap(TEST_ATOM, s => s.map(v => ({ a: "hello" })).slice(0, 3));
+      enact(() => swap(TEST_ATOM, s => s.map(v => ({ a: "hello" })).slice(0, 3)));
       expect(getByTestId(c1, "target").textContent).toBe("hello");
       expect(getByTestId(c2, "target").textContent).toBe("3");
     });
@@ -107,22 +108,22 @@ describe("swap function", () => {
         );
       }
 
-      render(<GenericComponent />); // render 1
+      enact(() => render(<GenericComponent />)); // render 1
       expect(timesRendered).toBe(1);
 
-      swap(TEST_ATOM, v => v); // didn't change; shouldn't rerender
+      enact(() => swap(TEST_ATOM, v => v)); // didn't change; shouldn't rerender
       expect(timesRendered).toBe(1);
 
-      swap(TEST_ATOM, () => [a, b, c, d]); // changed but shallowly equal; shouldn't rerender
+      enact(() => swap(TEST_ATOM, () => [a, b, c, d])); // changed but shallowly equal; shouldn't rerender
       expect(timesRendered).toBe(1);
 
-      swap(TEST_ATOM, () => [a, c, b, d]); // changed; not shallow eq; rerender!
+      enact(() => swap(TEST_ATOM, () => [a, c, b, d])); // changed; not shallow eq; rerender!
       expect(timesRendered).toBe(2);
 
-      swap(TEST_ATOM, () => [a, c, b, d]); // no change; shouldn't rerender
+      enact(() => swap(TEST_ATOM, () => [a, c, b, d])); // no change; shouldn't rerender
       expect(timesRendered).toBe(2);
 
-      swap(TEST_ATOM, () => [a, c, b]); // change; rerender!
+      enact(() => swap(TEST_ATOM, () => [a, c, b])); // change; rerender!
       expect(timesRendered).toBe(3);
     });
 
@@ -149,23 +150,23 @@ describe("swap function", () => {
         );
       }
 
-      const { container, rerender } = render(<MultiAtom />);
+      const { container, rerender } = enact(() => render(<MultiAtom />));
 
       expect(getByTestId(container, "a").textContent).toBe("15");
       expect(getByTestId(container, "b").textContent).toBe("9");
       expect(getByTestId(container, "c").textContent).toBe("hello");
 
-      swap(TEST_ATOM_A, s => ({ nums: s.nums.map(n => n + 1) }));
+      enact(() => swap(TEST_ATOM_A, s => ({ nums: s.nums.map(n => n + 1) })));
       expect(getByTestId(container, "a").textContent).toBe("20");
       expect(getByTestId(container, "b").textContent).toBe("9");
       expect(getByTestId(container, "c").textContent).toBe("hello");
 
-      swap(TEST_ATOM_B, x => x + 1);
+      enact(() => swap(TEST_ATOM_B, x => x + 1));
       expect(getByTestId(container, "a").textContent).toBe("20");
       expect(getByTestId(container, "b").textContent).toBe("10");
       expect(getByTestId(container, "c").textContent).toBe("hello");
 
-      swap(TEST_ATOM_C, s => ({ hi: s.hi.toUpperCase() }));
+      enact(() => swap(TEST_ATOM_C, s => ({ hi: s.hi.toUpperCase() })));
       expect(getByTestId(container, "a").textContent).toBe("20");
       expect(getByTestId(container, "b").textContent).toBe("10");
       expect(getByTestId(container, "c").textContent).toBe("HELLO");
