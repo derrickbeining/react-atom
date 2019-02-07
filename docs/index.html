@@ -69,12 +69,9 @@
 						alt="react-atom logo" />
 					</p>
 				</div>
-				<h3 align="center">A simple, principled way to manage shared state in <a href="https://reactjs.org/">React</a></h3>
-				<h3 align="center">Built on React's new <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">Hooks API</a></h3>
+				<h3 align="center">A simple way to manage shared state in <a href="https://reactjs.org/">React</a></h3>
+				<h3 align="center">Built on the React <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">Hooks API</a></h3>
 				<h3 align="center">Inspired by <a href="https://purelyfunctional.tv/guide/reagent/#atoms">atom</a>s in <a href="https://reagent-project.github.io/">reagent.cljs</a></h3>
-				<blockquote>
-					<h4 id="disclaimer-the-react-hooks-api-is-currently-only-a-proposal-therefore-this-library-should-be-considered-experimental-and-unfit-for-production-apps-at-this-time">Disclaimer: the React Hooks API is currently only a proposal, therefore this library should be considered experimental and unfit for production apps at this time</h4>
-				</blockquote>
 				<p><a href="https://github.com/ellerbrock/typescript-badges/"><img src="https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101" alt="TypeScript"></a>
 					<a href="https://www.npmjs.com/package/@dbeining/react-atom"><img src="https://img.shields.io/npm/v/@dbeining/react-atom.svg" alt="npm (scoped)"></a>
 					<a href="https://bundlephobia.com/result?p=@dbeining/react-atom"><img src="https://img.shields.io/bundlephobia/min/@dbeining/react-atom.svg" alt="npm bundle size (minified)"></a>
@@ -133,7 +130,7 @@
   swap(appState, state =&gt; ({ ...state, <span class="hljs-attr">color</span>: theme.color }));
 };</code></pre>
 				<h3 id="re-render-components-on-state-change-with-the-useatom-custom-react-hook">Re-render components on state change with the ✨<code>useAtom</code>✨ custom React hook</h3>
-				<p><code>useAtom</code> is a <a href="https://github.com/reactjs/reactjs.org/blob/b7262e78b6efe1d7901afd851fb9cbef5414b361/content/docs/hooks-custom.md">custom React Hook</a>. It does two things:</p>
+				<p><code>useAtom</code> is a <a href="https://github.com/reactjs/reactjs.org/blob/98c1d22fbef2638cafb03b07e0eabe2a6186fca8/content/docs/hooks-custom.md">custom React Hook</a>. It does two things:</p>
 				<ol>
 					<li>returns the current state of an atom (like <code>deref</code>), and</li>
 					<li>subscribes your component to the atom so that it re-renders every time its state changes</li>
@@ -161,7 +158,7 @@
 						😌 <strong>Tiny API / learning curve</strong>
 					</summary>
 					<blockquote>
-						A total of five functions, and most of the time you'll only need three of them.
+						`Atom.of`, `useAtom`, and `swap` will cover the vast majority of use cases.
 					</blockquote>
 				</details>
 				<details>
@@ -169,7 +166,7 @@
 						🚫 <strong>No boilerplate, just predictable state management</strong>
 					</summary>
 					<blockquote>
-						Reducers? Actions? Thunks? Sagas? Forget about it.
+						Reducers? Actions? Thunks? Sagas? Nope, just `swap(atom, state => newState)`.
 					</blockquote>
 				</details>
 				<details>
@@ -262,7 +259,7 @@
 				<h2 id="installation">Installation</h2>
 				<pre><code><span class="hljs-selector-tag">npm</span> <span class="hljs-selector-tag">i</span> <span class="hljs-selector-tag">-S</span> @<span class="hljs-keyword">dbeining</span>/<span class="hljs-keyword">react</span>-<span class="hljs-keyword">atom</span></code></pre><h2 id="dependencies">Dependencies</h2>
 				<p><code>react-atom</code> has one bundled dependency, <a href="https://github.com/libre-org/atom">@libre/atom</a>, which provides the Atom data type. It is re-exported in its entirety from <code>@dbeining/atom</code>. You may want to reference the docs <a href="https://libre-org.github.io/atom/">here</a>.</p>
-				<p><code>react-atom</code> also has two <code>peerDependencies</code>, namely, <code>react &gt;= 16.7.0-alpha.0</code> and <code>react-dom &gt;= 16.7.0-alpha.0</code>, which contain the Hooks API.</p>
+				<p><code>react-atom</code> also has two <code>peerDependencies</code>, namely, <code>react@^16.8.0</code> and <code>react-dom@^16.8.0</code>, which contain the Hooks API.</p>
 				<h2 id="documentation">Documentation</h2>
 				<p><a href="https://derrickbeining.github.io/react-atom/"><code>react-atom</code> API</a></p>
 				<p><a href="https://libre-org.github.io/atom/"><code>@libre/atom</code> API</a></p>

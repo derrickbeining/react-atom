@@ -1,3 +1,4 @@
+// tslint:disable:no-console
 import { Atom } from "@libre/atom";
 import React, { useLayoutEffect, useMemo, useState } from "react";
 import { render } from "react-testing-library";

@@ -8,13 +8,11 @@
   </p>
 </div>
 
-<h3 align="center">A simple, principled way to manage shared state in <a href="https://reactjs.org/">React</a></h3>
+<h3 align="center">A simple way to manage shared state in <a href="https://reactjs.org/">React</a></h3>
 
-<h3 align="center">Built on React's new <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">Hooks API</a></h3>
+<h3 align="center">Built on the React <a href="https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md">Hooks API</a></h3>
 
 <h3 align="center">Inspired by <a href="https://purelyfunctional.tv/guide/reagent/#atoms">atom</a>s in <a href="https://reagent-project.github.io/">reagent.cljs</a></h3>
-
-> #### Disclaimer: the React Hooks API is currently only a proposal, therefore this library should be considered experimental and unfit for production apps at this time
 
 [![TypeScript](https://badges.frapsoft.com/typescript/version/typescript-next.svg?v=101)](https://github.com/ellerbrock/typescript-badges/)
 [![npm (scoped)](https://img.shields.io/npm/v/@dbeining/react-atom.svg)](https://www.npmjs.com/package/@dbeining/react-atom)
@@ -136,7 +134,7 @@ export function ColorReporter(props) {
     😌 <strong>Tiny API / learning curve</strong>
   </summary>
   <blockquote>
-    A total of five functions, and most of the time you'll only need three of them.
+    `Atom.of`, `useAtom`, and `swap` will cover the vast majority of use cases.
   </blockquote>
 </details>
 <details>
@@ -144,7 +142,7 @@ export function ColorReporter(props) {
     🚫 <strong>No boilerplate, just predictable state management</strong>   
   </summary>
   <blockquote>
-   Reducers? Actions? Thunks? Sagas? Forget about it. 
+   Reducers? Actions? Thunks? Sagas? Nope, just `swap(atom, state => newState)`. 
   </blockquote>
 </details>
 <details>
@@ -256,7 +254,7 @@ npm i -S @dbeining/react-atom
 ## Dependencies
 `react-atom` has one bundled dependency, [@libre/atom](https://github.com/libre-org/atom), which provides the Atom data type. It is re-exported in its entirety from `@dbeining/atom`. You may want to reference the docs [here](https://libre-org.github.io/atom/).
 
-`react-atom` also has two `peerDependencies`, namely, `react >= 16.7.0-alpha.0` and `react-dom >= 16.7.0-alpha.0`, which contain the Hooks API.
+`react-atom` also has two `peerDependencies`, namely, `react@^16.8.0` and `react-dom@^16.8.0`, which contain the Hooks API.
 
 ## Documentation
 
@@ -351,8 +349,8 @@ Please open an issue if you have any questions, suggestions for
 improvements/features, or want to submit a PR for a bug-fix (please include
 tests if applicable).
 
-[customhooksurl]: https://github.com/reactjs/reactjs.org/blob/b7262e78b6efe1d7901afd851fb9cbef5414b361/content/docs/hooks-custom.md
-[hooksurl]: https://github.com/reactjs/reactjs.org/blob/f203cd5d86c4c611a31a4f72c5a91e2db0858ce3/content/docs/hooks-intro.md
+[customhooksurl]: https://github.com/reactjs/reactjs.org/blob/98c1d22fbef2638cafb03b07e0eabe2a6186fca8/content/docs/hooks-custom.md
+[hooksurl]: https://github.com/reactjs/reactjs.org/blob/98c1d22fbef2638cafb03b07e0eabe2a6186fca8/content/docs/hooks-intro.md
 [imgurl]: https://codesandbox.io/static/img/play-codesandbox.svg
 [js]: https://codesandbox.io/s/m3x9wn6kmy
 [ts]: https://codesandbox.io/s/km72yynqov
