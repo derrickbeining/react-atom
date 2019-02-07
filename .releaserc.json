@@ -3,7 +3,10 @@
     [
       "@semantic-release/commit-analyzer",
       {
-        "releaseRules": [{ "type": "docs", "scope": "readme", "release": "patch" }]
+        "releaseRules": [
+          { "type": "docs", "scope": "readme", "release": "patch" },
+          {"type": "refactor", "release": "patch"}
+        ]
       }
     ],
     "@semantic-release/release-notes-generator",
