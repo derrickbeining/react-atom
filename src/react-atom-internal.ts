@@ -76,14 +76,16 @@ export function initialize(hooks: HookDependencies): PublicExports {
     useLayoutEffect(
       () => {
         const idKey = hook["@@react-atom/hook_id"] ? hook["@@react-atom/hook_id"] : `hook#${++hookIdTicker}`;
+        let isMounted = true;
         hook["@@react-atom/hook_id"] = idKey;
         addChangeHandler(atom, hook["@@react-atom/hook_id"], ({ previous, current }) => {
-          if (!isShallowEqual(selector(previous), selector(current))) {
+          if (isMounted && !isShallowEqual(selector(previous), selector(current))) {
             hook({} as SetStateAction<S | R>);
           }
         });
 
         return function unhook() {
+          isMounted = false;
           removeChangeHandler(atom, hook["@@react-atom/hook_id"] as string);
         };
       },
