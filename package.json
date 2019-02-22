@@ -42,7 +42,7 @@
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
     "react-test-renderer": "^16.6.3",
-    "react-testing-library": "^5.2.3",
+    "react-testing-library": "^5.9.0",
     "rimraf": "^2.6.2",
     "semantic-release": "^15.6.3",
     "source-map-support": "^0.5.6",
