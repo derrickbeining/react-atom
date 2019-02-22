@@ -1,4 +1,20 @@
-import { addChangeHandler, Atom, DeepImmutable, deref, removeChangeHandler, set, swap } from "@libre/atom";
+/**
+ * `react-atom` is a _lightweight_ abstraction around React's proposed Hooks API
+ * that provides the ability to ___share and update state across function
+ * components___. It offers a very simple and straightforward approach to managing
+ * state, whether local component state, or shared application state.
+ */
+import {
+  addChangeHandler,
+  Atom,
+  DeepImmutable,
+  deref,
+  getValidator,
+  removeChangeHandler,
+  set,
+  setValidator,
+  swap
+} from "@libre/atom";
 import { SetStateAction, useLayoutEffect, useMemo, useState } from "react";
 
 import * as ErrorMsgs from "./error-messages";
@@ -17,14 +33,7 @@ let hookIdTicker = 0;
 // ------------------------------------------------------------------------------------------ //
 
 /**
- * `react-atom` is a _lightweight_ abstraction around React's proposed Hooks API
- * that provides the ability to ___share and update state across function
- * components___. It offers a very simple and straightforward approach to managing
- * state, whether local component state, or shared application state.
- */
-
-/**
- * **NOTE: This is an escape hatch for users of `react` prior to hooks**
+ * **NOTE: This is a back door for users of `react` prior to hooks**
  *
  * Initializes `react-atom` with the provided [[HookDependencies]] and
  * returns the full public API of `react-atom`.
@@ -97,8 +106,10 @@ export function initialize(hooks: HookDependencies): PublicExports {
     Atom,
     addChangeHandler,
     deref,
+    getValidator,
     removeChangeHandler,
     set,
+    setValidator,
     swap,
     useAtom
   };

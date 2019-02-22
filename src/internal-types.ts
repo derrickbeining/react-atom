@@ -1,4 +1,4 @@
-import { addChangeHandler, Atom, deref, removeChangeHandler, set, swap } from "@libre/atom";
+import { addChangeHandler, Atom, deref, getValidator, removeChangeHandler, set, setValidator, swap } from "@libre/atom";
 import { useLayoutEffect, useMemo, useState } from "react";
 
 import { useAtom } from "./react-atom-internal";
@@ -54,8 +54,10 @@ export interface PublicExports {
   Atom: typeof Atom;
   addChangeHandler: typeof addChangeHandler;
   deref: typeof deref;
+  getValidator: typeof getValidator;
   removeChangeHandler: typeof removeChangeHandler;
   set: typeof set;
+  setValidator: typeof setValidator;
   swap: typeof swap;
   useAtom: typeof useAtom;
 }
