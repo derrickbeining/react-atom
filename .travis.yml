@@ -6,8 +6,8 @@ node_js:
 install:
   - npm ci
 script:
-  - test $TRAVIS_PULL_REQUEST != false && npm run lint
-  - test $TRAVIS_PULL_REQUEST != false && npm run test:withCoverage
+  - if [ $TRAVIS_PULL_REQUEST != false ]; then npm run lint; fi
+  - if [ $TRAVIS_PULL_REQUEST != false ]; then npm run test:withCoverage; fi
 before_deploy:
   - npm run build
 deploy:
