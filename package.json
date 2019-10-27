@@ -84,8 +84,8 @@
   "main": "dist/react-atom.js",
   "name": "@dbeining/react-atom",
   "peerDependencies": {
-    "react": ">=16.7.0-alpha.0 || >=16.8.0-alpha.0 || ^16.8.x",
-    "react-dom": ">=16.7.0-alpha.0 || >=16.8.0-alpha.0 || ^16.8.x"
+    "react": ">=16.7.0-alpha.0 || >=16.8.0-alpha.0 || >= 16.8.0 < 17",
+    "react-dom": ">=16.7.0-alpha.0 || >=16.8.0-alpha.0 || >= 16.8.0 < 17"
   },
   "repository": {
     "type": "git",
