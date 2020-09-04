@@ -33,7 +33,7 @@
     "commitizen": "^2.10.1",
     "cz-conventional-changelog": "^3.0.2",
     "fork-ts-checker-webpack-plugin": "^0.4.15",
-    "husky": "^1.1.4",
+    "husky": "^4.2.5",
     "jest": "^23.6.0",
     "jest-dom": "^2.1.1",
     "nyc": "^14.1.1",
