@@ -51,7 +51,7 @@
     "ts-loader": "^6.2.1",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.16.0",
-    "typedoc": "^0.13.0",
+    "typedoc": "^0.16.11",
     "typedoc-twilio-theme": "^1.0.0",
     "typescript": "^3.1.6",
     "uglifyjs-webpack-plugin": "^2.2.0",
