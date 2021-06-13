@@ -15,7 +15,7 @@ import {
   setValidator,
   swap
 } from "@libre/atom";
-import { SetStateAction, useLayoutEffect, useMemo, useState } from "react";
+import React, { SetStateAction, useLayoutEffect, useMemo, useState } from "react";
 
 import * as ErrorMsgs from "./error-messages";
 import { HookDependencies, PublicExports, ReactUseStateHook, UseAtomOptions } from "./internal-types";
@@ -77,7 +77,7 @@ export function initialize(hooks: HookDependencies): PublicExports {
     let hook: ReactUseStateHook<S | R>;
     try {
       selector = useMemo(() => memoLast(selector), [select]);
-      [, hook] = useState({}) as [{}, ReactUseStateHook<S | R>];
+      [, hook] = (useState({}) as unknown) as [{}, ReactUseStateHook<S | R>];
     } catch (err) {
       throw new TypeError(ErrorMsgs.calledUseAtomOutsideFunctionComponent);
     }
@@ -184,6 +184,19 @@ export function useAtom<S, R>(atom: Atom<S>, options?: UseAtomOptions<S, R>) {
   if (initializationCount > 1) throw Error(ErrorMsgs.multipleInstantiations);
   const { select } = options || { select: null };
   return select ? internalUseAtom(atom, { select }) : internalUseAtom(atom);
+}
+
+// =========================== CONNECTATOM ====================================
+export function connectAtom<A, S>(atom: Atom<A>, mapStateToProps: (state: A) => S) {
+  return function<P>(Component: React.ComponentType<S & P>) {
+    const wrapper: React.FC<P> = (props: P) => {
+      const state = useAtom(atom);
+      const stateProps = mapStateToProps(state);
+      return <Component {...stateProps} {...props} />;
+    };
+
+    return wrapper;
+  };
 }
 
 /**
